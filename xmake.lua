@@ -6,7 +6,7 @@ includes("lib/commonlibsse-ng")
 
 -- set project variables
 local projectName = "Immersive Behaviors"
-local projectLoc = "$(buildir)/" .. projectName .. "/SKSE/Plugins/"
+local projectLoc = "D:/GameUtils/Skyrim/MO2/instances/SSE/mods/" .. projectName .. "/SKSE/Plugins/"
 
 -- set project
 set_project(projectName)
