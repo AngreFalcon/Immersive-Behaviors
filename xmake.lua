@@ -4,8 +4,9 @@ set_xmakever("2.8.2")
 -- includes
 includes("lib/commonlibsse-ng")
 
--- set project name
+-- set project variables
 local projectName = "Immersive Behaviors"
+local projectLoc = "$(buildir)/" .. projectName .. "/SKSE/Plugins/"
 
 -- set project
 set_project(projectName)
@@ -40,3 +41,8 @@ target(projectName)
     add_headerfiles("src/**.h")
     add_includedirs("src")
     set_pcxxheader("src/pch.h")
+
+    after_build(function (target)
+        os.cp(target:targetdir() .. "/" .. projectName .. ".dll", projectLoc)
+        os.cp(target:targetdir() .. "/" .. projectName .. ".pdb", projectLoc)
+    end)
