@@ -1,8 +1,8 @@
-SKSEPluginLoad(const SKSE::LoadInterface* a_skse)
+SKSEPluginLoad(const SKSE::LoadInterface* skse)
 {
-	SKSE::Init(a_skse);
+	SKSE::Init(skse);
 
-	logs::info("Hello World!");
+	logs::info("Skreecaw");
 
 	return true;
 }

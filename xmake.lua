@@ -4,9 +4,12 @@ set_xmakever("2.8.2")
 -- includes
 includes("lib/commonlibsse-ng")
 
+-- set project name
+local projectName = "Immersive Behaviors"
+
 -- set project
-set_project("commonlibsse-ng-template")
-set_version("0.0.0")
+set_project(projectName)
+set_version("0.0.1")
 set_license("GPL-3.0")
 
 -- set defaults
@@ -21,15 +24,15 @@ add_rules("mode.debug", "mode.releasedbg")
 add_rules("plugin.vsxmake.autoupdate")
 
 -- targets
-target("commonlibsse-ng-template")
+target(projectName)
     -- add dependencies to target
     add_deps("commonlibsse-ng")
 
     -- add commonlibsse-ng plugin
     add_rules("commonlibsse-ng.plugin", {
-        name = "commonlibsse-ng-template",
-        author = "qudix",
-        description = "SKSE64 plugin template using CommonLibSSE-NG"
+        name = projectName,
+        author = "Sorre",
+        description = "SKSE64 plugin"
     })
 
     -- add src files
