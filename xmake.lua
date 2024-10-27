@@ -1,6 +1,9 @@
 -- set minimum xmake version
 set_xmakever("2.8.2")
 
+-- add xmake-repo dependencies
+add_requires("nlohmann_json")
+
 -- includes
 includes("lib/commonlibsse-ng")
 
@@ -28,21 +31,23 @@ add_rules("plugin.vsxmake.autoupdate")
 target(projectName)
     -- add dependencies to target
     add_deps("commonlibsse-ng")
+    add_packages("nlohmann_json")
 
     -- add commonlibsse-ng plugin
     add_rules("commonlibsse-ng.plugin", {
         name = projectName,
-        author = "Sorre",
+        author = "Sorre, Squawks",
         description = "SKSE64 plugin"
     })
 
     -- add src files
     add_files("src/**.cpp")
-    add_headerfiles("src/**.h")
-    add_includedirs("src")
-    set_pcxxheader("src/pch.h")
+    add_headerfiles("include/**.hpp")
+    add_includedirs("include")
+    set_pcxxheader("include/pch.hpp")
 
     after_build(function (target)
         os.cp(target:targetdir() .. "/" .. projectName .. ".dll", projectLoc)
         os.cp(target:targetdir() .. "/" .. projectName .. ".pdb", projectLoc)
+        os.cp("extra/**", projectLoc)
     end)

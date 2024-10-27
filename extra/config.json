@@ -1,0 +1,8 @@
+{
+    "immersiveCameraView": {
+        "interior": 0, // 0 = first person
+        "exterior": 1, // 1 = third person
+        "combat": 1,
+        "swimming": 0
+    }
+}

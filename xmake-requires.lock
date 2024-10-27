@@ -27,6 +27,14 @@
             },
             version = "24.2.0"
         },
+        ["nlohmann_json#31fecfc4"] = {
+            repo = {
+                branch = "master",
+                commit = "8573d89780185b93588eb7e4eea0115e6b0b2045",
+                url = "https://github.com/xmake-io/xmake-repo.git"
+            },
+            version = "v3.11.3"
+        },
         ["rapidcsv#31fecfc4"] = {
             repo = {
                 branch = "master",
