@@ -3,7 +3,7 @@
 
 class Config {
 public:
-    static Config& get();
+    static Config& get(void);
     nlohmann::json json;
 
 private:

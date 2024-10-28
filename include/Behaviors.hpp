@@ -6,7 +6,9 @@ public:
     ~Behaviors() = default;
 
     bool isEnabled(void);
+    void enableBehavior(void);
+    void disableBehavior(void);
 
 private:
-    bool enabled;
+    bool enabled = true;
 };

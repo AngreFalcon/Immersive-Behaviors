@@ -8,7 +8,7 @@ ImmersiveCameraView::ImmersiveCameraView() {
 }
 
 void ImmersiveCameraView::shiftCameraPerspectiveToFirstPerson(void) {
-    if (isEnabled()) {
+    if (!isEnabled()) {
         return;
     }
     RE::PlayerCamera::GetSingleton()->ForceFirstPerson();
@@ -16,7 +16,7 @@ void ImmersiveCameraView::shiftCameraPerspectiveToFirstPerson(void) {
 }
 
 void ImmersiveCameraView::shiftCameraPerspectiveToThirdPerson(void) {
-    if (isEnabled()) {
+    if (!isEnabled()) {
         return;
     }
     RE::PlayerCamera::GetSingleton()->ForceThirdPerson();
