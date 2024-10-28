@@ -1,4 +1,4 @@
-#include "EventHandler.hpp"
+#include "PlayerCellChangeEvent.hpp"
 #include "RE/T/TESCondition.h"
 #include "REL/Version.h"
 #include "SKSE/Interfaces.h"
@@ -9,15 +9,7 @@ void MessageHandler(SKSE::MessagingInterface::Message*);
 
 SKSEPluginLoad(const SKSE::LoadInterface* skse) {
     SKSE::Init(skse);
-
     logs::info("");
-
-    // We need to do *something* in the game to activate our "MessageBox" and "Notification".
-    // This registers an "EventHandler" to handle whenever any object in the game is "Activated".
-    // If the *player* activated the object, the name of the activated object is passed to OnPlayerActivateItem() above.
-    // If you are curious about the event handler, see EventHandler.h
-    // But you can also see more examples of game event handlers in the template:
-    //                                                       https://github.com/SkyrimScripting/SKSE_Template_GameEvents
     // RE::ScriptEventSourceHolder::GetSingleton()->AddEventSink<RE::TESActorLocationChangeEvent>(new EventHandler());
 
     auto messaging = SKSE::GetMessagingInterface();
@@ -30,9 +22,11 @@ SKSEPluginLoad(const SKSE::LoadInterface* skse) {
 }
 
 void MessageHandler(SKSE::MessagingInterface::Message* a_msg) {
+    ImmersiveCameraView immersiveCameraView{};
+    ImmersiveMovementSpeed immersiveMovementSpeed{};
     switch (a_msg->type) {
     case SKSE::MessagingInterface::kDataLoaded: {
-        RE::PlayerCharacter::GetSingleton()->AsBGSActorCellEventSource()->AddEventSink(new EventHandler());
+        RE::PlayerCharacter::GetSingleton()->AsBGSActorCellEventSource()->AddEventSink(new PlayerCellChangeEvent(immersiveCameraView, immersiveMovementSpeed));
         // input event
         // auto inputDeviceManager = RE::BSInputDeviceManager::GetSingleton();
         // inputDeviceManager->AddEventSink();
@@ -41,4 +35,5 @@ void MessageHandler(SKSE::MessagingInterface::Message* a_msg) {
     default:
         break;
     }
+    return;
 }

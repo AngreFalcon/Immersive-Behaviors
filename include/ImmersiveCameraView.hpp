@@ -1,14 +1,15 @@
 #pragma once
-#include "PlayerCellChangeEvent.hpp"
+#include "Behaviors.hpp"
 
 enum class VIEW_TYPE {
     FIRST_PERSON,
     THIRD_PERSON
 };
 
-class ImmersiveCameraView {
+class ImmersiveCameraView : public Behaviors {
 public:
-    static void shiftCameraPerspective();
+    ImmersiveCameraView(void);
+    ~ImmersiveCameraView() = default;
 
     struct Config {
         VIEW_TYPE interior;
@@ -17,10 +18,17 @@ public:
         VIEW_TYPE swimming;
     } config;
 
+    /* functions */
+    void shiftCameraPerspectiveToFirstPerson(void);
+    void shiftCameraPerspectiveToThirdPerson(void);
+    void recordZoomLevel(void);
+
 private:
-    static bool isInterior;
-    static struct CameraState {
+    struct CameraState {
         float interiorThirdPersonZoom;
         float exteriorThirdPersonZoom;
     } cameraState;
+
+    /* functions */
+    void restoreZoomLevel(void);
 };
