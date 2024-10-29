@@ -1,0 +1,14 @@
+{
+    "immersiveCameraView": {
+        "enabled": true,
+        "thirdPerson": [ "interior", "combat" ],
+        "firstPerson": [ "exterior", "swimming" ],
+        "interiorZoom": -0.2,
+        "exteriorZoom": -0.2
+    },
+    "immersiveMovementSpeed": {
+        "enabled": true,
+        "walk": [ "interior" ],
+        "run": [ "exterior", "combat" ]
+    }
+}

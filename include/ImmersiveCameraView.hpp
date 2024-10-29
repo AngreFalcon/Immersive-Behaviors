@@ -1,34 +1,44 @@
 #pragma once
-#include "Behaviors.hpp"
+#include "BehaviorMap.hpp"
+#include "nlohmann/json.hpp"
 
-enum class VIEW_TYPE {
+enum class VIEW_TYPE : int {
     FIRST_PERSON,
     THIRD_PERSON
 };
 
-class ImmersiveCameraView : public Behaviors {
+struct ICVConfig {
+public:
+    std::unordered_map<std::string, VIEW_TYPE> contextMap;
+    float interiorZoom;
+    float exteriorZoom;
+    ICVConfig()
+        : enabled(false)
+        , contextMap({ { "interior", VIEW_TYPE::FIRST_PERSON }, { "exterior", VIEW_TYPE::THIRD_PERSON }, { "combat", VIEW_TYPE::FIRST_PERSON }, { "swimming", VIEW_TYPE::FIRST_PERSON } })
+        , interiorZoom(-2.0f)
+        , exteriorZoom(-2.0f) { }
+        
+    /* functions */
+    void setEnabled(bool);
+    bool isEnabled(void);
+    void recordZoomLevel(void);
+    void restoreZoomLevel(void);
+private:
+    bool enabled;
+};
+
+void from_json(const nlohmann::json& nlohmann_json_j, ICVConfig& nlohmann_json_t);
+
+class ImmersiveCameraView : public Behavior {
 public:
     ImmersiveCameraView(void);
     ~ImmersiveCameraView() = default;
-
-    struct Config {
-        VIEW_TYPE interior;
-        VIEW_TYPE exterior;
-        VIEW_TYPE combat;
-        VIEW_TYPE swimming;
-    } config;
+    ICVConfig config;
 
     /* functions */
+    void shiftCameraPerspective(const std::string& context);
     void shiftCameraPerspectiveToFirstPerson(void);
     void shiftCameraPerspectiveToThirdPerson(void);
-    void recordZoomLevel(void);
 
 private:
-    struct CameraState {
-        float interiorThirdPersonZoom;
-        float exteriorThirdPersonZoom;
-    } cameraState;
-
-    /* functions */
-    void restoreZoomLevel(void);
 };

@@ -1,5 +1,4 @@
 #pragma once
-#include "IBEvent.hpp"
 #include "ImmersiveCameraView.hpp"
 #include "ImmersiveMovementSpeed.hpp"
 
@@ -7,17 +6,17 @@
 class PlayerCellChangeEvent : public RE::BSTEventSink<RE::BGSActorCellEvent> {
 public:
     PlayerCellChangeEvent(void) = default;
-    PlayerCellChangeEvent(std::shared_ptr<ImmersiveCameraView> immersiveCameraView, std::shared_ptr<ImmersiveMovementSpeed> immersiveMovementSpeed);
+    PlayerCellChangeEvent(std::shared_ptr<BehaviorMap> behaviors);
     ~PlayerCellChangeEvent() = default;
 
-    RE::BSEventNotifyControl ProcessEvent(const RE::BGSActorCellEvent* event, RE::BSTEventSource<RE::BGSActorCellEvent>* source);
+    /* functions */
+    RE::BSEventNotifyControl ProcessEvent(const RE::BGSActorCellEvent* event, RE::BSTEventSource<RE::BGSActorCellEvent>* source) override;
     void onPlayerCellTransition(void);
     void onPlayerCellEntry(void);
     void onPlayerCellExit(void);
     void affectBehavior(void);
 
 private:
-    std::shared_ptr<ImmersiveCameraView> immersiveCameraView;
-    std::shared_ptr<ImmersiveMovementSpeed> immersiveMovementSpeed;
-    bool lastCellIsInterior;
+    std::shared_ptr<BehaviorMap> behaviors;
+    std::optional<bool> lastCellIsInterior;
 };

@@ -4,10 +4,9 @@
 
 using player = RE::PlayerCharacter;
 
-PlayerCellChangeEvent::PlayerCellChangeEvent(std::shared_ptr<ImmersiveCameraView> immersiveCameraView, std::shared_ptr<ImmersiveMovementSpeed> immersiveMovementSpeed) {
-    this->immersiveCameraView = immersiveCameraView;
-    this->immersiveMovementSpeed = immersiveMovementSpeed;
-    lastCellIsInterior = false;
+PlayerCellChangeEvent::PlayerCellChangeEvent(std::shared_ptr<BehaviorMap> behaviors) {
+    this->behaviors = behaviors;
+    lastCellIsInterior = std::nullopt;
 }
 
 RE::BSEventNotifyControl PlayerCellChangeEvent::ProcessEvent(const RE::BGSActorCellEvent* event, RE::BSTEventSource<RE::BGSActorCellEvent>* source) {
@@ -52,20 +51,22 @@ void PlayerCellChangeEvent::onPlayerCellEntry(void) {
 
 void PlayerCellChangeEvent::onPlayerCellExit(void) {
     if (helpers::isPlayerInThirdPerson()) {
-        immersiveCameraView->recordZoomLevel();
+        behaviors->get<ImmersiveCameraView>()->config.recordZoomLevel();
     }
     return;
 }
 
 void PlayerCellChangeEvent::affectBehavior(void) {
-    if (helpers::isPlayerInInterior() && !lastCellIsInterior) {
-        immersiveCameraView->shiftCameraPerspectiveToFirstPerson();
-        immersiveMovementSpeed->makePlayerWalk();
+    if (helpers::isPlayerInInterior() && (!lastCellIsInterior || !lastCellIsInterior.value())) {
+        behaviors->get<ImmersiveCameraView>()->shiftCameraPerspective("interior");
+        //behaviors->get<ImmersiveMovementSpeed>()->makePlayerWalk();
+        behaviors->get<ImmersiveMovementSpeed>()->contextualMoveSpeed("interior");
         lastCellIsInterior = true;
     }
-    else if (RE::TES::GetSingleton()->GetCell(player::GetSingleton()->GetPosition())->IsExteriorCell() && lastCellIsInterior) {
-        immersiveCameraView->shiftCameraPerspectiveToThirdPerson();
-        immersiveMovementSpeed->makePlayerRun();
+    else if (RE::TES::GetSingleton()->GetCell(player::GetSingleton()->GetPosition())->IsExteriorCell() && (!lastCellIsInterior || lastCellIsInterior.value())) {
+        behaviors->get<ImmersiveCameraView>()->shiftCameraPerspective("exterior");
+        //behaviors->get<ImmersiveMovementSpeed>()->makePlayerRun();
+        behaviors->get<ImmersiveMovementSpeed>()->contextualMoveSpeed("interior");
         lastCellIsInterior = false;
     }
     return;

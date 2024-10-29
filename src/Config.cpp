@@ -1,25 +1,19 @@
 #include "Config.hpp"
 #include <fstream>
 
-constexpr std::string CONFIG_FILENAME = "config.json";
+const std::string CONFIG_FILENAME = "./Data/SKSE/Plugins/ImmersiveBehaviors.json";
 
-Config& Config::get(void) {
-    static Config instance(CONFIG_FILENAME);
-    return instance;
-}
-
-Config::Config(const std::filesystem::path& configPath) {
+Config::Config() {
     using Json = nlohmann::json;
     try {
-        const Json config = nlohmann::json::parse(std::ifstream(configPath));
-        auto s2 = config.get<std::string>();
-    } catch(...) {
-        logs::warn("config file wasn't present or parsing failed, using defaults");
+        json = nlohmann::json::parse(std::ifstream(CONFIG_FILENAME));
+    } catch (...) {
+        logs::warn("config file wasn't present or parsing failed - will use defaults instead");
     }
 }
 
 Config::~Config() {
     try {
         std::ofstream(CONFIG_FILENAME) << json;
-    } catch(...) { }
+    } catch (...) { }
 }

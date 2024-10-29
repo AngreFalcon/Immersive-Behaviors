@@ -2,9 +2,8 @@
 #include "helpers.hpp"
 #include "ImmersiveMovementSpeed.hpp"
 
-ButtonPressEvent::ButtonPressEvent(std::shared_ptr<ImmersiveCameraView> immersiveCameraView, std::shared_ptr<ImmersiveMovementSpeed> immersiveMovementSpeed) {
-    this->immersiveCameraView = immersiveCameraView;
-    this->immersiveMovementSpeed = immersiveMovementSpeed;
+ButtonPressEvent::ButtonPressEvent(const std::shared_ptr<BehaviorMap> behaviors) {
+    this->behaviors = behaviors;
 }
 
 RE::BSEventNotifyControl ButtonPressEvent::ProcessEvent(RE::InputEvent* const* a_event, RE::BSTEventSource<RE::InputEvent*>*) {
@@ -29,15 +28,20 @@ RE::BSEventNotifyControl ButtonPressEvent::ProcessEvent(RE::InputEvent* const* a
 
 void ButtonPressEvent::sprintKeyPressed(const RE::ButtonEvent* buttonEvent) {
     if (buttonEvent->IsDown()) {
-        if (!helpers::isPlayerWalking()) {
-            return;
+        if (helpers::isPlayerWalking()) {
+            behaviors->get<ImmersiveMovementSpeed>()->makePlayerRunWhenSprint();
+            //logs::info("Start running");
         }
-        immersiveMovementSpeed->makePlayerRunWhenSprint();
-        logs::info("Start running");
     }
-    else if (buttonEvent->IsUp() && immersiveMovementSpeed->isWalkModeActive()) {
-        immersiveMovementSpeed->makePlayerWalk();
-        logs::info("Stop running");    
+    else {
+        if (behaviors->get<ImmersiveMovementSpeed>()->isWalkModeActive()) {
+            behaviors->get<ImmersiveMovementSpeed>()->makePlayerWalk();
+            //logs::info("Stop running");
+        }
+        else {
+            behaviors->get<ImmersiveMovementSpeed>()->stopSprinting();
+            //logs::info("Stop sprinting");
+        }
     }
     return;
 }
@@ -49,12 +53,12 @@ void ButtonPressEvent::toggleRunKeyPressed(const RE::ButtonEvent* buttonEvent) {
     // immediately let go off the button
     else if (buttonEvent->IsUp()) {
         if (helpers::isPlayerWalking()) {
-            immersiveMovementSpeed->makePlayerWalk();
+            behaviors->get<ImmersiveMovementSpeed>()->makePlayerWalk();
         }
         else {
-            immersiveMovementSpeed->makePlayerRun();
+            behaviors->get<ImmersiveMovementSpeed>()->makePlayerRun();
         }
     }
-    logs::info("Toggle running");
+    //logs::info("Toggle running");
     return;
 }
