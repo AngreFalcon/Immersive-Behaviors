@@ -3,12 +3,14 @@
 
 class ImmersiveMovementSpeed : public Behaviors {
 public:
-    ImmersiveMovementSpeed(void) = default;
+    ImmersiveMovementSpeed(void);
     ~ImmersiveMovementSpeed() = default;
 
     void makePlayerWalk(void);
     void makePlayerRun(void);
     void makePlayerRunWhenSprint(void);
+    bool isWalkModeActive(void);
 
 private:
+    bool walkModeActive;
 };

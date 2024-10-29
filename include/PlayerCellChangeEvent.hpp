@@ -7,7 +7,7 @@
 class PlayerCellChangeEvent : public RE::BSTEventSink<RE::BGSActorCellEvent> {
 public:
     PlayerCellChangeEvent(void) = default;
-    PlayerCellChangeEvent(ImmersiveCameraView& immersiveCameraView, ImmersiveMovementSpeed& immersiveMovementSpeed);
+    PlayerCellChangeEvent(std::shared_ptr<ImmersiveCameraView> immersiveCameraView, std::shared_ptr<ImmersiveMovementSpeed> immersiveMovementSpeed);
     ~PlayerCellChangeEvent() = default;
 
     RE::BSEventNotifyControl ProcessEvent(const RE::BGSActorCellEvent* event, RE::BSTEventSource<RE::BGSActorCellEvent>* source);
@@ -17,7 +17,7 @@ public:
     void affectBehavior(void);
 
 private:
-    ImmersiveCameraView immersiveCameraView;
-    ImmersiveMovementSpeed immersiveMovementSpeed;
+    std::shared_ptr<ImmersiveCameraView> immersiveCameraView;
+    std::shared_ptr<ImmersiveMovementSpeed> immersiveMovementSpeed;
     bool lastCellIsInterior;
 };

@@ -1,10 +1,11 @@
 #include "ImmersiveCameraView.hpp"
 #include "helpers.hpp"
 
-ImmersiveCameraView::ImmersiveCameraView() {
+ImmersiveCameraView::ImmersiveCameraView(void) {
     // -0.2 is set as the default, which places
     // the camera just behind the player character
     cameraState = { -0.2, -0.2 };
+    enableBehavior();
 }
 
 void ImmersiveCameraView::shiftCameraPerspectiveToFirstPerson(void) {
