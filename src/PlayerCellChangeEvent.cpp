@@ -57,17 +57,20 @@ void PlayerCellChangeEvent::onPlayerCellExit(void) {
 }
 
 void PlayerCellChangeEvent::affectBehavior(void) {
+    std::string context;
     if (helpers::isPlayerInInterior() && (!lastCellIsInterior || !lastCellIsInterior.value())) {
-        behaviors->get<ImmersiveCameraView>()->shiftCameraPerspective("interior");
-        //behaviors->get<ImmersiveMovementSpeed>()->makePlayerWalk();
-        behaviors->get<ImmersiveMovementSpeed>()->contextualMoveSpeed("interior");
+        context = "interior";
+        //behaviors->get<ImmersiveCameraView>()->shiftCameraPerspective("interior");
+        //behaviors->get<ImmersiveMovementSpeed>()->contextualMoveSpeed("interior");
         lastCellIsInterior = true;
     }
     else if (RE::TES::GetSingleton()->GetCell(player::GetSingleton()->GetPosition())->IsExteriorCell() && (!lastCellIsInterior || lastCellIsInterior.value())) {
-        behaviors->get<ImmersiveCameraView>()->shiftCameraPerspective("exterior");
-        //behaviors->get<ImmersiveMovementSpeed>()->makePlayerRun();
-        behaviors->get<ImmersiveMovementSpeed>()->contextualMoveSpeed("interior");
+        context = "exterior";
+        //behaviors->get<ImmersiveCameraView>()->shiftCameraPerspective("exterior");
+        //behaviors->get<ImmersiveMovementSpeed>()->contextualMoveSpeed("exterior");
         lastCellIsInterior = false;
     }
+    behaviors->get<ImmersiveCameraView>()->shiftCameraPerspective(context);
+    behaviors->get<ImmersiveMovementSpeed>()->contextualMoveSpeed(context);
     return;
 }

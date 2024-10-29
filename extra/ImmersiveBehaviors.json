@@ -1,8 +1,8 @@
 {
     "immersiveCameraView": {
         "enabled": true,
-        "thirdPerson": [ "interior", "combat" ],
-        "firstPerson": [ "exterior", "swimming" ],
+        "thirdPerson": [ "exterior", "combat" ],
+        "firstPerson": [ "interior", "swimming" ],
         "interiorZoom": -0.2,
         "exteriorZoom": -0.2
     },

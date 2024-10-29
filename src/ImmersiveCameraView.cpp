@@ -49,11 +49,11 @@ void from_json(const nlohmann::json& nlohmann_json_j, ICVConfig& nlohmann_json_t
     nlohmann_json_t.contextMap = nlohmann_json_default_obj.contextMap;
     for (const std::string& context : nlohmann_json_j["firstPerson"].get<std::vector<std::string>>()) {
         nlohmann_json_t.contextMap[context] = VIEW_TYPE::FIRST_PERSON;
-        logs::info("Successfully parsed: {} as: First Person", context);
+        logs::debug("\tSuccessfully parsed: {} as: First Person", context);
     }
     for (const std::string& context : nlohmann_json_j["thirdPerson"].get<std::vector<std::string>>()) {
         nlohmann_json_t.contextMap[context] = VIEW_TYPE::THIRD_PERSON;
-        logs::info("Successfully parsed: {} as: Third Person", context);
+        logs::debug("\tSuccessfully parsed: {} as: Third Person", context);
     }
     nlohmann_json_t.interiorZoom = nlohmann_json_j.value("interiorZoom", nlohmann_json_default_obj.interiorZoom);
     nlohmann_json_t.exteriorZoom = nlohmann_json_j.value("exteriorZoom", nlohmann_json_default_obj.exteriorZoom);
@@ -61,14 +61,15 @@ void from_json(const nlohmann::json& nlohmann_json_j, ICVConfig& nlohmann_json_t
 }
 
 ImmersiveCameraView::ImmersiveCameraView(void) {
+    logs::debug("");
     logs::debug("constructing ImmersiveCameraView");
     // -0.2 is set as the default, which places
     // the camera just behind the player character
     config = Config::get<ICVConfig>("immersiveCameraView");
-    logs::debug("\tIs behavior enabled? {}", config.isEnabled());
     for (const auto& context : config.contextMap) {
         logs::debug("\tcontext: {} -> {}", context.first, static_cast<bool>(context.second) ? "thirdPerson" : "firstPerson");
     }
+    logs::debug("\tIs behavior enabled? {}", config.isEnabled());
 }
 
 void ImmersiveCameraView::shiftCameraPerspective(const std::string& context) {

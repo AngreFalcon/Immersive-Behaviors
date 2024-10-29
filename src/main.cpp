@@ -12,7 +12,6 @@ void MessageHandler(SKSE::MessagingInterface::Message* a_msg);
 
 SKSEPluginLoad(const SKSE::LoadInterface* skse) {
     SKSE::Init(skse);
-    logs::info("");
     // RE::ScriptEventSourceHolder::GetSingleton()->AddEventSink<RE::TESActorLocationChangeEvent>(new EventHandler());
     const SKSE::MessagingInterface* messaging = SKSE::GetMessagingInterface();
     if (!messaging->RegisterListener("SKSE", MessageHandler)) {

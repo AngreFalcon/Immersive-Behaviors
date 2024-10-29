@@ -11,6 +11,7 @@ RE::BSEventNotifyControl ButtonPressEvent::ProcessEvent(RE::InputEvent* const* a
         return RE::BSEventNotifyControl::kContinue;
     }
     for (RE::InputEvent* event = *a_event; event; event = event->next) {
+    //    RE::InputEvent* event = *a_event;
         if (const RE::ButtonEvent* buttonEvent = event->AsButtonEvent()) {
             buttonStates.SprintKey = RE::ControlMap::GetSingleton()->GetMappedKey("Sprint", buttonEvent->GetDevice());
             buttonStates.ToggleRunKey = RE::ControlMap::GetSingleton()->GetMappedKey("Toggle Always Run", buttonEvent->GetDevice());
@@ -28,29 +29,18 @@ RE::BSEventNotifyControl ButtonPressEvent::ProcessEvent(RE::InputEvent* const* a
 
 void ButtonPressEvent::sprintKeyPressed(const RE::ButtonEvent* buttonEvent) {
     if (buttonEvent->IsDown()) {
-        if (helpers::isPlayerWalking()) {
-            behaviors->get<ImmersiveMovementSpeed>()->makePlayerRunWhenSprint();
-            //logs::info("Start running");
-        }
+        behaviors->get<ImmersiveMovementSpeed>()->sprintKeyPressed();
     }
     else {
-        if (behaviors->get<ImmersiveMovementSpeed>()->isWalkModeActive()) {
-            behaviors->get<ImmersiveMovementSpeed>()->makePlayerWalk();
-            //logs::info("Stop running");
-        }
-        else {
-            behaviors->get<ImmersiveMovementSpeed>()->stopSprinting();
-            //logs::info("Stop sprinting");
-        }
+        behaviors->get<ImmersiveMovementSpeed>()->sprintKeyReleased();
     }
     return;
 }
 
 void ButtonPressEvent::toggleRunKeyPressed(const RE::ButtonEvent* buttonEvent) {
-    // Button down
     if (buttonEvent->IsDown()) {
+        return;
     }
-    // immediately let go off the button
     else if (buttonEvent->IsUp()) {
         if (helpers::isPlayerWalking()) {
             behaviors->get<ImmersiveMovementSpeed>()->makePlayerWalk();

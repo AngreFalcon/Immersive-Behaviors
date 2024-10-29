@@ -13,14 +13,24 @@ bool IMSConfig::isEnabled(void) {
 
 void from_json(const nlohmann::json& nlohmann_json_j, IMSConfig& nlohmann_json_t) {
     IMSConfig nlohmann_json_default_obj;
+    nlohmann_json_t.contextMap = nlohmann_json_default_obj.contextMap;
+    for (const std::string& context : nlohmann_json_j["walk"].get<std::vector<std::string>>()) {
+        nlohmann_json_t.contextMap[context] = MOVE_TYPE::WALK;
+        logs::debug("\tSuccessfully parsed: {} as: Walk", context);
+    }
+    for (const std::string& context : nlohmann_json_j["run"].get<std::vector<std::string>>()) {
+        nlohmann_json_t.contextMap[context] = MOVE_TYPE::RUN;
+        logs::debug("\tSuccessfully parsed: {} as: Run", context);
+    }
     nlohmann_json_t.setEnabled(nlohmann_json_j.value("enabled", nlohmann_json_default_obj.isEnabled()));
 }
 
 ImmersiveMovementSpeed::ImmersiveMovementSpeed(void) {
+    logs::debug("");
     logs::debug("constructing ImmersiveMovementSpeed");
     config = Config::get<IMSConfig>("immersiveMovementSpeed");
-    logs::debug("Is behavior enabled? {}", config.isEnabled());
-    walkModeActive = false;
+    logs::debug("\tIs behavior enabled? {}", config.isEnabled());
+    immersiveWalkModeActive = false;
 }
 
 void ImmersiveMovementSpeed::contextualMoveSpeed(const std::string& context) {
@@ -46,7 +56,7 @@ void ImmersiveMovementSpeed::makePlayerWalk(void) {
         return;
     }
     RE::PlayerControls::GetSingleton()->data.running = false;
-    walkModeActive = true;
+    immersiveWalkModeActive = true;
     return;
 }
 
@@ -55,23 +65,38 @@ void ImmersiveMovementSpeed::makePlayerRun(void) {
         return;
     }
     RE::PlayerControls::GetSingleton()->data.running = true;
-    walkModeActive = false;
+    immersiveWalkModeActive = false;
     return;
 }
 
-void ImmersiveMovementSpeed::makePlayerRunWhenSprint(void) {
+void ImmersiveMovementSpeed::sprintKeyPressed(void) {
     if (!config.isEnabled()) {
         return;
     }
-    RE::PlayerControls::GetSingleton()->data.running = true;
+    if (helpers::isPlayerWalking()) {
+        RE::PlayerControls::GetSingleton()->data.running = true;
+        //logs::info("Start running");
+    }
     return;
 }
 
-bool ImmersiveMovementSpeed::isWalkModeActive(void) {
-    return walkModeActive;
+void ImmersiveMovementSpeed::sprintKeyReleased(void) {
+    if (!config.isEnabled()) {
+        return;
+    }
+    if (immersiveWalkModeActive) {
+        makePlayerWalk();
+        //logs::info("Stop running");
+    }
+    else {
+        //stopSprinting();
+        //logs::info("Stop sprinting");
+    }
+    return;
 }
 
+// this function currently doesn't work
 void ImmersiveMovementSpeed::stopSprinting(void) {
-    RE::PlayerCharacter::GetSingleton()->AsActorState()->actorState1.sprinting = 0;
+    RE::PlayerCharacter::GetSingleton()->AsActorState()->actorState1.sprinting = !RE::PlayerCharacter::GetSingleton()->AsActorState()->IsSprinting();
     return;
 }

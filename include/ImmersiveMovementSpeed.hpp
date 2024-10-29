@@ -32,10 +32,10 @@ public:
     void contextualMoveSpeed(const std::string& context);
     void makePlayerWalk(void);
     void makePlayerRun(void);
-    void makePlayerRunWhenSprint(void);
-    bool isWalkModeActive(void);
+    void sprintKeyPressed(void);
+    void sprintKeyReleased(void);
     void stopSprinting(void);
 
 private:
-    bool walkModeActive;
+    bool immersiveWalkModeActive;
 };
