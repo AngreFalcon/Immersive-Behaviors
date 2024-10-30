@@ -19,9 +19,11 @@ private:
     } buttonStates;
     
     /* functions */
+    void initializeKeyCodes(const RE::ButtonEvent* buttonEvent);
+    void routeButtonEvents(const uint32_t, const RE::ButtonEvent*);
     void sprintKeyEvent(const RE::ButtonEvent* buttonEvent);
     void toggleRunKeyEvent(const RE::ButtonEvent* buttonEvent);
-    
+
 };
 
 /* Below is a list of valid eventIDs and devices taken from here: https://ck.uesp.net/wiki/GetMappedKey_-_Input

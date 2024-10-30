@@ -11,20 +11,28 @@ RE::BSEventNotifyControl ButtonPressEvent::ProcessEvent(RE::InputEvent* const* a
         return RE::BSEventNotifyControl::kContinue;
     }
     for (RE::InputEvent* event = *a_event; event; event = event->next) {
-    //    RE::InputEvent* event = *a_event;
         if (const RE::ButtonEvent* buttonEvent = event->AsButtonEvent()) {
-            buttonStates.SprintKey = RE::ControlMap::GetSingleton()->GetMappedKey("Sprint", buttonEvent->GetDevice());
-            buttonStates.ToggleRunKey = RE::ControlMap::GetSingleton()->GetMappedKey("Toggle Always Run", buttonEvent->GetDevice());
-            const uint32_t dxScanCode = buttonEvent->GetIDCode();
-            if (buttonStates.SprintKey != -1 && dxScanCode == buttonStates.SprintKey) {
-                sprintKeyEvent(buttonEvent);
-            }
-            else if (buttonStates.ToggleRunKey != -1 && dxScanCode == buttonStates.ToggleRunKey) {
-                toggleRunKeyEvent(buttonEvent);
-            }
+            initializeKeyCodes(buttonEvent);
+            routeButtonEvents(buttonEvent->GetIDCode(), buttonEvent);
         }
         return RE::BSEventNotifyControl::kContinue;
     }
+}
+
+void ButtonPressEvent::initializeKeyCodes(const RE::ButtonEvent* buttonEvent) {
+    buttonStates.SprintKey = RE::ControlMap::GetSingleton()->GetMappedKey("Sprint", buttonEvent->GetDevice());
+    buttonStates.ToggleRunKey = RE::ControlMap::GetSingleton()->GetMappedKey("Toggle Always Run", buttonEvent->GetDevice());
+    return;
+}
+
+void ButtonPressEvent::routeButtonEvents(const uint32_t dxScanCode, const RE::ButtonEvent* buttonEvent) {
+    if (buttonStates.SprintKey != -1 && dxScanCode == buttonStates.SprintKey) {
+        sprintKeyEvent(buttonEvent);
+    }
+    else if (buttonStates.ToggleRunKey != -1 && dxScanCode == buttonStates.ToggleRunKey) {
+        toggleRunKeyEvent(buttonEvent);
+    }
+    return;
 }
 
 void ButtonPressEvent::sprintKeyEvent(const RE::ButtonEvent* buttonEvent) {
