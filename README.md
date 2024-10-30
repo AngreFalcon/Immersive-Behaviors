@@ -1,6 +1,7 @@
-# CommonLibSSE-NG Plugin Template
+# Immersive Behaviors
 
-This is a basic plugin template using CommonLibSSE-NG.
+SKSE plugin implementing context-aware behaviors for improved immersion and convenience.
+Currently includes a behavior to shift between running and walking and a behavior to switch between first person and third person automatically.
 
 ### Requirements
 * [XMake](https://xmake.io) [2.8.2+]
@@ -8,8 +9,8 @@ This is a basic plugin template using CommonLibSSE-NG.
 
 ## Getting Started
 ```bat
-git clone --recurse-submodules https://github.com/qudix/commonlibsse-ng-template
-cd commonlibsse-ng-template
+git clone --recurse-submodules https://github.com/AngreFalcon/Immersive-Behaviors.git
+cd Immersive-Behaviors
 ```
 
 ### Build
