@@ -7,17 +7,12 @@ enum class MOVE_TYPE : int {
     RUN
 };
 
-struct IMSConfig {
+struct IMSConfig : public IBConfig {
 public:
     std::unordered_map<std::string, MOVE_TYPE> contextMap;
     IMSConfig()
-        : enabled(false)
-        , contextMap({ { "interior", MOVE_TYPE::WALK }, { "exterior", MOVE_TYPE::RUN }, { "combat", MOVE_TYPE::RUN } }) { }
-        
-    void setEnabled(bool);
-    bool isEnabled(void);
-private:
-    bool enabled;
+        : contextMap({ { "interior", MOVE_TYPE::WALK }, { "exterior", MOVE_TYPE::RUN }, { "combat", MOVE_TYPE::RUN } }) { }
+
 };
 
 void from_json(const nlohmann::json& nlohmann_json_j, IMSConfig& nlohmann_json_t);

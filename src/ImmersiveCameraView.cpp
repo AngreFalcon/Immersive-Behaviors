@@ -2,15 +2,6 @@
 #include "Config.hpp"
 #include "helpers.hpp"
 
-void ICVConfig::setEnabled(bool enabled) {
-    this->enabled = enabled;
-    return;
-}
-
-bool ICVConfig::isEnabled(void) {
-    return this->enabled;
-}
-
 void ICVConfig::recordZoomLevel(void) {
     if (!isEnabled()) {
         return;

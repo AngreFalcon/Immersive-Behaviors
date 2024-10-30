@@ -3,6 +3,18 @@
 #include <typeindex>
 #include <unordered_map>
 
+struct IBConfig {
+public:
+    IBConfig()
+        : enabled(false) { }
+    
+    /* functions */
+    void setEnabled(bool);
+    bool isEnabled(void);
+private:
+    bool enabled;
+};
+
 class Behavior {
 public:
     Behavior(void) = default;

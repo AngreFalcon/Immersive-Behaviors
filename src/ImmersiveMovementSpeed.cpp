@@ -3,14 +3,6 @@
 #include "helpers.hpp"
 #include <algorithm>
 
-void IMSConfig::setEnabled(bool enabled) {
-    this->enabled = enabled;
-    return;
-}
-bool IMSConfig::isEnabled(void) {
-    return this->enabled;
-}
-
 void from_json(const nlohmann::json& nlohmann_json_j, IMSConfig& nlohmann_json_t) {
     IMSConfig nlohmann_json_default_obj;
     nlohmann_json_t.contextMap = nlohmann_json_default_obj.contextMap;

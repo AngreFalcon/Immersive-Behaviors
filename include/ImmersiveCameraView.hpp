@@ -7,24 +7,20 @@ enum class VIEW_TYPE : int {
     THIRD_PERSON
 };
 
-struct ICVConfig {
+struct ICVConfig : public IBConfig {
 public:
     std::unordered_map<std::string, VIEW_TYPE> contextMap;
     float interiorZoom;
     float exteriorZoom;
     ICVConfig()
-        : enabled(false)
-        , contextMap({ { "interior", VIEW_TYPE::FIRST_PERSON }, { "exterior", VIEW_TYPE::THIRD_PERSON }, { "combat", VIEW_TYPE::FIRST_PERSON }, { "swimming", VIEW_TYPE::FIRST_PERSON } })
+        : contextMap({ { "interior", VIEW_TYPE::FIRST_PERSON }, { "exterior", VIEW_TYPE::THIRD_PERSON }, { "combat", VIEW_TYPE::FIRST_PERSON }, { "swimming", VIEW_TYPE::FIRST_PERSON } })
         , interiorZoom(-2.0f)
         , exteriorZoom(-2.0f) { }
         
     /* functions */
-    void setEnabled(bool);
-    bool isEnabled(void);
     void recordZoomLevel(void);
     void restoreZoomLevel(void);
-private:
-    bool enabled;
+    
 };
 
 void from_json(const nlohmann::json& nlohmann_json_j, ICVConfig& nlohmann_json_t);
