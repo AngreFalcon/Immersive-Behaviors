@@ -1,5 +1,6 @@
 #include "BehaviorMap.hpp"
 #include "ButtonPressEvent.hpp"
+#include "CombatEvent.hpp"
 #include "PlayerCellChangeEvent.hpp"
 #include "RE/T/TESCondition.h"
 #include "REL/Version.h"
@@ -31,6 +32,8 @@ void MessageHandler(SKSE::MessagingInterface::Message* a_msg) {
 
         RE::PlayerCharacter::GetSingleton()->AsBGSActorCellEventSource()->AddEventSink(new PlayerCellChangeEvent(behaviors));
         RE::BSInputDeviceManager::GetSingleton()->AddEventSink(new ButtonPressEvent(behaviors));
+        RE::ScriptEventSourceHolder::GetSingleton()->AddEventSink<RE::TESCombatEvent>(new CombatEvent(behaviors));
+        //RE::BSInputDeviceManager::GetSingleton()->AddEventSink(new CombatEvent(behaviors));
         
         // input event
         // auto inputDeviceManager = RE::BSInputDeviceManager::GetSingleton();
