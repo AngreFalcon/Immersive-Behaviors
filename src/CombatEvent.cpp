@@ -15,13 +15,24 @@ RE::BSEventNotifyControl CombatEvent::ProcessEvent(const RE::TESCombatEvent* a_e
 	if (a_event && (isPlayerRef(a_event->actor) || isPlayerRef(a_event->targetActor))) {
 		switch (*a_event->newState) {
 		case CombatState::kCombat:
-            behaviors->get<ImmersiveMovementSpeed>()->contextualMoveSpeed("combat");
-            behaviors->get<ImmersiveCameraView>()->shiftCameraPerspective("combat");
+            combatEngaged();
 		case CombatState::kSearching:
+            beingPursued();
 			break;
 		default:
 			break;
 		}
 	}
 	return RE::BSEventNotifyControl::kContinue;
+}
+
+void CombatEvent::combatEngaged(void) {
+    behaviors->get<ImmersiveMovementSpeed>()->contextualMoveSpeed("combat");
+    behaviors->get<ImmersiveCameraView>()->shiftCameraPerspective("combat");
+    return;
+}
+
+void CombatEvent::beingPursued(void) {
+
+    return;
 }

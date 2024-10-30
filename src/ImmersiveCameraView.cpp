@@ -3,11 +3,9 @@
 #include "helpers.hpp"
 
 void ICVConfig::recordZoomLevel() {
-    if (!isEnabled()) {
+    if (!isEnabled() || !helpers::isPlayerInThirdPerson()) {
         return;
     }
-    // if the player is in an interior cell,
-    // record the interior cell's zoom record
     if (helpers::isPlayerInInterior()) {
         interiorZoom = reinterpret_cast<RE::ThirdPersonState*>(RE::PlayerCamera::GetSingleton()->currentState.get())->targetZoomOffset;
     }

@@ -8,7 +8,12 @@ public:
     ButtonPressEvent(std::shared_ptr<BehaviorMap> behaviors);
     ~ButtonPressEvent() = default;
 
-    /* functions */
+    /**
+     * @brief 
+     * 
+     * @param a_event 
+     * @return RE::BSEventNotifyControl 
+     */
     RE::BSEventNotifyControl ProcessEvent(RE::InputEvent* const* a_event, RE::BSTEventSource<RE::InputEvent*>*) override;
 
 private:
@@ -17,11 +22,32 @@ private:
         int64_t SprintKey = -1;
         int64_t ToggleRunKey = -1;
     } buttonStates;
-    
-    /* functions */
+
+    /**
+     * @brief 
+     * 
+     * @param buttonEvent 
+     */
     void initializeKeyCodes(const RE::ButtonEvent* buttonEvent);
+
+    /**
+     * @brief 
+     * 
+     */
     void routeButtonEvents(const uint32_t, const RE::ButtonEvent*);
+
+    /**
+     * @brief 
+     * 
+     * @param buttonEvent 
+     */
     void sprintKeyEvent(const RE::ButtonEvent* buttonEvent);
+
+    /**
+     * @brief 
+     * 
+     * @param buttonEvent 
+     */
     void toggleRunKeyEvent(const RE::ButtonEvent* buttonEvent);
 
 };

@@ -9,7 +9,11 @@ public:
     BehaviorMap() = default;
     ~BehaviorMap() = default;
     
-    /* functions */
+    /**
+     * @brief Used to insert a new behavior into the event's behavior map via class name.
+     * 
+     * @tparam T Child of Behavior class.
+     */
     template <typename T>
     inline void insert() {
         if (!behaviorMap.contains(std::type_index(typeid(T)))) {
@@ -18,6 +22,12 @@ public:
         return;
     }
 
+    /**
+     * @brief Used to retrieve a pointer to the specified child object from our map of parent class pointers
+     * 
+     * @tparam T Child of Behavior class.
+     * @return T* Pointer to object of Behavior child class.
+     */
     template <typename T>
     inline T* get() noexcept {
         return dynamic_cast<T*>(behaviorMap.at(std::type_index(typeid(T))).get());
@@ -25,7 +35,5 @@ public:
 
 private:
     std::unordered_map<std::type_index, std::unique_ptr<Behavior>> behaviorMap;
-    
-    /* functions */
 
 };

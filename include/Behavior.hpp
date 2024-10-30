@@ -3,19 +3,30 @@
 #include <typeindex>
 #include <unordered_map>
 
+
+
 struct IBConfig {
 public:
     IBConfig()
         : enabled(false) { }
     
-    /* functions */
-    void setEnabled(bool);
+    /**
+     * @brief Set the behavior's enable state
+     * 
+     * @param [in] enabled 
+     */
+    void setEnabled(bool enableBehavior);
+
+    /**
+     * @brief Returns whether the behavior is enabled or disabled.
+     * 
+     * @return true Enabled
+     * @return false Disabled
+     */
     bool isEnabled(void);
     
 private:
     bool enabled;
-
-    /* functions */
 
 };
 
@@ -25,7 +36,5 @@ public:
     virtual ~Behavior() = default;
 
 private:
-
-    /* functions */
 
 };

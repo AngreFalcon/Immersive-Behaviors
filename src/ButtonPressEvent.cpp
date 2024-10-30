@@ -17,6 +17,7 @@ RE::BSEventNotifyControl ButtonPressEvent::ProcessEvent(RE::InputEvent* const* a
         }
         return RE::BSEventNotifyControl::kContinue;
     }
+    return RE::BSEventNotifyControl::kContinue;
 }
 
 void ButtonPressEvent::initializeKeyCodes(const RE::ButtonEvent* buttonEvent) {

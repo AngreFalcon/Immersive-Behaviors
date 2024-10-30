@@ -9,12 +9,27 @@ public:
     CombatEvent(std::shared_ptr<BehaviorMap> behaviors);
     ~CombatEvent() = default;
 
-    /* functions */
+    /**
+     * @brief 
+     * 
+     * @param a_event 
+     * @return RE::BSEventNotifyControl 
+     */
     RE::BSEventNotifyControl ProcessEvent(const RE::TESCombatEvent* a_event, RE::BSTEventSource<RE::TESCombatEvent>*) override;
 
 private:
     std::shared_ptr<BehaviorMap> behaviors;
     
-    /* functions */
+    /**
+     * @brief 
+     * 
+     */
+    void combatEngaged(void);
+    
+    /**
+     * @brief 
+     * 
+     */
+    void beingPursued(void);
 
 };

@@ -18,13 +18,19 @@ public:
         , interiorZoom(-2.0f)
         , exteriorZoom(-2.0f) { }
         
-    /* functions */
+    /**
+     * @brief 
+     * 
+     */
     void recordZoomLevel();
+
+    /**
+     * @brief 
+     * 
+     */
     void restoreZoomLevel();
 
 private:
-
-    /* functions */
 
 };
 
@@ -36,13 +42,25 @@ public:
     ~ImmersiveCameraView() = default;
     ICVConfig config;
 
-    /* functions */
+    /**
+     * @brief 
+     * 
+     * @param context 
+     */
     void shiftCameraPerspective(const std::string& context);
 
 private:
 
-    /* functions */
+    /**
+     * @brief 
+     * 
+     */
     void shiftCameraPerspectiveToFirstPerson(void);
+
+    /**
+     * @brief 
+     * 
+     */
     void shiftCameraPerspectiveToThirdPerson(void);
 
 };

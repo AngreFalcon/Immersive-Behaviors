@@ -23,7 +23,6 @@ SKSEPluginLoad(const SKSE::LoadInterface* skse) {
 }
 
 void MessageHandler(SKSE::MessagingInterface::Message* a_msg) {
-
     switch (a_msg->type) {
     case SKSE::MessagingInterface::kDataLoaded: {
         std::shared_ptr<BehaviorMap> behaviors = std::make_shared<BehaviorMap>();
@@ -33,7 +32,6 @@ void MessageHandler(SKSE::MessagingInterface::Message* a_msg) {
         RE::PlayerCharacter::GetSingleton()->AsBGSActorCellEventSource()->AddEventSink(new PlayerCellChangeEvent(behaviors));
         RE::BSInputDeviceManager::GetSingleton()->AddEventSink(new ButtonPressEvent(behaviors));
         RE::ScriptEventSourceHolder::GetSingleton()->AddEventSink<RE::TESCombatEvent>(new CombatEvent(behaviors));
-        //RE::BSInputDeviceManager::GetSingleton()->AddEventSink(new CombatEvent(behaviors));
         
         // input event
         // auto inputDeviceManager = RE::BSInputDeviceManager::GetSingleton();

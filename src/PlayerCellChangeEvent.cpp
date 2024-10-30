@@ -52,9 +52,7 @@ void PlayerCellChangeEvent::onPlayerCellEntry(void) {
 }
 
 void PlayerCellChangeEvent::onPlayerCellExit(void) {
-    if (helpers::isPlayerInThirdPerson()) {
-        behaviors->get<ImmersiveCameraView>()->config.recordZoomLevel();
-    }
+    behaviors->get<ImmersiveCameraView>()->config.recordZoomLevel();
     return;
 }
 

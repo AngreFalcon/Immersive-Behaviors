@@ -13,11 +13,7 @@ public:
     IMSConfig()
         : contextMap({ { "interior", MOVE_TYPE::WALK }, { "exterior", MOVE_TYPE::RUN }, { "combat", MOVE_TYPE::RUN }, { "toggledRun", MOVE_TYPE::RUN }, { "toggledWalk", MOVE_TYPE::WALK } }) { }
 
-    /* functions */
-
 private:
-
-    /* functions */
 
 };
 
@@ -30,17 +26,44 @@ public:
 
     IMSConfig config;
 
-    /* functions */
+    /**
+     * @brief 
+     * 
+     * @param context 
+     */
     void contextualMoveSpeed(const std::string& context);
+
+    /**
+     * @brief 
+     * 
+     */
     void sprintKeyPressed(void);
+
+    /**
+     * @brief 
+     * 
+     */
     void sprintKeyReleased(void);
 
 private:
     bool immersiveWalkModeActive;
     
-    /* functions */
+    /**
+     * @brief 
+     * 
+     */
     void makePlayerWalk(void);
+
+    /**
+     * @brief 
+     * 
+     */
     void makePlayerRun(void);
+
+    /**
+     * @brief 
+     * 
+     */
     void stopSprinting(void);
 
 };
