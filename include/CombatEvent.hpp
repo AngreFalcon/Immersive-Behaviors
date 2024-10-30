@@ -12,7 +12,7 @@ public:
     /**
      * @brief 
      * 
-     * @param a_event 
+     * @param [in]	a_event 
      * @return RE::BSEventNotifyControl 
      */
     RE::BSEventNotifyControl ProcessEvent(const RE::TESCombatEvent* a_event, RE::BSTEventSource<RE::TESCombatEvent>*) override;

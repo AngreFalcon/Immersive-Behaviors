@@ -9,7 +9,7 @@ PlayerCellChangeEvent::PlayerCellChangeEvent(std::shared_ptr<BehaviorMap> behavi
     lastCellIsInterior = std::nullopt;
 }
 
-RE::BSEventNotifyControl PlayerCellChangeEvent::ProcessEvent(const RE::BGSActorCellEvent* event, RE::BSTEventSource<RE::BGSActorCellEvent>* source) {
+RE::BSEventNotifyControl PlayerCellChangeEvent::ProcessEvent(const RE::BGSActorCellEvent* event, RE::BSTEventSource<RE::BGSActorCellEvent>*) {
     if (!event->actor || event->actor.get().get() != player::GetSingleton()) {
         return RE::BSEventNotifyControl::kContinue;
     }

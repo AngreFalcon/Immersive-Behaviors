@@ -10,7 +10,7 @@ public:
     ~BehaviorMap() = default;
     
     /**
-     * @brief Used to insert a new behavior into the event's behavior map via class name.
+     * @brief Inserts a new behavior into the event's behavior map via class name.
      * 
      * @tparam T Child of Behavior class.
      */
@@ -23,7 +23,7 @@ public:
     }
 
     /**
-     * @brief Used to retrieve a pointer to the specified child object from our map of parent class pointers
+     * @brief Retrieves a pointer to the specified child object from our map of parent class pointers.
      * 
      * @tparam T Child of Behavior class.
      * @return T* Pointer to object of Behavior child class.

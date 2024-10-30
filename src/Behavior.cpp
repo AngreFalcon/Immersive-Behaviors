@@ -1,6 +1,6 @@
 #include "Behavior.hpp"
 
-void IBConfig::setEnabled(bool enableBehavior) {
+void IBConfig::setEnabled(const bool enableBehavior) {
     this->enabled = enableBehavior;
     return;
 }

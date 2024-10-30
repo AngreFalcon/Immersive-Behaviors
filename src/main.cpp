@@ -9,6 +9,11 @@
 #include <span>
 #include <typeindex>
 
+/**
+ * @brief 
+ * 
+ * @param [in]	a_msg 
+ */
 void MessageHandler(SKSE::MessagingInterface::Message* a_msg);
 
 SKSEPluginLoad(const SKSE::LoadInterface* skse) {

@@ -13,15 +13,15 @@ public:
     /**
      * @brief Set the behavior's enable state
      * 
-     * @param [in] enabled 
+     * @param [in] enableBehavior Should the behavior be enabled or not.
      */
-    void setEnabled(bool enableBehavior);
+    void setEnabled(const bool enableBehavior);
 
     /**
      * @brief Returns whether the behavior is enabled or disabled.
      * 
-     * @return true Enabled
-     * @return false Disabled
+     * @return true
+     * @return false
      */
     bool isEnabled(void);
     

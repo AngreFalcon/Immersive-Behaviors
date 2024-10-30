@@ -11,7 +11,7 @@ public:
     /**
      * @brief 
      * 
-     * @param a_event 
+     * @param [in]	a_event 
      * @return RE::BSEventNotifyControl 
      */
     RE::BSEventNotifyControl ProcessEvent(RE::InputEvent* const* a_event, RE::BSTEventSource<RE::InputEvent*>*) override;
@@ -26,27 +26,29 @@ private:
     /**
      * @brief 
      * 
-     * @param buttonEvent 
+     * @param [in]	buttonEvent 
      */
     void initializeKeyCodes(const RE::ButtonEvent* buttonEvent);
 
     /**
      * @brief 
      * 
+     * @param [in]	dxScanCode 
+     * @param [in]	buttonEvent 
      */
-    void routeButtonEvents(const uint32_t, const RE::ButtonEvent*);
+    void routeButtonEvents(const uint32_t dxScanCode, const RE::ButtonEvent* buttonEvent);
 
     /**
      * @brief 
      * 
-     * @param buttonEvent 
+     * @param [in]	buttonEvent 
      */
     void sprintKeyEvent(const RE::ButtonEvent* buttonEvent);
 
     /**
      * @brief 
      * 
-     * @param buttonEvent 
+     * @param [in]	buttonEvent dsadfhjkb
      */
     void toggleRunKeyEvent(const RE::ButtonEvent* buttonEvent);
 

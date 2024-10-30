@@ -7,90 +7,90 @@
 
 namespace helpers {
     /**
-     * @brief 
+     * @brief Get whether player is currently in an interior cell or not.
      * 
-     * @return true Player is in interior cell.
-     * @return false Player is in exterior cell.
+     * @return true
+     * @return false
      */
     bool isPlayerInInterior(void);
 
     /**
-     * @brief 
+     * @brief Get whether player is currently engaged in combat or not.
      * 
-     * @return true Player is in combat.
-     * @return false Player is not in combat.
+     * @return true
+     * @return false
      */
     bool isPlayerInCombat(void);
 
     /**
-     * @brief 
+     * @brief Get whether the player's weapon is currently drawn or not.
      * 
-     * @return true Player has weapon drawn.
-     * @return false Player does not have weapon drawn.
+     * @return true
+     * @return false
      */
     bool isPlayerWeaponDrawn(void);
 
     /**
-     * @brief 
+     * @brief Get whether the player is currently standing in water or not.
      * 
-     * @return true Player is standing in water.
-     * @return false Player is not standing in water.
+     * @return true
+     * @return false
      */
     bool isPlayerInWater(void);
 
     /**
-     * @brief 
+     * @brief Get whether the player is currently swimming or not.
      * 
-     * @return true Player is swimming.
-     * @return false Player is not swimming
+     * @return true
+     * @return false
      */
     bool isPlayerSwimming(void);
 
     /**
-     * @brief 
+     * @brief Get whether the player is currently sitting or not.
      * 
-     * @return true Player is sitting.
-     * @return false Player is not sitting.
+     * @return true
+     * @return false
      */
     bool isPlayerSitting(void);
     
     /**
-     * @brief 
+     * @brief Get whether the player is currently sneaking or not.
      * 
-     * @return true Player is sneaking.
-     * @return false Player is not sneaking.
+     * @return true
+     * @return false
      */
     bool isPlayerSneaking(void);
 
     /**
-     * @brief 
+     * @brief Get whether the player is currently riding a mount or not.
      * 
-     * @return true Player is riding mount.
-     * @return false Player is not riding mount.
+     * @return true
+     * @return false
      */
     bool isPlayerMounted(void);
 
     /**
-     * @brief 
+     * @brief Get whether the player is currently trespassing or not.
      * 
-     * @return true Player is trespassing.
-     * @return false Player is not trespassing.
+     * @return true
+     * @return false
      */
     bool isPlayerTrespassing(void);
 
     /**
-     * @brief 
+     * @brief Get whether the player is currently walking or not.
      * 
-     * @return true Player is walking.
-     * @return false Player is not walking.
+     * @return true
+     * @return false
      */
     bool isPlayerWalking(void);
 
     /**
-     * @brief 
+     * @brief Get whether the player is in third person or not.
      * 
-     * @return true Player is in third person.
-     * @return false Player is in first person.
+     * @return true
+     * @return false
      */
     bool isPlayerInThirdPerson(void);
 }

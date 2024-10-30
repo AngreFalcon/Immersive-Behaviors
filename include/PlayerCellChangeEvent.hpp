@@ -12,11 +12,10 @@ public:
     /**
      * @brief 
      * 
-     * @param event 
-     * @param source 
+     * @param [in]	event  
      * @return RE::BSEventNotifyControl 
      */
-    RE::BSEventNotifyControl ProcessEvent(const RE::BGSActorCellEvent* event, RE::BSTEventSource<RE::BGSActorCellEvent>* source) override;
+    RE::BSEventNotifyControl ProcessEvent(const RE::BGSActorCellEvent* event, RE::BSTEventSource<RE::BGSActorCellEvent>*) override;
 
 private:
     std::shared_ptr<BehaviorMap> behaviors;

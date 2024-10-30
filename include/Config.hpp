@@ -8,7 +8,7 @@ public:
      * @brief 
      * 
      * @tparam T 
-     * @param configName 
+     * @param [in]	configName 
      * @return T 
      */
     template <typename T>
