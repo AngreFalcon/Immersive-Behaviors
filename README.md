@@ -1,7 +1,10 @@
 # Immersive Behaviors
 
 SKSE plugin implementing context-aware behaviors for improved immersion and convenience.
-Currently includes a behavior to shift between running and walking and a behavior to switch between first person and third person automatically.
+Currently includes:
+* a behavior to automatically shift between running and walking
+* a behavior to automatically switch between first person and third person automatically.
+* an improvement to sprint key, allowing the player to run while walking for as long as the key is held (does not affect sprinting while running)
 
 ### Requirements
 * [XMake](https://xmake.io) [2.8.2+]
