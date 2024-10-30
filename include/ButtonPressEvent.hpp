@@ -5,7 +5,7 @@
 class ButtonPressEvent : public RE::BSTEventSink<RE::InputEvent*> {
 public:
     ButtonPressEvent(void) = default;
-    ButtonPressEvent(std::shared_ptr<BehaviorMap> behaviors);
+    ButtonPressEvent(std::shared_ptr<ImmersiveBehaviorMap> immersiveBehaviors);
     ~ButtonPressEvent() = default;
 
     /**
@@ -17,10 +17,12 @@ public:
     RE::BSEventNotifyControl ProcessEvent(RE::InputEvent* const* a_event, RE::BSTEventSource<RE::InputEvent*>*) override;
 
 private:
-    std::shared_ptr<BehaviorMap> behaviors;
+    std::shared_ptr<ImmersiveBehaviorMap> immersiveBehaviors;
+	bool weaponReadyRunState = false;
     struct ButtonStates {
         int64_t SprintKey = -1;
         int64_t ToggleRunKey = -1;
+		int64_t UnsheathKey = -1;
     } buttonStates;
 
     /**
@@ -48,9 +50,16 @@ private:
     /**
      * @brief 
      * 
-     * @param [in]	buttonEvent dsadfhjkb
+     * @param [in]	buttonEvent 
      */
     void toggleRunKeyEvent(const RE::ButtonEvent* buttonEvent);
+
+	/**
+	 * @brief 
+	 * 
+	 * @param [in]	buttonEvent 
+	 */
+	void readyWeaponEvent(const RE::ButtonEvent* buttonEvent);
 
 };
 

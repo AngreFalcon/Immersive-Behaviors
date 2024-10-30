@@ -6,7 +6,7 @@ const std::string CONFIG_FILENAME = "./Data/SKSE/Plugins/ImmersiveBehaviors.json
 Config::Config() {
     using Json = nlohmann::json;
     try {
-        json = nlohmann::json::parse(std::ifstream(CONFIG_FILENAME));
+        this->json = nlohmann::json::parse(std::ifstream(CONFIG_FILENAME));
     } catch (...) {
         logs::warn("config file wasn't present or parsing failed - will use defaults instead");
     }

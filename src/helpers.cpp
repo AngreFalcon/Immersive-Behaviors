@@ -14,7 +14,14 @@ namespace helpers {
     }
 
     bool isPlayerWeaponDrawn(void) {
-        return player::GetSingleton()->AsActorState()->IsWeaponDrawn();
+		switch (player::GetSingleton()->AsActorState()->GetWeaponState()) {
+		case RE::WEAPON_STATE::kDrawn:
+		case RE::WEAPON_STATE::kDrawing:
+		case RE::WEAPON_STATE::kWantToDraw:
+			return true;
+		default:
+			return false;
+		}
     }
 
     bool isPlayerInWater(void) {
@@ -26,7 +33,7 @@ namespace helpers {
     }
 
     bool isPlayerSitting(void) {
-        return player::GetSingleton()->AsActorState()->IsSitting();
+        return player::GetSingleton()->AsActorState()->GetSitSleepState() == RE::SIT_SLEEP_STATE::kIsSitting;
     }
 
     bool isPlayerSneaking(void) {

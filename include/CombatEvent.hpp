@@ -6,7 +6,7 @@
 class CombatEvent : public RE::BSTEventSink<RE::TESCombatEvent> {
 public:
     CombatEvent(void) = default;
-    CombatEvent(std::shared_ptr<BehaviorMap> behaviors);
+    CombatEvent(std::shared_ptr<ImmersiveBehaviorMap> immersiveBehaviors);
     ~CombatEvent() = default;
 
     /**
@@ -18,7 +18,7 @@ public:
     RE::BSEventNotifyControl ProcessEvent(const RE::TESCombatEvent* a_event, RE::BSTEventSource<RE::TESCombatEvent>*) override;
 
 private:
-    std::shared_ptr<BehaviorMap> behaviors;
+    std::shared_ptr<ImmersiveBehaviorMap> immersiveBehaviors;
     
     /**
      * @brief 

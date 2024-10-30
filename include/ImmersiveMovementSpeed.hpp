@@ -1,5 +1,5 @@
 #pragma once
-#include "BehaviorMap.hpp"
+#include "ImmersiveBehaviorMap.hpp"
 #include "nlohmann/json.hpp"
 
 enum class MOVE_TYPE : int {
@@ -11,26 +11,37 @@ struct IMSConfig : public IBConfig {
 public:
     std::unordered_map<std::string, MOVE_TYPE> contextMap;
     IMSConfig()
-        : contextMap({ { "interior", MOVE_TYPE::WALK }, { "exterior", MOVE_TYPE::RUN }, { "combat", MOVE_TYPE::RUN }, { "toggledRun", MOVE_TYPE::RUN }, { "toggledWalk", MOVE_TYPE::WALK } }) { }
+        : contextMap({ { "interior", MOVE_TYPE::WALK }, { "exterior", MOVE_TYPE::RUN }, { "combat", MOVE_TYPE::RUN } }) { }
 
 private:
 };
 
+/**
+ * @brief 
+ * 
+ * @param nlohmann_json_j 
+ * @param nlohmann_json_t 
+ */
 void from_json(const nlohmann::json& nlohmann_json_j, IMSConfig& nlohmann_json_t);
 
-class ImmersiveMovementSpeed : public Behavior {
+class ImmersiveMovementSpeed : public ImmersiveBehavior {
 public:
     ImmersiveMovementSpeed(void);
     ~ImmersiveMovementSpeed() = default;
 
     IMSConfig config;
 
-    /**
-     * @brief Decide via the user's config file whether the user should be walking or running based on the event that's been triggered.
-     *
-     * @param [in]	context The context of the function call, to compare to the user's config and decide whether the player should start running or walking.
-     */
-    void contextualMoveSpeed(const std::string& context);
+	/**
+	 * @brief 
+	 * 
+	 */
+	void updateImmersiveBehavior(void) override;
+
+	/**
+	 * @brief 
+	 * 
+	 */
+	void toggleMoveSpeed(void);
 
     /**
      * @brief Wrapper function used to decide what actions to perform when we receive an event that the user's sprint key has been depressed.
@@ -46,18 +57,22 @@ public:
 
 private:
     bool immersiveWalkModeActive;
+	bool moveSpeedToggled = false;
 
-    /**
-     * @brief Change the player's always run status to false and set a flag that the player is now walking.
-     *
-     */
-    void makePlayerWalk(void);
+	/**
+	 * @brief 
+	 * 
+	 * @return true 
+	 * @return false 
+	 */
+	bool contextMapContains(const std::string&) override;
 
-    /**
-     * @brief Change the player's always run status to true and set a flag that the player is now running.
-     *
-     */
-    void makePlayerRun(void);
+	/**
+	 * @brief 
+	 * 
+	 * @param run 
+	 */
+	void changeMoveSpeed(bool run = false);
 
     /**
      * @brief This function is currently non-functional.

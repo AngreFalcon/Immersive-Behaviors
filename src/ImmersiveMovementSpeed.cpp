@@ -20,70 +20,56 @@ void from_json(const nlohmann::json& nlohmann_json_j, IMSConfig& nlohmann_json_t
 ImmersiveMovementSpeed::ImmersiveMovementSpeed(void) {
     logs::debug("");
     logs::debug("constructing ImmersiveMovementSpeed");
-    config = Config::get<IMSConfig>("immersiveMovementSpeed");
-    logs::debug("\tIs behavior enabled? {}", config.isEnabled());
-    immersiveWalkModeActive = false;
+    this->config = Config::get<IMSConfig>("immersiveMovementSpeed");
+    logs::debug("\tIs ImmersiveBehavior enabled? {}", this->config.isEnabled());
+    this->immersiveWalkModeActive = false;
 }
 
-void ImmersiveMovementSpeed::contextualMoveSpeed(const std::string& context) {
-    if (!config.isEnabled()) {
-        return;
-    }
-    // todo: make sure config[key] exists first
-    switch (config.contextMap[context]) {
-    case MOVE_TYPE::WALK:
-        makePlayerWalk();
-        break;
-    case MOVE_TYPE::RUN:
-        makePlayerRun();
-        break;
-    default:
-        break;
-    }
-    return;
+void ImmersiveMovementSpeed::updateImmersiveBehavior(void) {
+	this->updateTempState();
+	const std::string activeState = getActiveState();
+	this->changeMoveSpeed(static_cast<bool>(this->config.contextMap[activeState]));
+	return;
 }
 
-void ImmersiveMovementSpeed::makePlayerWalk(void) {
-    if (!config.isEnabled()) {
-        return;
-    }
-    RE::PlayerControls::GetSingleton()->data.running = false;
-    immersiveWalkModeActive = true;
-    return;
-}
-
-void ImmersiveMovementSpeed::makePlayerRun(void) {
-    if (!config.isEnabled()) {
-        return;
-    }
-    RE::PlayerControls::GetSingleton()->data.running = true;
-    immersiveWalkModeActive = false;
-    return;
+void ImmersiveMovementSpeed::toggleMoveSpeed(void) {
+	this->moveSpeedToggled = !this->moveSpeedToggled;
+	return;
 }
 
 void ImmersiveMovementSpeed::sprintKeyPressed(void) {
-    if (!config.isEnabled()) {
+    if (!this->config.isEnabled()) {
         return;
     }
     if (helpers::isPlayerWalking()) {
         RE::PlayerControls::GetSingleton()->data.running = true;
-        //logs::info("Start running");
     }
     return;
 }
 
 void ImmersiveMovementSpeed::sprintKeyReleased(void) {
-    if (!config.isEnabled()) {
+    if (!this->config.isEnabled()) {
         return;
     }
     if (immersiveWalkModeActive) {
-        makePlayerWalk();
-        //logs::info("Stop running");
+		RE::PlayerControls::GetSingleton()->data.running = false;
     }
     else {
         //stopSprinting();
-        //logs::info("Stop sprinting");
     }
+    return;
+}
+
+bool ImmersiveMovementSpeed::contextMapContains(const std::string& context) {
+	return this->config.contextMap.contains(context);
+}
+
+void ImmersiveMovementSpeed::changeMoveSpeed(bool run) {
+    if (!this->config.isEnabled()) {
+        return;
+    }
+    RE::PlayerControls::GetSingleton()->data.running = (run == !this->moveSpeedToggled);
+    this->immersiveWalkModeActive = (!run != this->moveSpeedToggled);
     return;
 }
 

@@ -8,7 +8,7 @@
     },
     "immersiveMovementSpeed": {
         "enabled": true,
-        "walk": [ "interior", "toggledWalk" ],
-        "run": [ "exterior", "combat", "toggledRun" ]
+        "walk": [ "interior" ],
+        "run": [ "exterior", "combat", "weaponDrawn" ]
     }
 }

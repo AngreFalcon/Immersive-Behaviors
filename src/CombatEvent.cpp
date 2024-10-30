@@ -1,7 +1,7 @@
 #include "CombatEvent.hpp"
 
-CombatEvent::CombatEvent(std::shared_ptr<BehaviorMap> behaviors) {
-    this->behaviors = behaviors;
+CombatEvent::CombatEvent(std::shared_ptr<ImmersiveBehaviorMap> immersiveBehaviors) {
+    this->immersiveBehaviors = immersiveBehaviors;
 }
 
 RE::BSEventNotifyControl CombatEvent::ProcessEvent(const RE::TESCombatEvent* a_event, RE::BSTEventSource<RE::TESCombatEvent>*) {
@@ -15,9 +15,9 @@ RE::BSEventNotifyControl CombatEvent::ProcessEvent(const RE::TESCombatEvent* a_e
 	if (a_event && (isPlayerRef(a_event->actor) || isPlayerRef(a_event->targetActor))) {
 		switch (*a_event->newState) {
 		case CombatState::kCombat:
-            combatEngaged();
+            this->combatEngaged();
 		case CombatState::kSearching:
-            beingPursued();
+            this->beingPursued();
 			break;
 		default:
 			break;
@@ -27,8 +27,7 @@ RE::BSEventNotifyControl CombatEvent::ProcessEvent(const RE::TESCombatEvent* a_e
 }
 
 void CombatEvent::combatEngaged(void) {
-    behaviors->get<ImmersiveMovementSpeed>()->contextualMoveSpeed("combat");
-    behaviors->get<ImmersiveCameraView>()->shiftCameraPerspective("combat");
+    this->immersiveBehaviors->get<ImmersiveMovementSpeed>()->updateImmersiveBehavior();
     return;
 }
 

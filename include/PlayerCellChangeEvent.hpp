@@ -6,7 +6,7 @@
 class PlayerCellChangeEvent : public RE::BSTEventSink<RE::BGSActorCellEvent> {
 public:
     PlayerCellChangeEvent(void) = default;
-    PlayerCellChangeEvent(std::shared_ptr<BehaviorMap> behaviors);
+    PlayerCellChangeEvent(std::shared_ptr<ImmersiveBehaviorMap> immersiveBehaviors);
     ~PlayerCellChangeEvent() = default;
 
     /**
@@ -18,7 +18,7 @@ public:
     RE::BSEventNotifyControl ProcessEvent(const RE::BGSActorCellEvent* event, RE::BSTEventSource<RE::BGSActorCellEvent>*) override;
 
 private:
-    std::shared_ptr<BehaviorMap> behaviors;
+    std::shared_ptr<ImmersiveBehaviorMap> immersiveBehaviors;
     std::optional<bool> lastCellIsInterior;
     
     /**
@@ -38,11 +38,5 @@ private:
      * 
      */
     void onPlayerCellExit(void);
-
-    /**
-     * @brief 
-     * 
-     */
-    void affectBehavior(void);
 
 };

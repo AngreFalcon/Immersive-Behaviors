@@ -1,4 +1,4 @@
-#include "BehaviorMap.hpp"
+#include "ImmersiveBehaviorMap.hpp"
 #include "ButtonPressEvent.hpp"
 #include "CombatEvent.hpp"
 #include "PlayerCellChangeEvent.hpp"
@@ -30,13 +30,13 @@ SKSEPluginLoad(const SKSE::LoadInterface* skse) {
 void MessageHandler(SKSE::MessagingInterface::Message* a_msg) {
     switch (a_msg->type) {
     case SKSE::MessagingInterface::kDataLoaded: {
-        std::shared_ptr<BehaviorMap> behaviors = std::make_shared<BehaviorMap>();
-        behaviors->insert<ImmersiveCameraView>();
-        behaviors->insert<ImmersiveMovementSpeed>();
+        std::shared_ptr<ImmersiveBehaviorMap> immersiveBehaviors = std::make_shared<ImmersiveBehaviorMap>();
+        immersiveBehaviors->insert<ImmersiveCameraView>();
+        immersiveBehaviors->insert<ImmersiveMovementSpeed>();
 
-        RE::PlayerCharacter::GetSingleton()->AsBGSActorCellEventSource()->AddEventSink(new PlayerCellChangeEvent(behaviors));
-        RE::BSInputDeviceManager::GetSingleton()->AddEventSink(new ButtonPressEvent(behaviors));
-        RE::ScriptEventSourceHolder::GetSingleton()->AddEventSink<RE::TESCombatEvent>(new CombatEvent(behaviors));
+        RE::PlayerCharacter::GetSingleton()->AsBGSActorCellEventSource()->AddEventSink(new PlayerCellChangeEvent(immersiveBehaviors));
+        RE::BSInputDeviceManager::GetSingleton()->AddEventSink(new ButtonPressEvent(immersiveBehaviors));
+        RE::ScriptEventSourceHolder::GetSingleton()->AddEventSink<RE::TESCombatEvent>(new CombatEvent(immersiveBehaviors));
         
         // input event
         // auto inputDeviceManager = RE::BSInputDeviceManager::GetSingleton();

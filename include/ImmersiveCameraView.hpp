@@ -1,5 +1,5 @@
 #pragma once
-#include "BehaviorMap.hpp"
+#include "ImmersiveBehaviorMap.hpp"
 #include "nlohmann/json.hpp"
 
 enum class VIEW_TYPE : int {
@@ -34,13 +34,35 @@ private:
 
 };
 
+/**
+ * @brief 
+ * 
+ * @param nlohmann_json_j 
+ * @param nlohmann_json_t 
+ */
 void from_json(const nlohmann::json& nlohmann_json_j, ICVConfig& nlohmann_json_t);
 
-class ImmersiveCameraView : public Behavior {
+class ImmersiveCameraView : public ImmersiveBehavior {
 public:
     ImmersiveCameraView(void);
     ~ImmersiveCameraView() = default;
     ICVConfig config;
+
+	/**
+	 * @brief 
+	 * 
+	 */
+	void updateImmersiveBehavior(void) override;
+
+private:
+
+	/**
+	 * @brief 
+	 * 
+	 * @return true 
+	 * @return false 
+	 */
+	bool contextMapContains(const std::string&) override;
 
     /**
      * @brief 
@@ -48,8 +70,6 @@ public:
      * @param [in]	context 
      */
     void shiftCameraPerspective(const std::string& context);
-
-private:
 
     /**
      * @brief 

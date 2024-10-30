@@ -3,14 +3,14 @@
 #include "helpers.hpp"
 
 void ICVConfig::recordZoomLevel() {
-    if (!isEnabled() || !helpers::isPlayerInThirdPerson()) {
+    if (!isEnabled()) {
         return;
     }
     if (helpers::isPlayerInInterior()) {
-        interiorZoom = reinterpret_cast<RE::ThirdPersonState*>(RE::PlayerCamera::GetSingleton()->currentState.get())->targetZoomOffset;
+        this->interiorZoom = reinterpret_cast<RE::ThirdPersonState*>(RE::PlayerCamera::GetSingleton()->currentState.get())->targetZoomOffset;
     }
     else {
-        exteriorZoom = reinterpret_cast<RE::ThirdPersonState*>(RE::PlayerCamera::GetSingleton()->currentState.get())->targetZoomOffset;
+        this->exteriorZoom = reinterpret_cast<RE::ThirdPersonState*>(RE::PlayerCamera::GetSingleton()->currentState.get())->targetZoomOffset;
     }
     return;
 }
@@ -25,10 +25,10 @@ void ICVConfig::restoreZoomLevel() {
     // use the interior third person zoom value rather
     // than the exterior value
     if (helpers::isPlayerInInterior()) {
-        thirdPersonState->targetZoomOffset = thirdPersonState->savedZoomOffset = thirdPersonState->currentZoomOffset = interiorZoom;
+        thirdPersonState->targetZoomOffset = thirdPersonState->savedZoomOffset = thirdPersonState->currentZoomOffset = this->interiorZoom;
     }
     else {
-        thirdPersonState->targetZoomOffset = thirdPersonState->savedZoomOffset = thirdPersonState->currentZoomOffset = exteriorZoom;
+        thirdPersonState->targetZoomOffset = thirdPersonState->savedZoomOffset = thirdPersonState->currentZoomOffset = this->exteriorZoom;
     }
     return;
 }
@@ -54,11 +54,21 @@ ImmersiveCameraView::ImmersiveCameraView(void) {
     logs::debug("constructing ImmersiveCameraView");
     // -0.2 is set as the default, which places
     // the camera just behind the player character
-    config = Config::get<ICVConfig>("immersiveCameraView");
-    for (const auto& context : config.contextMap) {
+    this->config = Config::get<ICVConfig>("immersiveCameraView");
+    for (const std::pair<const std::string, VIEW_TYPE>& context : this->config.contextMap) {
         logs::debug("\tcontext: {} -> {}", context.first, static_cast<bool>(context.second) ? "thirdPerson" : "firstPerson");
     }
-    logs::debug("\tIs behavior enabled? {}", config.isEnabled());
+    logs::debug("\tIs ImmersiveBehavior enabled? {}", this->config.isEnabled());
+}
+
+void ImmersiveCameraView::updateImmersiveBehavior(void) {
+	this->updateTempState();
+	this->shiftCameraPerspective(this->getActiveState());
+	return;
+}
+
+bool ImmersiveCameraView::contextMapContains(const std::string& context) {
+	return this->config.contextMap.contains(context);
 }
 
 void ImmersiveCameraView::shiftCameraPerspective(const std::string& context) {
@@ -68,10 +78,10 @@ void ImmersiveCameraView::shiftCameraPerspective(const std::string& context) {
     // todo: make sure config[key] exists first
     switch (config.contextMap[context]) {
     case VIEW_TYPE::FIRST_PERSON:
-        shiftCameraPerspectiveToFirstPerson();
+        this->shiftCameraPerspectiveToFirstPerson();
         break;
     case VIEW_TYPE::THIRD_PERSON:
-        shiftCameraPerspectiveToThirdPerson();
+        this->shiftCameraPerspectiveToThirdPerson();
         break;
     default:
         break;
@@ -86,6 +96,6 @@ void ImmersiveCameraView::shiftCameraPerspectiveToFirstPerson(void) {
 
 void ImmersiveCameraView::shiftCameraPerspectiveToThirdPerson(void) {
     RE::PlayerCamera::GetSingleton()->ForceThirdPerson();
-    config.restoreZoomLevel();
+    this->config.restoreZoomLevel();
     return;
 }

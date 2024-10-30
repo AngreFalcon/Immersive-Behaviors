@@ -4,21 +4,21 @@
 
 using player = RE::PlayerCharacter;
 
-PlayerCellChangeEvent::PlayerCellChangeEvent(std::shared_ptr<BehaviorMap> behaviors) {
-    this->behaviors = behaviors;
-    lastCellIsInterior = std::nullopt;
+PlayerCellChangeEvent::PlayerCellChangeEvent(std::shared_ptr<ImmersiveBehaviorMap> immersiveBehaviors) {
+    this->immersiveBehaviors = immersiveBehaviors;
+    this->lastCellIsInterior = std::nullopt;
 }
 
 RE::BSEventNotifyControl PlayerCellChangeEvent::ProcessEvent(const RE::BGSActorCellEvent* event, RE::BSTEventSource<RE::BGSActorCellEvent>*) {
     if (!event->actor || event->actor.get().get() != player::GetSingleton()) {
         return RE::BSEventNotifyControl::kContinue;
     }
-    onPlayerCellTransition();
+    //onPlayerCellTransition();
     if (event->flags == RE::BGSActorCellEvent::CellFlag::kEnter) {
-        onPlayerCellEntry();
+        this->onPlayerCellEntry();
     }
     else {
-        onPlayerCellExit();
+        this->onPlayerCellExit();
     }
     return RE::BSEventNotifyControl::kContinue;
 }
@@ -30,7 +30,7 @@ void PlayerCellChangeEvent::onPlayerCellTransition(void) {
     logs::debug("");
     logs::debug("Player Cell Transition Event:");
     if (loc) {
-        for (const auto* keyword : loc->GetKeywords()) {
+        for (const RE::BGSKeyword* keyword : loc->GetKeywords()) {
             RE::DebugNotification(keyword->GetName());
             keywordList << keyword->formEditorID.c_str() << "\n";
         }
@@ -47,30 +47,21 @@ void PlayerCellChangeEvent::onPlayerCellTransition(void) {
 }
 
 void PlayerCellChangeEvent::onPlayerCellEntry(void) {
-    affectBehavior();
+    std::string context = helpers::isPlayerInInterior() ? "interior" : "exterior";
+    if (!this->lastCellIsInterior || (helpers::isPlayerInInterior() != this->lastCellIsInterior)) { // only change the player's perspective if lastCellIsInterior does not have a value (game was just started) or the player has just changed from an interior to exterior or vice versa
+		this->immersiveBehaviors->get<ImmersiveCameraView>()->updateCellState(context);
+		this->immersiveBehaviors->get<ImmersiveMovementSpeed>()->updateCellState(context);
+		this->immersiveBehaviors->get<ImmersiveCameraView>()->updateImmersiveBehavior();
+		this->immersiveBehaviors->get<ImmersiveMovementSpeed>()->updateImmersiveBehavior();
+    }
+    this->lastCellIsInterior = helpers::isPlayerInInterior();
     return;
 }
 
 void PlayerCellChangeEvent::onPlayerCellExit(void) {
-    behaviors->get<ImmersiveCameraView>()->config.recordZoomLevel();
-    return;
-}
-
-void PlayerCellChangeEvent::affectBehavior(void) {
-    std::string context;
-    if (helpers::isPlayerInInterior() && (!lastCellIsInterior || !lastCellIsInterior.value())) {
-        context = "interior";
-        //behaviors->get<ImmersiveCameraView>()->shiftCameraPerspective("interior");
-        //behaviors->get<ImmersiveMovementSpeed>()->contextualMoveSpeed("interior");
-        lastCellIsInterior = true;
+    if (!helpers::isPlayerInThirdPerson()) {
+        return;
     }
-    else if (RE::TES::GetSingleton()->GetCell(player::GetSingleton()->GetPosition())->IsExteriorCell() && (!lastCellIsInterior || lastCellIsInterior.value())) {
-        context = "exterior";
-        //behaviors->get<ImmersiveCameraView>()->shiftCameraPerspective("exterior");
-        //behaviors->get<ImmersiveMovementSpeed>()->contextualMoveSpeed("exterior");
-        lastCellIsInterior = false;
-    }
-    behaviors->get<ImmersiveCameraView>()->shiftCameraPerspective(context);
-    behaviors->get<ImmersiveMovementSpeed>()->contextualMoveSpeed(context);
+    this->immersiveBehaviors->get<ImmersiveCameraView>()->config.recordZoomLevel();
     return;
 }
