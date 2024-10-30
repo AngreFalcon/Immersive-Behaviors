@@ -2,7 +2,7 @@
 #include "Config.hpp"
 #include "helpers.hpp"
 
-void ICVConfig::recordZoomLevel(void) {
+void ICVConfig::recordZoomLevel() {
     if (!isEnabled()) {
         return;
     }
@@ -17,7 +17,7 @@ void ICVConfig::recordZoomLevel(void) {
     return;
 }
 
-void ICVConfig::restoreZoomLevel(void) {
+void ICVConfig::restoreZoomLevel() {
     if (!isEnabled()) {
         return;
     }

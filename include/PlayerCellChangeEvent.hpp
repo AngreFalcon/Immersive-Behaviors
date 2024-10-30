@@ -11,12 +11,15 @@ public:
 
     /* functions */
     RE::BSEventNotifyControl ProcessEvent(const RE::BGSActorCellEvent* event, RE::BSTEventSource<RE::BGSActorCellEvent>* source) override;
+
+private:
+    std::shared_ptr<BehaviorMap> behaviors;
+    std::optional<bool> lastCellIsInterior;
+    
+    /* functions */
     void onPlayerCellTransition(void);
     void onPlayerCellEntry(void);
     void onPlayerCellExit(void);
     void affectBehavior(void);
 
-private:
-    std::shared_ptr<BehaviorMap> behaviors;
-    std::optional<bool> lastCellIsInterior;
 };

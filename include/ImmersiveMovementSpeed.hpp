@@ -11,7 +11,13 @@ struct IMSConfig : public IBConfig {
 public:
     std::unordered_map<std::string, MOVE_TYPE> contextMap;
     IMSConfig()
-        : contextMap({ { "interior", MOVE_TYPE::WALK }, { "exterior", MOVE_TYPE::RUN }, { "combat", MOVE_TYPE::RUN } }) { }
+        : contextMap({ { "interior", MOVE_TYPE::WALK }, { "exterior", MOVE_TYPE::RUN }, { "combat", MOVE_TYPE::RUN }, { "toggledRun", MOVE_TYPE::RUN }, { "toggledWalk", MOVE_TYPE::WALK } }) { }
+
+    /* functions */
+
+private:
+
+    /* functions */
 
 };
 
@@ -24,13 +30,17 @@ public:
 
     IMSConfig config;
 
+    /* functions */
     void contextualMoveSpeed(const std::string& context);
-    void makePlayerWalk(void);
-    void makePlayerRun(void);
     void sprintKeyPressed(void);
     void sprintKeyReleased(void);
-    void stopSprinting(void);
 
 private:
     bool immersiveWalkModeActive;
+    
+    /* functions */
+    void makePlayerWalk(void);
+    void makePlayerRun(void);
+    void stopSprinting(void);
+
 };

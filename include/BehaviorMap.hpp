@@ -9,6 +9,7 @@ public:
     BehaviorMap() = default;
     ~BehaviorMap() = default;
     
+    /* functions */
     template <typename T>
     inline void insert() {
         if (!behaviorMap.contains(std::type_index(typeid(T)))) {
@@ -24,4 +25,7 @@ public:
 
 private:
     std::unordered_map<std::type_index, std::unique_ptr<Behavior>> behaviorMap;
+    
+    /* functions */
+
 };

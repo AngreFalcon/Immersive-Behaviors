@@ -10,8 +10,6 @@ public:
 
     /* functions */
     RE::BSEventNotifyControl ProcessEvent(RE::InputEvent* const* a_event, RE::BSTEventSource<RE::InputEvent*>*) override;
-    void sprintKeyPressed(const RE::ButtonEvent* buttonEvent);
-    void toggleRunKeyPressed(const RE::ButtonEvent* buttonEvent);
 
 private:
     std::shared_ptr<BehaviorMap> behaviors;
@@ -19,6 +17,11 @@ private:
         int64_t SprintKey = -1;
         int64_t ToggleRunKey = -1;
     } buttonStates;
+    
+    /* functions */
+    void sprintKeyEvent(const RE::ButtonEvent* buttonEvent);
+    void toggleRunKeyEvent(const RE::ButtonEvent* buttonEvent);
+    
 };
 
 /* Below is a list of valid eventIDs and devices taken from here: https://ck.uesp.net/wiki/GetMappedKey_-_Input

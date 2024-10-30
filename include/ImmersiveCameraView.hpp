@@ -12,15 +12,20 @@ public:
     std::unordered_map<std::string, VIEW_TYPE> contextMap;
     float interiorZoom;
     float exteriorZoom;
+
     ICVConfig()
         : contextMap({ { "interior", VIEW_TYPE::FIRST_PERSON }, { "exterior", VIEW_TYPE::THIRD_PERSON }, { "combat", VIEW_TYPE::FIRST_PERSON }, { "swimming", VIEW_TYPE::FIRST_PERSON } })
         , interiorZoom(-2.0f)
         , exteriorZoom(-2.0f) { }
         
     /* functions */
-    void recordZoomLevel(void);
-    void restoreZoomLevel(void);
-    
+    void recordZoomLevel();
+    void restoreZoomLevel();
+
+private:
+
+    /* functions */
+
 };
 
 void from_json(const nlohmann::json& nlohmann_json_j, ICVConfig& nlohmann_json_t);
@@ -33,8 +38,11 @@ public:
 
     /* functions */
     void shiftCameraPerspective(const std::string& context);
+
+private:
+
+    /* functions */
     void shiftCameraPerspectiveToFirstPerson(void);
     void shiftCameraPerspectiveToThirdPerson(void);
 
-private:
 };

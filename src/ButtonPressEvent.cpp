@@ -17,17 +17,17 @@ RE::BSEventNotifyControl ButtonPressEvent::ProcessEvent(RE::InputEvent* const* a
             buttonStates.ToggleRunKey = RE::ControlMap::GetSingleton()->GetMappedKey("Toggle Always Run", buttonEvent->GetDevice());
             const uint32_t dxScanCode = buttonEvent->GetIDCode();
             if (buttonStates.SprintKey != -1 && dxScanCode == buttonStates.SprintKey) {
-                sprintKeyPressed(buttonEvent);
+                sprintKeyEvent(buttonEvent);
             }
             else if (buttonStates.ToggleRunKey != -1 && dxScanCode == buttonStates.ToggleRunKey) {
-                toggleRunKeyPressed(buttonEvent);
+                toggleRunKeyEvent(buttonEvent);
             }
         }
         return RE::BSEventNotifyControl::kContinue;
     }
 }
 
-void ButtonPressEvent::sprintKeyPressed(const RE::ButtonEvent* buttonEvent) {
+void ButtonPressEvent::sprintKeyEvent(const RE::ButtonEvent* buttonEvent) {
     if (buttonEvent->IsDown()) {
         behaviors->get<ImmersiveMovementSpeed>()->sprintKeyPressed();
     }
@@ -37,16 +37,16 @@ void ButtonPressEvent::sprintKeyPressed(const RE::ButtonEvent* buttonEvent) {
     return;
 }
 
-void ButtonPressEvent::toggleRunKeyPressed(const RE::ButtonEvent* buttonEvent) {
+void ButtonPressEvent::toggleRunKeyEvent(const RE::ButtonEvent* buttonEvent) {
     if (buttonEvent->IsDown()) {
         return;
     }
     else if (buttonEvent->IsUp()) {
         if (helpers::isPlayerWalking()) {
-            behaviors->get<ImmersiveMovementSpeed>()->makePlayerWalk();
+            behaviors->get<ImmersiveMovementSpeed>()->contextualMoveSpeed("toggledWalk");
         }
         else {
-            behaviors->get<ImmersiveMovementSpeed>()->makePlayerRun();
+            behaviors->get<ImmersiveMovementSpeed>()->contextualMoveSpeed("toggledRun");
         }
     }
     //logs::info("Toggle running");

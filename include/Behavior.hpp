@@ -11,8 +11,12 @@ public:
     /* functions */
     void setEnabled(bool);
     bool isEnabled(void);
+    
 private:
     bool enabled;
+
+    /* functions */
+
 };
 
 class Behavior {
@@ -21,4 +25,7 @@ public:
     virtual ~Behavior() = default;
 
 private:
+
+    /* functions */
+
 };
