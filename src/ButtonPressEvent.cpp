@@ -70,7 +70,6 @@ void ButtonPressEvent::toggleRunKeyEvent(const RE::ButtonEvent* buttonEvent) {
         this->immersiveBehaviors->get<ImmersiveMovementSpeed>()->toggleMoveSpeed();
 		this->immersiveBehaviors->get<ImmersiveMovementSpeed>()->updateImmersiveBehavior();
     }
-    else if (buttonEvent->IsUp()) { }
     return;
 }
 
@@ -79,7 +78,6 @@ void ButtonPressEvent::readyWeaponEvent(const RE::ButtonEvent* buttonEvent) {
         this->immersiveBehaviors->get<ImmersiveMovementSpeed>()->updateImmersiveBehavior();
         this->immersiveBehaviors->get<ImmersiveCameraView>()->updateImmersiveBehavior();
     }
-    else if (buttonEvent->IsUp()) { }
     return;
 }
 
@@ -90,8 +88,7 @@ void ButtonPressEvent::cameraZoom(const RE::ButtonEvent*) {
 }
 
 void ButtonPressEvent::POVToggled(const RE::ButtonEvent* buttonEvent) {
-	if (buttonEvent->IsDown()) { }
-	else if (buttonEvent->IsUp()) {
+	if (buttonEvent->IsUp()) {
 		this->immersiveBehaviors->get<ImmersiveCameraView>()->config.restoreZoomLevel();
 	}
 	return;
