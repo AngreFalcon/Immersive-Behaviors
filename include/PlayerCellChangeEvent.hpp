@@ -10,10 +10,11 @@ public:
     ~PlayerCellChangeEvent() = default;
 
     /**
-     * @brief 
+     * @brief Processes an event triggered by the player changing cells.
      * 
-     * @param [in]	event  
-     * @return RE::BSEventNotifyControl 
+     * @param [in]	event Pointer to the input event pointer that we want to process.
+     * @return RE::BSEventNotifyControl::kContinue 
+     * @return RE::BSEventNotifyControl::kStop 
      */
     RE::BSEventNotifyControl ProcessEvent(const RE::BGSActorCellEvent* event, RE::BSTEventSource<RE::BGSActorCellEvent>*) override;
 
@@ -22,19 +23,19 @@ private:
     std::optional<bool> lastCellIsInterior;
     
     /**
-     * @brief 
+     * @brief Executes any time a player enters or leaves a cell (meaning this function will run twice each time the player transitions between cells, first due to them exiting the old cell and again due to them entering the new cell).
      * 
      */
     void onPlayerCellTransition(void);
 
     /**
-     * @brief 
+     * @brief Calls an update for certain behaviors dependent upon the player entering a cell.
      * 
      */
     void onPlayerCellEntry(void);
 
     /**
-     * @brief 
+     * @brief Calls an update for certain behaviors dependent upon the player leaving a cell.
      * 
      */
     void onPlayerCellExit(void);

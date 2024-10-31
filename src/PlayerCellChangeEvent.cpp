@@ -23,7 +23,6 @@ RE::BSEventNotifyControl PlayerCellChangeEvent::ProcessEvent(const RE::BGSActorC
     return RE::BSEventNotifyControl::kContinue;
 }
 
-// this function is currently only used to print debug messages
 void PlayerCellChangeEvent::onPlayerCellTransition(void) {
     const RE::BGSLocation* loc = RE::TES::GetSingleton()->GetCell(player::GetSingleton()->GetPosition())->GetLocation();
     std::stringstream keywordList = {};

@@ -19,13 +19,13 @@ public:
         , exteriorZoom(-2.0f) { }
         
     /**
-     * @brief 
+     * @brief Checks whether the player is currently in an interior or exterior cell and then records the current zoom level to either this->interiorZoom or this->exteriorZoom.
      * 
      */
     void recordZoomLevel();
 
     /**
-     * @brief 
+     * @brief Checks whether the player is currently in an interior or exterior cell and then restores the RE::PlayerCamera state to the recorded zoom level.
      * 
      */
     void restoreZoomLevel();
@@ -35,10 +35,10 @@ private:
 };
 
 /**
- * @brief 
+ * @brief Reads in data from our config JSON file and then stores the appropriate values to our config struct.
  * 
- * @param nlohmann_json_j 
- * @param nlohmann_json_t 
+ * @param [in]	nlohmann_json_j 
+ * @param [out]	nlohmann_json_t 
  */
 void from_json(const nlohmann::json& nlohmann_json_j, ICVConfig& nlohmann_json_t);
 
@@ -49,7 +49,7 @@ public:
     ICVConfig config;
 
 	/**
-	 * @brief 
+	 * @brief Calls updateTempState() and then performs an update to our behavior based on the getActiveState() value.
 	 * 
 	 */
 	void updateImmersiveBehavior(void) override;
@@ -57,7 +57,7 @@ public:
 private:
 
 	/**
-	 * @brief 
+	 * @brief Verifies whether the behavior's contextMap contains a specified context keyword.
 	 * 
 	 * @return true 
 	 * @return false 
@@ -65,20 +65,19 @@ private:
 	bool contextMapContains(const std::string&) override;
 
     /**
-     * @brief 
+     * @brief Grabs the activeState from getActiveState() and then references this->config.contextMap to determine whether shiftCameraPerspectiveToFirstPerson() or shiftCameraPerspectiveToThirdPerson() should be called.
      * 
-     * @param [in]	context 
      */
-    void shiftCameraPerspective(const std::string& context);
+    void shiftCameraPerspective();
 
     /**
-     * @brief 
+     * @brief Forces the player's camera perspective to switch to first person.
      * 
      */
     void shiftCameraPerspectiveToFirstPerson(void);
 
     /**
-     * @brief 
+     * @brief Forces the player's camera perspective to switch to third person and then calls this->config.restoreZoomLevel().
      * 
      */
     void shiftCameraPerspectiveToThirdPerson(void);

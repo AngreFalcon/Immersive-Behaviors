@@ -17,7 +17,7 @@ private:
 };
 
 /**
- * @brief 
+ * @brief Reads in data from our config JSON file and then stores the appropriate values to our config struct.
  * 
  * @param nlohmann_json_j 
  * @param nlohmann_json_t 
@@ -32,25 +32,25 @@ public:
     IMSConfig config;
 
 	/**
-	 * @brief 
+	 * @brief Calls updateTempState() and then performs an update to our behavior based on the getActiveState() value.
 	 * 
 	 */
 	void updateImmersiveBehavior(void) override;
 
 	/**
-	 * @brief 
+	 * @brief Inverts this->moveSpeedToggled.
 	 * 
 	 */
 	void toggleMoveSpeed(void);
 
     /**
-     * @brief Wrapper function used to decide what actions to perform when we receive an event that the user's sprint key has been depressed.
+     * @brief Checks if the player is currently walking, and if so, makes the player run (not sprint).
      *
      */
     void sprintKeyPressed(void);
 
     /**
-     * @brief Wrapper function used to decide what actions to perform when we receive an event that the user's sprint key has been released.
+     * @brief Checks if immersiveWalkModeActive is true and if so, makes the player walk. Else, calls stopSprinting().
      *
      */
     void sprintKeyReleased(void);
@@ -60,7 +60,7 @@ private:
 	bool moveSpeedToggled = false;
 
 	/**
-	 * @brief 
+	 * @brief Verifies whether the behavior's contextMap contains a specified context keyword.
 	 * 
 	 * @return true 
 	 * @return false 
@@ -68,15 +68,17 @@ private:
 	bool contextMapContains(const std::string&) override;
 
 	/**
-	 * @brief 
+	 * @brief Sets this->immersiveWalkModeActive to !run != this->moveSpeedToggled.
+	 * Additionally, force an update to the player's move speed. Sets the player's running status to be equivalent to !this->immersiveWalkModeActive.
+	 * (i.e., if the player should be running but this->moveSpeedToggled is true after the user presses their 'Toggle Always Run' key, this->immersiveWalkModeActive will be true and running status will be false).
 	 * 
-	 * @param run 
+	 * @param [in]	run The player should be running.
 	 */
 	void changeMoveSpeed(bool run = false);
 
     /**
-     * @brief This function is currently non-functional.
-     * Make the user stop sprinting.
+     * @brief This method is currently non-functional.
+     * Force the player to stop sprinting.
      *
      */
     void stopSprinting(void);

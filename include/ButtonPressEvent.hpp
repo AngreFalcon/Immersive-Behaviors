@@ -9,55 +9,55 @@ public:
     ~ButtonPressEvent() = default;
 
     /**
-     * @brief 
+     * @brief Processes an event triggered by the player performing some input through their keyboard, controller, mouse, or some other interface device.
      * 
-     * @param [in]	a_event 
-     * @return RE::BSEventNotifyControl 
+     * @param [in]	a_event Pointer to the input event pointer that we want to process.
+     * @return RE::BSEventNotifyControl::kContinue 
+     * @return RE::BSEventNotifyControl::kStop 
      */
     RE::BSEventNotifyControl ProcessEvent(RE::InputEvent* const* a_event, RE::BSTEventSource<RE::InputEvent*>*) override;
 
 private:
     std::shared_ptr<ImmersiveBehaviorMap> immersiveBehaviors;
 	bool weaponReadyRunState = false;
-    struct ButtonStates {
+    struct ButtonCodes {
         int64_t SprintKey = -1;
         int64_t ToggleRunKey = -1;
 		int64_t UnsheathKey = -1;
-    } buttonStates;
+    } buttonCodes;
 
     /**
-     * @brief 
+     * @brief Grabs the scan codes of the specified keys/buttons and stores them in our buttonStates struct.
      * 
-     * @param [in]	buttonEvent 
+     * @param [in]	buttonEvent Pointer to the buttonEvent that's being processed.
      */
     void initializeKeyCodes(const RE::ButtonEvent* buttonEvent);
 
     /**
-     * @brief 
+     * @brief Compares the scan code of the button event to our struct of stored buttonCodes and then calls the relevant function to handle that input.
      * 
-     * @param [in]	dxScanCode 
-     * @param [in]	buttonEvent 
+     * @param [in]	buttonEvent Pointer to the buttonEvent that's being processed.
      */
-    void routeButtonEvents(const uint32_t dxScanCode, const RE::ButtonEvent* buttonEvent);
+    void routeButtonEvents(const RE::ButtonEvent* buttonEvent);
 
     /**
-     * @brief 
+     * @brief Calls an update for certain behaviors dependent upon an actuation of our 'Sprint' key.
      * 
-     * @param [in]	buttonEvent 
+     * @param [in]	buttonEvent Pointer to the buttonEvent that's being processed.
      */
     void sprintKeyEvent(const RE::ButtonEvent* buttonEvent);
 
     /**
-     * @brief 
+     * @brief Calls an update for certain behaviors dependent upon an actuation of our 'Toggle Always Run' key.
      * 
-     * @param [in]	buttonEvent 
+     * @param [in]	buttonEvent Pointer to the buttonEvent that's being processed.
      */
     void toggleRunKeyEvent(const RE::ButtonEvent* buttonEvent);
 
 	/**
-	 * @brief 
+	 * @brief Calls an update for certain behaviors dependent upon an actuation of our 'Ready Weapon' key.
 	 * 
-	 * @param [in]	buttonEvent 
+	 * @param [in]	buttonEvent Pointer to the buttonEvent that's being processed.
 	 */
 	void readyWeaponEvent(const RE::ButtonEvent* buttonEvent);
 

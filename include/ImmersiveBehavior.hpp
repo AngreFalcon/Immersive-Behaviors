@@ -10,7 +10,7 @@ public:
         : enabled(false) { }
     
     /**
-     * @brief Set the ImmersiveBehavior's enable state
+     * @brief Set the ImmersiveBehavior's enable state.
      * 
      * @param [in] enableImmersiveBehavior Should the ImmersiveBehavior be enabled or not.
      */
@@ -36,26 +36,26 @@ public:
     virtual ~ImmersiveBehavior() = default;
 
 	/**
-	 * @brief 
+	 * @brief Performs a series of checks to determine the player's state and then updates our tempState variable with the highest priority keyword, if any, that applies.
 	 * 
 	 */
 	void updateTempState(void);
 
 	/**
-	 * @brief Get the Active State object
+	 * @brief Get the tempState, or if tempState is not active, returns the cellState instead.
 	 * 
-	 * @return const std::string 
+	 * @return const std::string Returns either tempState or cellState.
 	 */
 	const std::string getActiveState(void);
 	
 	/**
-	 * @brief 
+	 * @brief Calls updateTempState() and then performs an update to our behavior based on the getActiveState() value.
 	 * 
 	 */
 	virtual void updateImmersiveBehavior(void) = 0;
 
 	/**
-	 * @brief 
+	 * @brief Verifies whether the behavior's contextMap contains a specified context keyword.
 	 * 
 	 * @return true 
 	 * @return false 
@@ -64,9 +64,9 @@ public:
 
 protected:
 	/**
-	 * @brief 
+	 * @brief Updates our cellState to the specified value. Only called by PlayerCellChangeEvent.
 	 * 
-	 * @param cellState 
+	 * @param [in]	cellState The new cellState that should be stored in this->cellState.
 	 */
 	void updateCellState(const std::string& cellState);
 

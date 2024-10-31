@@ -14,6 +14,10 @@ namespace helpers {
      */
     bool isPlayerInInterior(void);
 
+    // need to work on implementation
+	//bool isPlayerBeingPursued(void);
+	//bool isPlayerInDialogue(void);
+
     /**
      * @brief Get whether player is currently engaged in combat or not.
      * 

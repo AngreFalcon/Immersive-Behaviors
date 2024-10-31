@@ -55,7 +55,7 @@ void ImmersiveMovementSpeed::sprintKeyReleased(void) {
 		RE::PlayerControls::GetSingleton()->data.running = false;
     }
     else {
-        //stopSprinting();
+        stopSprinting();
     }
     return;
 }
@@ -68,8 +68,8 @@ void ImmersiveMovementSpeed::changeMoveSpeed(bool run) {
     if (!this->config.isEnabled()) {
         return;
     }
-    RE::PlayerControls::GetSingleton()->data.running = (run == !this->moveSpeedToggled);
     this->immersiveWalkModeActive = (!run != this->moveSpeedToggled);
+    RE::PlayerControls::GetSingleton()->data.running = !this->immersiveWalkModeActive;
     return;
 }
 

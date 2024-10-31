@@ -13,7 +13,7 @@ RE::BSEventNotifyControl ButtonPressEvent::ProcessEvent(RE::InputEvent* const* a
     for (RE::InputEvent* event = *a_event; event; event = event->next) {
         if (const RE::ButtonEvent* buttonEvent = event->AsButtonEvent()) {
             this->initializeKeyCodes(buttonEvent);
-            this->routeButtonEvents(buttonEvent->GetIDCode(), buttonEvent);
+            this->routeButtonEvents(buttonEvent);
         }
         return RE::BSEventNotifyControl::kContinue;
     }
@@ -21,20 +21,20 @@ RE::BSEventNotifyControl ButtonPressEvent::ProcessEvent(RE::InputEvent* const* a
 }
 
 void ButtonPressEvent::initializeKeyCodes(const RE::ButtonEvent* buttonEvent) {
-    this->buttonStates.SprintKey = RE::ControlMap::GetSingleton()->GetMappedKey("Sprint", buttonEvent->GetDevice());
-    this->buttonStates.ToggleRunKey = RE::ControlMap::GetSingleton()->GetMappedKey("Toggle Always Run", buttonEvent->GetDevice());
-    this->buttonStates.UnsheathKey = RE::ControlMap::GetSingleton()->GetMappedKey("Ready Weapon", buttonEvent->GetDevice());
+    this->buttonCodes.SprintKey = RE::ControlMap::GetSingleton()->GetMappedKey("Sprint", buttonEvent->GetDevice());
+    this->buttonCodes.ToggleRunKey = RE::ControlMap::GetSingleton()->GetMappedKey("Toggle Always Run", buttonEvent->GetDevice());
+    this->buttonCodes.UnsheathKey = RE::ControlMap::GetSingleton()->GetMappedKey("Ready Weapon", buttonEvent->GetDevice());
     return;
 }
 
-void ButtonPressEvent::routeButtonEvents(const uint32_t dxScanCode, const RE::ButtonEvent* buttonEvent) {
-    if (this->buttonStates.SprintKey != -1 && dxScanCode == this->buttonStates.SprintKey) {
+void ButtonPressEvent::routeButtonEvents(const RE::ButtonEvent* buttonEvent) {
+    if (this->buttonCodes.SprintKey != -1 && buttonEvent->GetIDCode() == this->buttonCodes.SprintKey) {
         this->sprintKeyEvent(buttonEvent);
     }
-    else if (this->buttonStates.ToggleRunKey != -1 && dxScanCode == this->buttonStates.ToggleRunKey) {
+    else if (this->buttonCodes.ToggleRunKey != -1 && buttonEvent->GetIDCode() == this->buttonCodes.ToggleRunKey) {
         this->toggleRunKeyEvent(buttonEvent);
     }
-    else if (this->buttonStates.UnsheathKey != -1 && dxScanCode == this->buttonStates.UnsheathKey) {
+    else if (this->buttonCodes.UnsheathKey != -1 && buttonEvent->GetIDCode() == this->buttonCodes.UnsheathKey) {
         this->readyWeaponEvent(buttonEvent);
     }
     return;
