@@ -3,7 +3,7 @@
 #include "helpers.hpp"
 
 void ICVConfig::recordZoomLevel() {
-    if (!isEnabled()) {
+    if (!isEnabled() || !helpers::isPlayerInThirdPerson()) {
         return;
     }
     if (helpers::isPlayerInInterior()) {
@@ -16,7 +16,7 @@ void ICVConfig::recordZoomLevel() {
 }
 
 void ICVConfig::restoreZoomLevel() {
-    if (!isEnabled()) {
+    if (!isEnabled() || !helpers::isPlayerInThirdPerson()) {
         return;
     }
     RE::ThirdPersonState* thirdPersonState = reinterpret_cast<RE::ThirdPersonState*>(RE::PlayerCamera::GetSingleton()->currentState.get());
@@ -25,10 +25,10 @@ void ICVConfig::restoreZoomLevel() {
     // use the interior third person zoom value rather
     // than the exterior value
     if (helpers::isPlayerInInterior()) {
-        thirdPersonState->targetZoomOffset = thirdPersonState->savedZoomOffset = thirdPersonState->currentZoomOffset = this->interiorZoom;
+        thirdPersonState->targetZoomOffset = thirdPersonState->savedZoomOffset = thirdPersonState->currentZoomOffset = (this->interiorZoom < -0.2f ? -0.2f : (this->interiorZoom > 1.0f ? 1.0f : this->interiorZoom));
     }
     else {
-        thirdPersonState->targetZoomOffset = thirdPersonState->savedZoomOffset = thirdPersonState->currentZoomOffset = this->exteriorZoom;
+        thirdPersonState->targetZoomOffset = thirdPersonState->savedZoomOffset = thirdPersonState->currentZoomOffset = (this->exteriorZoom < -0.2f ? -0.2f : (this->exteriorZoom > 1.0f ? 1.0f : this->exteriorZoom));
     }
     return;
 }
@@ -61,7 +61,7 @@ ImmersiveCameraView::ImmersiveCameraView(void) {
     logs::debug("\tIs ImmersiveBehavior enabled? {}", this->config.isEnabled());
 }
 
-void ImmersiveCameraView::updateImmersiveBehavior(void) {
+void ImmersiveCameraView::updateImmersiveBehavior() {
 	this->updateTempState();
 	this->shiftCameraPerspective();
 	return;

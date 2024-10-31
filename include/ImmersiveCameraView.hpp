@@ -8,12 +8,13 @@ enum class VIEW_TYPE : int {
 };
 
 struct ICVConfig : public IBConfig {
+friend class ImmersiveCameraView;
 public:
     std::unordered_map<std::string, VIEW_TYPE> contextMap;
     float interiorZoom;
     float exteriorZoom;
 
-    ICVConfig()
+    ICVConfig(void)
         : contextMap({ { "interior", VIEW_TYPE::FIRST_PERSON }, { "exterior", VIEW_TYPE::THIRD_PERSON }, { "combat", VIEW_TYPE::FIRST_PERSON }, { "swimming", VIEW_TYPE::FIRST_PERSON } })
         , interiorZoom(-2.0f)
         , exteriorZoom(-2.0f) { }
@@ -22,13 +23,13 @@ public:
      * @brief Checks whether the player is currently in an interior or exterior cell and then records the current zoom level to either this->interiorZoom or this->exteriorZoom.
      * 
      */
-    void recordZoomLevel();
+    void recordZoomLevel(void);
 
     /**
      * @brief Checks whether the player is currently in an interior or exterior cell and then restores the RE::PlayerCamera state to the recorded zoom level.
      * 
      */
-    void restoreZoomLevel();
+    void restoreZoomLevel(void);
 
 private:
 
@@ -52,7 +53,7 @@ public:
 	 * @brief Calls updateTempState() and then performs an update to our behavior based on the getActiveState() value.
 	 * 
 	 */
-	void updateImmersiveBehavior(void) override;
+	void updateImmersiveBehavior() override;
 
 private:
 

@@ -10,7 +10,7 @@ enum class MOVE_TYPE : int {
 struct IMSConfig : public IBConfig {
 public:
     std::unordered_map<std::string, MOVE_TYPE> contextMap;
-    IMSConfig()
+    IMSConfig(void)
         : contextMap({ { "interior", MOVE_TYPE::WALK }, { "exterior", MOVE_TYPE::RUN }, { "combat", MOVE_TYPE::RUN } }) { }
 
 private:

@@ -9,6 +9,7 @@ includes("lib/commonlibsse-ng")
 
 -- set project variables
 local projectName = "Immersive Behaviors"
+-- change this variable to set a different build location; currently being used for convenience's sake to automatically deploy to my MO2 instance
 local projectLoc = "D:/GameUtils/Skyrim/MO2/instances/SSE/mods/" .. projectName .. "/SKSE/Plugins/"
 
 -- set project

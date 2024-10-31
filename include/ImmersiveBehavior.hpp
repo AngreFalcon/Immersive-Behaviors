@@ -44,7 +44,7 @@ public:
 	/**
 	 * @brief Get the tempState, or if tempState is not active, returns the cellState instead.
 	 * 
-	 * @return const std::string Returns either tempState or cellState.
+	 * @return const std::string Either tempState or cellState.
 	 */
 	const std::string getActiveState(void);
 	

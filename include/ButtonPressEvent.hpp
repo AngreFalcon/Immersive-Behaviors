@@ -24,6 +24,9 @@ private:
         int64_t SprintKey = -1;
         int64_t ToggleRunKey = -1;
 		int64_t UnsheathKey = -1;
+		int64_t ZoomIn = -1;
+		int64_t ZoomOut = -1;
+		int64_t TogglePOV = -1;
     } buttonCodes;
 
     /**
@@ -60,6 +63,20 @@ private:
 	 * @param [in]	buttonEvent Pointer to the buttonEvent that's being processed.
 	 */
 	void readyWeaponEvent(const RE::ButtonEvent* buttonEvent);
+
+	/**
+	 * @brief Calls an update for certain behaviors dependent upon an actuation of our 'Zoom In' or 'Zoom Out' key.
+	 * 
+	 * @param [in]	buttonEvent Pointer to the buttonEvent that's being processed.
+	 */
+	void cameraZoom(const RE::ButtonEvent* buttonEvent);
+	
+	/**
+	 * @brief Calls an update for certain behaviors dependent upon an actuation of our 'Toggle POV' key.
+	 * 
+	 * @param [in]	buttonEvent Pointer to the buttonEvent that's being processed.
+	 */
+	void POVToggled(const RE::ButtonEvent* buttonEvent);
 
 };
 

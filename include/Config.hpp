@@ -20,7 +20,7 @@ public:
     nlohmann::json json;
 
 private:
-    Config();
+    Config(void);
     ~Config();
     
 };

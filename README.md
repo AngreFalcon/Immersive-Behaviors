@@ -6,7 +6,7 @@ Currently includes:
 * a behavior to automatically switch between first person and third person automatically.
 * an improvement to sprint key, allowing the player to run while walking for as long as the key is held (does not affect sprinting while running)
 
-Thanks to qudix for his xmake SKSE template here: https://github.com/qudix/commonlibsse-ng-template.git
+Thanks to qudix for their xmake SKSE template here: https://github.com/qudix/commonlibsse-ng-template.git
 
 ### Requirements
 * [XMake](https://xmake.io) [2.8.2+]
