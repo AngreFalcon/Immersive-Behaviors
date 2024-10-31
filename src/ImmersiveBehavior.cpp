@@ -38,3 +38,7 @@ const std::string ImmersiveBehavior::getActiveState(void) {
 		return this->cellState;
 	}
 }
+
+bool ImmersiveBehavior::isActiveStateTemp(void) {
+	return this->tempState != "";
+}

@@ -47,6 +47,14 @@ public:
 	 * @return const std::string Either tempState or cellState.
 	 */
 	const std::string getActiveState(void);
+
+	/**
+	 * @brief Get whether the active state is the tempState or the cellState.
+	 * 
+	 * @return true 
+	 * @return false 
+	 */
+	bool isActiveStateTemp(void);
 	
 	/**
 	 * @brief Calls updateTempState() and then performs an update to our behavior based on the getActiveState() value.

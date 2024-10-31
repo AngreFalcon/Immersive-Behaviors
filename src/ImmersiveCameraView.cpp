@@ -67,6 +67,11 @@ void ImmersiveCameraView::updateImmersiveBehavior() {
 	return;
 }
 
+void ImmersiveCameraView::togglePOV(void) {
+	this->povToggled = !this->povToggled;
+	return;
+}
+
 bool ImmersiveCameraView::contextMapContains(const std::string& context) {
 	return this->config.contextMap.contains(context);
 }
@@ -75,8 +80,11 @@ void ImmersiveCameraView::shiftCameraPerspective() {
     if (!config.isEnabled()) {
         return;
     }
-    // todo: make sure config[key] exists first
-    switch (config.contextMap[getActiveState()]) {
+	VIEW_TYPE viewType = config.contextMap[getActiveState()];
+	if (!this->isActiveStateTemp() && povToggled) {
+		viewType = static_cast<VIEW_TYPE>(static_cast<int>(viewType) ^ povToggled);
+	}
+    switch (viewType) {
     case VIEW_TYPE::FIRST_PERSON:
         this->shiftCameraPerspectiveToFirstPerson();
         break;

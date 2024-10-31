@@ -66,7 +66,7 @@ void ButtonPressEvent::sprintKeyEvent(const RE::ButtonEvent* buttonEvent) {
 }
 
 void ButtonPressEvent::toggleRunKeyEvent(const RE::ButtonEvent* buttonEvent) {
-    if (buttonEvent->IsDown()) {
+    if (buttonEvent->IsUp()) {
         this->immersiveBehaviors->get<ImmersiveMovementSpeed>()->toggleMoveSpeed();
 		this->immersiveBehaviors->get<ImmersiveMovementSpeed>()->updateImmersiveBehavior();
     }
@@ -74,22 +74,25 @@ void ButtonPressEvent::toggleRunKeyEvent(const RE::ButtonEvent* buttonEvent) {
 }
 
 void ButtonPressEvent::readyWeaponEvent(const RE::ButtonEvent* buttonEvent) {
-    if (buttonEvent->IsDown()) {
+    if (buttonEvent->IsUp()) {
         this->immersiveBehaviors->get<ImmersiveMovementSpeed>()->updateImmersiveBehavior();
         this->immersiveBehaviors->get<ImmersiveCameraView>()->updateImmersiveBehavior();
     }
     return;
 }
 
-void ButtonPressEvent::cameraZoom(const RE::ButtonEvent*) {
-	this->immersiveBehaviors->get<ImmersiveCameraView>()->config.recordZoomLevel();
-    RE::DebugNotification(std::to_string(reinterpret_cast<RE::ThirdPersonState*>(RE::PlayerCamera::GetSingleton()->currentState.get())->targetZoomOffset).c_str());
+void ButtonPressEvent::cameraZoom(const RE::ButtonEvent* buttonEvent) {
+	if (buttonEvent->IsUp()) {
+		this->immersiveBehaviors->get<ImmersiveCameraView>()->config.recordZoomLevel();
+    	RE::DebugNotification(std::to_string(reinterpret_cast<RE::ThirdPersonState*>(RE::PlayerCamera::GetSingleton()->currentState.get())->targetZoomOffset).c_str());
+	}
 	return;
 }
 
 void ButtonPressEvent::POVToggled(const RE::ButtonEvent* buttonEvent) {
 	if (buttonEvent->IsUp()) {
-		this->immersiveBehaviors->get<ImmersiveCameraView>()->config.restoreZoomLevel();
+		this->immersiveBehaviors->get<ImmersiveCameraView>()->togglePOV();
+		this->immersiveBehaviors->get<ImmersiveCameraView>()->updateImmersiveBehavior();
 	}
 	return;
 }

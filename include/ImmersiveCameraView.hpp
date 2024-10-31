@@ -55,7 +55,14 @@ public:
 	 */
 	void updateImmersiveBehavior() override;
 
+	/**
+	 * @brief Inverts this->povToggled.
+	 * 
+	 */
+	void togglePOV(void);
+
 private:
+	bool povToggled = false;
 
 	/**
 	 * @brief Verifies whether the behavior's contextMap contains a specified context keyword.
