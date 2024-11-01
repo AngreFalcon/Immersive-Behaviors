@@ -30,17 +30,22 @@ void ImmersiveMovementSpeed::updateImmersiveBehavior(void) {
 		return;
 	}
 	this->updateTempState();
-	const std::string activeState = getActiveState();
-	this->changeMoveSpeed(static_cast<bool>(this->config.contextMap[activeState]));
+	this->changeMoveSpeed(static_cast<bool>(this->config.contextMap[this->getActiveState()]));
 	return;
 }
 
 void ImmersiveMovementSpeed::toggleMoveSpeed(void) {
+	if (!this->config.isEnabled()) {
+		return;
+	}
 	this->moveSpeedToggled = !this->moveSpeedToggled;
 	return;
 }
 
 void ImmersiveMovementSpeed::sprintKeyPressed(void) {
+	if (!this->config.isEnabled()) {
+		return;
+	}
     if (helpers::isPlayerWalking()) {
         RE::PlayerControls::GetSingleton()->data.running = true;
     }
@@ -48,6 +53,9 @@ void ImmersiveMovementSpeed::sprintKeyPressed(void) {
 }
 
 void ImmersiveMovementSpeed::sprintKeyReleased(void) {
+	if (!this->config.isEnabled()) {
+		return;
+	}
     if (immersiveWalkModeActive) {
 		RE::PlayerControls::GetSingleton()->data.running = false;
     }
