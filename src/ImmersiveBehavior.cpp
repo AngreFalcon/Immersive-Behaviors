@@ -10,6 +10,12 @@ bool IBConfig::isEnabled(void) {
     return this->enabled;
 }
 
+void ImmersiveBehavior::debugLogging(void) {
+    logs::debug("");
+    logs::debug("constructed {}", typeid(this).name());
+	return;
+}
+
 // this makes me want to kill myself
 // but, until a better solution is decided upon, this is necessary
 void ImmersiveBehavior::updateTempState(void) {

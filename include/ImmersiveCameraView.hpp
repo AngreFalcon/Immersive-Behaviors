@@ -14,10 +14,12 @@ public:
     std::unordered_map<std::string, VIEW_TYPE> contextMap;
     float interiorZoom;
     float exteriorZoom;
+	bool alwaysRespectPOVToggle;
 
     ICVConfig(void)
         : interiorZoom(-2.0f)
-        , exteriorZoom(-2.0f) {
+        , exteriorZoom(-2.0f) 
+		, alwaysRespectPOVToggle(false) {
 		for (const std::string keyword : this->keywordList) {
 			this->contextMap[keyword] = VIEW_TYPE::DISABLED;
 		}

@@ -11,7 +11,10 @@ enum class MOVE_TYPE : int {
 struct IMSConfig : public IBConfig {
 public:
     std::unordered_map<std::string, MOVE_TYPE> contextMap;
-    IMSConfig(void) {	
+	bool alwaysRespectMoveSpeedToggle;
+
+    IMSConfig(void)
+		: alwaysRespectMoveSpeedToggle(false) {	
 		for (const std::string keyword : this->keywordList) {
 			this->contextMap[keyword] = MOVE_TYPE::DISABLED;
 		}

@@ -1,16 +1,18 @@
 {
     "immersiveCameraView": {
         "enabled": true,
-        "thirdPerson": [ "exterior" ],
+		"alwaysRespectPOVToggle": false,
         "firstPerson": [ "interior", "swimming", "combat", "weaponDrawn" ],
-		"disabled": [],
+        "thirdPerson": [ "exterior", "mounted", "sitting" ],
+		"disabled": [ "inWater", "trespassing", "sneaking" ],
         "interiorZoom": -0.2,
         "exteriorZoom": -0.2
     },
     "immersiveMovementSpeed": {
         "enabled": true,
-        "walk": [ "interior" ],
-        "run": [ "exterior", "combat", "weaponDrawn" ],
-		"disabled": []
+		"alwaysRespectMoveSpeedToggle": false,
+        "walk": [ "interior", "sneaking" ],
+        "run": [ "exterior", "combat", "weaponDrawn", "mounted", "trespassing" ],
+		"disabled": [ "swimming", "inWater" ]
     }
 }

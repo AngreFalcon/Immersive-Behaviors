@@ -38,6 +38,12 @@ public:
     virtual ~ImmersiveBehavior() = default;
 
 	/**
+	 * @brief 
+	 * 
+	 */
+	void debugLogging(void);
+
+	/**
 	 * @brief Performs a series of checks to determine the player's state and then updates our tempState variable with the highest priority keyword, if any, that applies.
 	 * 
 	 */

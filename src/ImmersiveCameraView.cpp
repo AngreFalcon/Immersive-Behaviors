@@ -6,12 +6,7 @@ void ICVConfig::recordZoomLevel() {
     if (!isEnabled() || !helpers::isPlayerInThirdPerson()) {
         return;
     }
-    if (helpers::isPlayerInInterior()) {
-        this->interiorZoom = reinterpret_cast<RE::ThirdPersonState*>(RE::PlayerCamera::GetSingleton()->currentState.get())->targetZoomOffset;
-    }
-    else {
-        this->exteriorZoom = reinterpret_cast<RE::ThirdPersonState*>(RE::PlayerCamera::GetSingleton()->currentState.get())->targetZoomOffset;
-    }
+    (helpers::isPlayerInInterior() ? this->interiorZoom : this->exteriorZoom) = reinterpret_cast<RE::ThirdPersonState*>(RE::PlayerCamera::GetSingleton()->currentState.get())->targetZoomOffset;
     return;
 }
 
@@ -20,16 +15,9 @@ void ICVConfig::restoreZoomLevel() {
         return;
     }
     RE::ThirdPersonState* thirdPersonState = reinterpret_cast<RE::ThirdPersonState*>(RE::PlayerCamera::GetSingleton()->currentState.get());
-    // if the player is now in an interior and we're
-    // being prompted to restore zoom levels, we should
-    // use the interior third person zoom value rather
-    // than the exterior value
-    if (helpers::isPlayerInInterior()) {
-        thirdPersonState->targetZoomOffset = thirdPersonState->savedZoomOffset = thirdPersonState->currentZoomOffset = (this->interiorZoom < -0.2f ? -0.2f : (this->interiorZoom > 1.0f ? 1.0f : this->interiorZoom));
-    }
-    else {
-        thirdPersonState->targetZoomOffset = thirdPersonState->savedZoomOffset = thirdPersonState->currentZoomOffset = (this->exteriorZoom < -0.2f ? -0.2f : (this->exteriorZoom > 1.0f ? 1.0f : this->exteriorZoom));
-    }
+	float zoomValue = (helpers::isPlayerInInterior() ? this->interiorZoom : this->exteriorZoom);
+	zoomValue = (zoomValue < -0.2f ? -0.2f : (zoomValue > 1.0f ? 1.0f : zoomValue));
+    thirdPersonState->targetZoomOffset = thirdPersonState->savedZoomOffset = thirdPersonState->currentZoomOffset = zoomValue;
     return;
 }
 
@@ -47,18 +35,12 @@ void from_json(const nlohmann::json& nlohmann_json_j, ICVConfig& nlohmann_json_t
     nlohmann_json_t.interiorZoom = nlohmann_json_j.value("interiorZoom", nlohmann_json_default_obj.interiorZoom);
     nlohmann_json_t.exteriorZoom = nlohmann_json_j.value("exteriorZoom", nlohmann_json_default_obj.exteriorZoom);
     nlohmann_json_t.setEnabled(nlohmann_json_j.value("enabled", nlohmann_json_default_obj.isEnabled()));
+	nlohmann_json_t.alwaysRespectPOVToggle = nlohmann_json_j.value("alwaysRespectPOVToggle", nlohmann_json_default_obj.alwaysRespectPOVToggle);
 }
 
 ImmersiveCameraView::ImmersiveCameraView(void) {
-    logs::debug("");
-    logs::debug("constructing ImmersiveCameraView");
-    // -0.2 is set as the default, which places
-    // the camera just behind the player character
+	this->debugLogging();
     this->config = Config::get<ICVConfig>("immersiveCameraView");
-    for (const std::pair<const std::string, VIEW_TYPE>& context : this->config.contextMap) {
-        logs::debug("\tcontext: {} -> {}", context.first, static_cast<bool>(context.second) ? "thirdPerson" : "firstPerson");
-    }
-    logs::debug("\tIs ImmersiveBehavior enabled? {}", this->config.isEnabled());
 }
 
 void ImmersiveCameraView::updateImmersiveBehavior() {
@@ -80,10 +62,9 @@ bool ImmersiveCameraView::contextMapContains(const std::string& context) {
 }
 
 void ImmersiveCameraView::shiftCameraPerspective() {
-	VIEW_TYPE viewType = config.contextMap[getActiveState()];
-	if (!this->isActiveStateTemp() && povToggled) {
-		viewType = static_cast<VIEW_TYPE>(static_cast<int>(viewType) ^ povToggled);
-	}
+	VIEW_TYPE viewType = static_cast<VIEW_TYPE>(static_cast<int>(config.contextMap[getActiveState()]) ^ (povToggled && (!this->isActiveStateTemp() || this->config.alwaysRespectPOVToggle)));
+	// only respect player's POV toggle if we're not in a temp state (e.g., in combat, swimming, etc.)
+	// unless the player has enabled alwaysRespectPOVToggle in their config
     switch (viewType) {
     case VIEW_TYPE::FIRST_PERSON:
         this->shiftCameraPerspectiveToFirstPerson();

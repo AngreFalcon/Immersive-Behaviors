@@ -15,13 +15,12 @@ void from_json(const nlohmann::json& nlohmann_json_j, IMSConfig& nlohmann_json_t
         logs::debug("\tSuccessfully parsed: {} as: Run", context);
     }
     nlohmann_json_t.setEnabled(nlohmann_json_j.value("enabled", nlohmann_json_default_obj.isEnabled()));
+	nlohmann_json_t.alwaysRespectMoveSpeedToggle = nlohmann_json_j.value("alwaysRespectMoveSpeedToggle", nlohmann_json_default_obj.alwaysRespectMoveSpeedToggle);
 }
 
 ImmersiveMovementSpeed::ImmersiveMovementSpeed(void) {
-    logs::debug("");
-    logs::debug("constructing ImmersiveMovementSpeed");
+	this->debugLogging();
     this->config = Config::get<IMSConfig>("immersiveMovementSpeed");
-    logs::debug("\tIs ImmersiveBehavior enabled? {}", this->config.isEnabled());
     this->immersiveWalkModeActive = false;
 }
 
@@ -70,7 +69,7 @@ bool ImmersiveMovementSpeed::contextMapContains(const std::string& context) {
 }
 
 void ImmersiveMovementSpeed::changeMoveSpeed(bool run) {
-    this->immersiveWalkModeActive = (!run != this->moveSpeedToggled);
+    this->immersiveWalkModeActive = (!run != (this->moveSpeedToggled && (!this->isActiveStateTemp() || this->config.alwaysRespectMoveSpeedToggle)));
     RE::PlayerControls::GetSingleton()->data.running = !this->immersiveWalkModeActive;
     return;
 }
