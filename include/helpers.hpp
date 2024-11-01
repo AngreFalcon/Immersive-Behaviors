@@ -14,6 +14,14 @@ namespace helpers {
      */
     bool isPlayerInInterior(void);
 
+	/**
+	 * @brief Get whether player is currently in a hostile location or not.
+	 * 
+	 * @return true 
+	 * @return false 
+	 */
+	bool isPlayerInHostileZone(void);
+
     // need to work on implementation
 	//bool isPlayerBeingPursued(void);
 	//bool isPlayerInDialogue(void);

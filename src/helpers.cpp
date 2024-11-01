@@ -1,13 +1,22 @@
 #include "RE/P/PlayerCharacter.h"
 #include "helpers.hpp"
 
-
 using player = RE::PlayerCharacter;
 
 namespace helpers {
     bool isPlayerInInterior(void) {
         return RE::TES::GetSingleton()->GetCell(player::GetSingleton()->GetPosition())->IsInteriorCell();
     }
+
+	bool isPlayerInHostileZone(void) {
+		static const std::array safeZoneKeywords = { "LocSetMilitaryCamp", "LocTypeBarracks", "LocTypeCastle", "LocTypeCemetery", "LocTypeCity", "LocTypeDwelling", "LocTypeFarm", "LocTypeGuild", "LocTypeHabitation", "LocTypeHabitationHasInn", "LocTypeHouse", "LocTypeInn", "LocTypeJail", "LocTypeLumberMill", "LocTypeMilitaryCamp", "LocTypeOrcStronghold", "LocTypePlayerHouse", "LocTypeSettlement", "LocTypeShip", "LocTypeStewardsDwelling", "LocTypeStore", "LocTypeTemple", "LocTypeTown" };
+		for (const RE::BGSKeyword* keyword : player::GetSingleton()->GetCurrentLocation()->GetKeywords()) {
+			if (std::ranges::contains(safeZoneKeywords, keyword->formEditorID.c_str())) {
+				return false;
+			}
+		}
+		return true;
+	}
 
     bool isPlayerInCombat(void) {
         return player::GetSingleton()->IsInCombat();

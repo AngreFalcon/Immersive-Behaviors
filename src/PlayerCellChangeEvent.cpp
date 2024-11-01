@@ -24,13 +24,12 @@ RE::BSEventNotifyControl PlayerCellChangeEvent::ProcessEvent(const RE::BGSActorC
 }
 
 void PlayerCellChangeEvent::onPlayerCellTransition(void) {
-    const RE::BGSLocation* loc = RE::TES::GetSingleton()->GetCell(player::GetSingleton()->GetPosition())->GetLocation();
+    const RE::BGSLocation* loc = player::GetSingleton()->GetCurrentLocation();
     std::stringstream keywordList = {};
     logs::debug("");
     logs::debug("Player Cell Transition Event:");
     if (loc) {
         for (const RE::BGSKeyword* keyword : loc->GetKeywords()) {
-            RE::DebugNotification(keyword->GetName());
             keywordList << keyword->formEditorID.c_str() << "\n";
         }
         std::string locName = (loc->GetFullName() ? loc->GetFullName() : "Wilderness");

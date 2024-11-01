@@ -23,6 +23,7 @@ void ImmersiveBehavior::updateTempState(void) {
 	else if (helpers::isPlayerInCombat() && contextMapContains("combat")) this->tempState = "combat";
 	else if (helpers::isPlayerSitting() && contextMapContains("sitting")) this->tempState = "sitting";
 	else if (helpers::isPlayerWeaponDrawn() && contextMapContains("weaponDrawn")) this->tempState = "weaponDrawn";
+	else if (helpers::isPlayerInHostileZone() && contextMapContains("hostileZone")) this->tempState = "hostileZone";
 	else if (helpers::isPlayerSneaking() && contextMapContains("sneaking")) this->tempState = "sneaking";
 	else if (helpers::isPlayerMounted() && contextMapContains("mounted")) this->tempState = "mounted";
 	else if (helpers::isPlayerTrespassing() && contextMapContains("trespassing")) this->tempState = "trespassing";

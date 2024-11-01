@@ -4,7 +4,7 @@
 		"alwaysRespectPOVToggle": false,
         "firstPerson": [ "interior", "swimming", "combat", "weaponDrawn" ],
         "thirdPerson": [ "exterior", "mounted", "sitting" ],
-		"disabled": [ "inWater", "trespassing", "sneaking" ],
+		"disabled": [ "inWater", "trespassing", "sneaking", "hostileZone" ],
         "interiorZoom": -0.2,
         "exteriorZoom": -0.2
     },
@@ -12,7 +12,7 @@
         "enabled": true,
 		"alwaysRespectMoveSpeedToggle": false,
         "walk": [ "interior", "sneaking" ],
-        "run": [ "exterior", "combat", "weaponDrawn", "mounted", "trespassing" ],
+        "run": [ "exterior", "combat", "weaponDrawn", "mounted", "trespassing", "hostileZone" ],
 		"disabled": [ "swimming", "inWater" ]
     }
 }
