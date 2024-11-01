@@ -4,16 +4,18 @@
 
 enum class MOVE_TYPE : int {
     WALK,
-    RUN
+    RUN,
+	DISABLED
 };
 
 struct IMSConfig : public IBConfig {
 public:
     std::unordered_map<std::string, MOVE_TYPE> contextMap;
-    IMSConfig(void)
-        : contextMap({ { "interior", MOVE_TYPE::WALK }, { "exterior", MOVE_TYPE::RUN }, { "combat", MOVE_TYPE::RUN } }) { }
+    IMSConfig(void) = default;
 
 private:
+	void initializeToDefault(void) override;
+
 };
 
 /**
@@ -25,6 +27,7 @@ private:
 void from_json(const nlohmann::json& nlohmann_json_j, IMSConfig& nlohmann_json_t);
 
 class ImmersiveMovementSpeed : public ImmersiveBehavior {
+friend class ButtonPressEvent;
 public:
     ImmersiveMovementSpeed(void);
     ~ImmersiveMovementSpeed() = default;
@@ -37,6 +40,7 @@ public:
 	 */
 	void updateImmersiveBehavior(void) override;
 
+protected:
 	/**
 	 * @brief Inverts this->moveSpeedToggled.
 	 * 

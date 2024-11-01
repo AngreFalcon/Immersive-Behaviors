@@ -6,6 +6,8 @@
 
 struct IBConfig {
 public:
+	static constexpr std::array<std::string, 10> keywordList = { "interior", "exterior", "combat", "swimming", "sitting", "weaponDrawn", "sneaking", "mounted", "trespassing", "inWater" };
+
     IBConfig()
         : enabled(false) { }
     
@@ -26,6 +28,8 @@ public:
     
 private:
     bool enabled;
+
+	virtual void initializeToDefault(void) = 0;
 
 };
 

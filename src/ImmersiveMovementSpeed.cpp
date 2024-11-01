@@ -3,6 +3,13 @@
 #include "helpers.hpp"
 #include <algorithm>
 
+void IMSConfig::initializeToDefault(void) {
+	for (const std::string keyword : this->keywordList) {
+		this->contextMap[keyword] = MOVE_TYPE::DISABLED;
+	}
+	return;
+}
+
 void from_json(const nlohmann::json& nlohmann_json_j, IMSConfig& nlohmann_json_t) {
     IMSConfig nlohmann_json_default_obj;
     nlohmann_json_t.contextMap = nlohmann_json_default_obj.contextMap;
@@ -61,7 +68,7 @@ void ImmersiveMovementSpeed::sprintKeyReleased(void) {
 }
 
 bool ImmersiveMovementSpeed::contextMapContains(const std::string& context) {
-	return this->config.contextMap.contains(context);
+	return (this->config.contextMap.contains(context) && this->config.contextMap[context] != MOVE_TYPE::DISABLED);
 }
 
 void ImmersiveMovementSpeed::changeMoveSpeed(bool run) {

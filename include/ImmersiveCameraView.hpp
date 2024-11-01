@@ -4,7 +4,8 @@
 
 enum class VIEW_TYPE : int {
     FIRST_PERSON,
-    THIRD_PERSON
+    THIRD_PERSON,
+	DISABLED
 };
 
 struct ICVConfig : public IBConfig {
@@ -15,8 +16,7 @@ public:
     float exteriorZoom;
 
     ICVConfig(void)
-        : contextMap({ { "interior", VIEW_TYPE::FIRST_PERSON }, { "exterior", VIEW_TYPE::THIRD_PERSON }, { "combat", VIEW_TYPE::FIRST_PERSON }, { "swimming", VIEW_TYPE::FIRST_PERSON } })
-        , interiorZoom(-2.0f)
+        : interiorZoom(-2.0f)
         , exteriorZoom(-2.0f) { }
         
     /**
@@ -32,6 +32,7 @@ public:
     void restoreZoomLevel(void);
 
 private:
+	void initializeToDefault(void) override;
 
 };
 
