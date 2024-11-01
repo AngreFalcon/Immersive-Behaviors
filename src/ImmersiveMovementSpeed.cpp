@@ -3,13 +3,6 @@
 #include "helpers.hpp"
 #include <algorithm>
 
-void IMSConfig::initializeToDefault(void) {
-	for (const std::string keyword : this->keywordList) {
-		this->contextMap[keyword] = MOVE_TYPE::DISABLED;
-	}
-	return;
-}
-
 void from_json(const nlohmann::json& nlohmann_json_j, IMSConfig& nlohmann_json_t) {
     IMSConfig nlohmann_json_default_obj;
     nlohmann_json_t.contextMap = nlohmann_json_default_obj.contextMap;
@@ -33,6 +26,9 @@ ImmersiveMovementSpeed::ImmersiveMovementSpeed(void) {
 }
 
 void ImmersiveMovementSpeed::updateImmersiveBehavior(void) {
+	if (!this->config.isEnabled()) {
+		return;
+	}
 	this->updateTempState();
 	const std::string activeState = getActiveState();
 	this->changeMoveSpeed(static_cast<bool>(this->config.contextMap[activeState]));
@@ -45,9 +41,6 @@ void ImmersiveMovementSpeed::toggleMoveSpeed(void) {
 }
 
 void ImmersiveMovementSpeed::sprintKeyPressed(void) {
-    if (!this->config.isEnabled()) {
-        return;
-    }
     if (helpers::isPlayerWalking()) {
         RE::PlayerControls::GetSingleton()->data.running = true;
     }
@@ -55,9 +48,6 @@ void ImmersiveMovementSpeed::sprintKeyPressed(void) {
 }
 
 void ImmersiveMovementSpeed::sprintKeyReleased(void) {
-    if (!this->config.isEnabled()) {
-        return;
-    }
     if (immersiveWalkModeActive) {
 		RE::PlayerControls::GetSingleton()->data.running = false;
     }
@@ -72,9 +62,6 @@ bool ImmersiveMovementSpeed::contextMapContains(const std::string& context) {
 }
 
 void ImmersiveMovementSpeed::changeMoveSpeed(bool run) {
-    if (!this->config.isEnabled()) {
-        return;
-    }
     this->immersiveWalkModeActive = (!run != this->moveSpeedToggled);
     RE::PlayerControls::GetSingleton()->data.running = !this->immersiveWalkModeActive;
     return;

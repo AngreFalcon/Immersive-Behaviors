@@ -17,7 +17,11 @@ public:
 
     ICVConfig(void)
         : interiorZoom(-2.0f)
-        , exteriorZoom(-2.0f) { }
+        , exteriorZoom(-2.0f) {
+		for (const std::string keyword : this->keywordList) {
+			this->contextMap[keyword] = VIEW_TYPE::DISABLED;
+		}
+	}
         
     /**
      * @brief Checks whether the player is currently in an interior or exterior cell and then records the current zoom level to either this->interiorZoom or this->exteriorZoom.
@@ -32,7 +36,6 @@ public:
     void restoreZoomLevel(void);
 
 private:
-	void initializeToDefault(void) override;
 
 };
 

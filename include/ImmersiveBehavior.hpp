@@ -29,8 +29,6 @@ public:
 private:
     bool enabled;
 
-	virtual void initializeToDefault(void) = 0;
-
 };
 
 class ImmersiveBehavior {

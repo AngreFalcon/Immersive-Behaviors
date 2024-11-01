@@ -33,13 +33,6 @@ void ICVConfig::restoreZoomLevel() {
     return;
 }
 
-void ICVConfig::initializeToDefault(void) {
-	for (const std::string keyword : this->keywordList) {
-		this->contextMap[keyword] = VIEW_TYPE::DISABLED;
-	}
-	return;
-}
-
 void from_json(const nlohmann::json& nlohmann_json_j, ICVConfig& nlohmann_json_t) {
     ICVConfig nlohmann_json_default_obj;
     nlohmann_json_t.contextMap = nlohmann_json_default_obj.contextMap;
@@ -69,6 +62,9 @@ ImmersiveCameraView::ImmersiveCameraView(void) {
 }
 
 void ImmersiveCameraView::updateImmersiveBehavior() {
+	if (!this->config.isEnabled()) {
+		return;
+	}
 	this->updateTempState();
 	this->shiftCameraPerspective();
 	return;
@@ -80,14 +76,10 @@ void ImmersiveCameraView::togglePOV(void) {
 }
 
 bool ImmersiveCameraView::contextMapContains(const std::string& context) {
-
 	return (this->config.contextMap.contains(context) && this->config.contextMap[context] != VIEW_TYPE::DISABLED);
 }
 
 void ImmersiveCameraView::shiftCameraPerspective() {
-    if (!config.isEnabled()) {
-        return;
-    }
 	VIEW_TYPE viewType = config.contextMap[getActiveState()];
 	if (!this->isActiveStateTemp() && povToggled) {
 		viewType = static_cast<VIEW_TYPE>(static_cast<int>(viewType) ^ povToggled);
