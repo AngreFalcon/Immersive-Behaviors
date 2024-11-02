@@ -16,10 +16,11 @@ void from_json(const nlohmann::json& nlohmann_json_j, IMSConfig& nlohmann_json_t
     }
     nlohmann_json_t.setEnabled(nlohmann_json_j.value("enabled", nlohmann_json_default_obj.isEnabled()));
 	nlohmann_json_t.alwaysRespectMoveSpeedToggle = nlohmann_json_j.value("alwaysRespectMoveSpeedToggle", nlohmann_json_default_obj.alwaysRespectMoveSpeedToggle);
+	return;
 }
 
 ImmersiveMovementSpeed::ImmersiveMovementSpeed(void) {
-	this->debugLogging();
+	this->debugLogging<decltype(this)>();
     this->config = Config::get<IMSConfig>("immersiveMovementSpeed");
     this->immersiveWalkModeActive = false;
 }

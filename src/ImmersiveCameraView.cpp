@@ -36,10 +36,11 @@ void from_json(const nlohmann::json& nlohmann_json_j, ICVConfig& nlohmann_json_t
     nlohmann_json_t.exteriorZoom = nlohmann_json_j.value("exteriorZoom", nlohmann_json_default_obj.exteriorZoom);
     nlohmann_json_t.setEnabled(nlohmann_json_j.value("enabled", nlohmann_json_default_obj.isEnabled()));
 	nlohmann_json_t.alwaysRespectPOVToggle = nlohmann_json_j.value("alwaysRespectPOVToggle", nlohmann_json_default_obj.alwaysRespectPOVToggle);
+	return;
 }
 
 ImmersiveCameraView::ImmersiveCameraView(void) {
-	this->debugLogging();
+	this->debugLogging<decltype(this)>();
     this->config = Config::get<ICVConfig>("immersiveCameraView");
 }
 

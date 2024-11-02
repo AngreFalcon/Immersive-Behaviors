@@ -6,6 +6,14 @@
 // aliases for otherwise unwieldy calls
 
 namespace helpers {
+	/**
+	 * @brief 
+	 * 
+	 * @return true 
+	 * @return false 
+	 */
+	bool doesPlayerExist(void);
+
     /**
      * @brief Get whether player is currently in an interior cell or not.
      * 
@@ -21,6 +29,14 @@ namespace helpers {
 	 * @return false 
 	 */
 	bool isPlayerInHostileZone(void);
+
+	/**
+	 * @brief Get whether player is currently in a friendly location or not.
+	 * 
+	 * @return true 
+	 * @return false 
+	 */
+	bool isPlayerInFriendlyZone(void);
 
     // need to work on implementation
 	//bool isPlayerBeingPursued(void);
@@ -105,4 +121,17 @@ namespace helpers {
      * @return false
      */
     bool isPlayerInThirdPerson(void);
+	
+	static std::unordered_map<std::string, std::function<bool()>> conditionChecks = {
+		{ "swimming", &isPlayerSwimming },
+		{ "combat", &isPlayerInCombat },
+		{ "sitting", &isPlayerSitting },
+		{ "weaponDrawn", &isPlayerWeaponDrawn },
+		{ "hostileZone", &isPlayerInHostileZone },
+		{ "friendlyZone", &isPlayerInFriendlyZone },
+		{ "sneaking", &isPlayerSneaking },
+		{ "mounted", &isPlayerMounted },
+		{ "trespassing", &isPlayerTrespassing },
+		{ "inWater", &isPlayerInWater }
+	};
 }

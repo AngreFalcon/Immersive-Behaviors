@@ -13,7 +13,7 @@ RE::BSEventNotifyControl ButtonPressEvent::ProcessEvent(RE::InputEvent* const* a
     for (RE::InputEvent* event = *a_event; event; event = event->next) {
         if (const RE::ButtonEvent* buttonEvent = event->AsButtonEvent()) {
             this->initializeKeyCodes(buttonEvent);
-            this->routeButtonEvents(buttonEvent);
+            if (helpers::doesPlayerExist()) this->routeButtonEvents(buttonEvent);
         }
         return RE::BSEventNotifyControl::kContinue;
     }

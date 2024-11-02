@@ -3,10 +3,11 @@
 #include <typeindex>
 #include <unordered_map>
 #include <unordered_set>
+#include "nlohmann/json.hpp"
 
 struct IBConfig {
 public:
-	static constexpr std::array<std::string, 10> keywordList = { "interior", "exterior", "combat", "swimming", "sitting", "weaponDrawn", "sneaking", "mounted", "trespassing", "inWater" };
+	static std::set<std::string> keywordList;
 
     IBConfig()
         : enabled(false) { }
@@ -31,17 +32,31 @@ private:
 
 };
 
+/**
+ * @brief Reads in data from our config JSON file and then stores the appropriate values to our config struct.
+ * 
+ * @param [in]	nlohmann_json_j 
+ * @param [out]	nlohmann_json_t 
+ */
+void from_json(const nlohmann::json& nlohmann_json_j, IBConfig& nlohmann_json_t);
+
 class ImmersiveBehavior {
 friend class PlayerCellChangeEvent;
 public:
-    ImmersiveBehavior(void) = default;
+    ImmersiveBehavior(void);
     virtual ~ImmersiveBehavior() = default;
+	IBConfig config;
 
 	/**
 	 * @brief 
 	 * 
 	 */
-	void debugLogging(void);
+	template <typename T>
+	inline void debugLogging(void) const {
+    	logs::debug("");
+    	logs::debug("constructed {}", typeid(T).name());
+		return;
+	}
 
 	/**
 	 * @brief Performs a series of checks to determine the player's state and then updates our tempState variable with the highest priority keyword, if any, that applies.
