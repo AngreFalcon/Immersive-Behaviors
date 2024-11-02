@@ -7,15 +7,12 @@ ButtonPressEvent::ButtonPressEvent(const std::shared_ptr<ImmersiveBehaviorMap> i
 }
 
 RE::BSEventNotifyControl ButtonPressEvent::ProcessEvent(RE::InputEvent* const* a_event, RE::BSTEventSource<RE::InputEvent*>*) {
-    if (!a_event) {
+    if (!a_event || !*a_event) {
         return RE::BSEventNotifyControl::kContinue;
     }
-    for (RE::InputEvent* event = *a_event; event; event = event->next) {
-        if (const RE::ButtonEvent* buttonEvent = event->AsButtonEvent()) {
-            this->initializeKeyCodes(buttonEvent);
-            if (helpers::doesPlayerExist()) this->routeButtonEvents(buttonEvent);
-        }
-        return RE::BSEventNotifyControl::kContinue;
+    if (const RE::ButtonEvent* buttonEvent = (*a_event)->AsButtonEvent()) {
+        this->initializeKeyCodes(buttonEvent);
+        if (helpers::doesPlayerExist()) this->routeButtonEvents(buttonEvent);
     }
     return RE::BSEventNotifyControl::kContinue;
 }
