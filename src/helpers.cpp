@@ -10,6 +10,9 @@ namespace helpers {
 
 	bool isPlayerInHostileZone(void) {
 		static const std::array safeZoneKeywords = { "LocSetMilitaryCamp", "LocTypeBarracks", "LocTypeCastle", "LocTypeCemetery", "LocTypeCity", "LocTypeDwelling", "LocTypeFarm", "LocTypeGuild", "LocTypeHabitation", "LocTypeHabitationHasInn", "LocTypeHouse", "LocTypeInn", "LocTypeJail", "LocTypeLumberMill", "LocTypeMilitaryCamp", "LocTypeOrcStronghold", "LocTypePlayerHouse", "LocTypeSettlement", "LocTypeShip", "LocTypeStewardsDwelling", "LocTypeStore", "LocTypeTemple", "LocTypeTown" };
+		if (!player::GetSingleton() || !player::GetSingleton()->GetCurrentLocation()) {
+			return false;
+		}
 		for (const RE::BGSKeyword* keyword : player::GetSingleton()->GetCurrentLocation()->GetKeywords()) {
 			if (std::ranges::contains(safeZoneKeywords, keyword->formEditorID.c_str())) {
 				return false;

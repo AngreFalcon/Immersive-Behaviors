@@ -21,12 +21,10 @@ RE::BSEventNotifyControl ButtonPressEvent::ProcessEvent(RE::InputEvent* const* a
 }
 
 void ButtonPressEvent::initializeKeyCodes(const RE::ButtonEvent* buttonEvent) {
-    this->buttonCodes.SprintKey = RE::ControlMap::GetSingleton()->GetMappedKey("Sprint", buttonEvent->GetDevice());
-    this->buttonCodes.ToggleRunKey = RE::ControlMap::GetSingleton()->GetMappedKey("Toggle Always Run", buttonEvent->GetDevice());
-    this->buttonCodes.UnsheathKey = RE::ControlMap::GetSingleton()->GetMappedKey("Ready Weapon", buttonEvent->GetDevice());
-    this->buttonCodes.ZoomIn = RE::ControlMap::GetSingleton()->GetMappedKey("Zoom In", buttonEvent->GetDevice());
-    this->buttonCodes.ZoomOut = RE::ControlMap::GetSingleton()->GetMappedKey("Zoom Out", buttonEvent->GetDevice());
-	this->buttonCodes.TogglePOV = RE::ControlMap::GetSingleton()->GetMappedKey("Toggle POV", buttonEvent->GetDevice());
+	static constexpr std::array keyNames = {"Sprint", "Toggle Always Run", "Ready Weapon", "Zoom In", "Zoom Out", "Toggle POV" };
+	for (std::string keyName : keyNames) {
+		this->buttonCodes[keyName] = RE::ControlMap::GetSingleton()->GetMappedKey(keyName, buttonEvent->GetDevice());
+	}
     return;
 }
 
@@ -34,21 +32,21 @@ void ButtonPressEvent::routeButtonEvents(const RE::ButtonEvent* buttonEvent) {
 	if (buttonEvent->GetIDCode() == -1) {
 		return;
 	}
-    if (buttonEvent->GetIDCode() == this->buttonCodes.SprintKey) {
+    if (buttonEvent->GetIDCode() == this->buttonCodes["Sprint"]) {
         this->sprintKeyEvent(buttonEvent);
     }
-    else if (buttonEvent->GetIDCode() == this->buttonCodes.ToggleRunKey) {
+    else if (buttonEvent->GetIDCode() == this->buttonCodes["Toggle Always Run"]) {
         this->toggleRunKeyEvent(buttonEvent);
     }
-    else if (buttonEvent->GetIDCode() == this->buttonCodes.UnsheathKey) {
+    else if (buttonEvent->GetIDCode() == this->buttonCodes["Ready Weapon"]) {
         this->readyWeaponKeyEvent(buttonEvent);
     }
-	else if (buttonEvent->GetIDCode() == this->buttonCodes.ZoomIn || buttonEvent->GetIDCode() == this->buttonCodes.ZoomOut) {
+	else if (buttonEvent->GetIDCode() == this->buttonCodes["Zoom In"] || buttonEvent->GetIDCode() == this->buttonCodes["Zoom Out"]) {
 		// unfortunately only executes if not receiving any other input
 		// unless a workaround is found, we instead record our zoom level with each and every input
 		//this->zoomKeyEvent(buttonEvent);
 	}
-	else if (buttonEvent->GetIDCode() == this->buttonCodes.TogglePOV) {
+	else if (buttonEvent->GetIDCode() == this->buttonCodes["Toggle POV"]) {
 		this->togglePOVKeyEvent(buttonEvent);
 	}
 	this->immersiveBehaviors->get<ImmersiveCameraView>()->config.recordZoomLevel();
@@ -59,7 +57,7 @@ void ButtonPressEvent::sprintKeyEvent(const RE::ButtonEvent* buttonEvent) {
     if (buttonEvent->IsPressed() || buttonEvent->IsHeld()) {
         this->immersiveBehaviors->get<ImmersiveMovementSpeed>()->sprintKeyPressed();
     }
-    else {
+    else if (buttonEvent->IsUp()) {
         this->immersiveBehaviors->get<ImmersiveMovementSpeed>()->sprintKeyReleased();
     }
     return;

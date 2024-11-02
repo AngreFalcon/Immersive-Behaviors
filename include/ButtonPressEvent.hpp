@@ -20,14 +20,7 @@ public:
 private:
     std::shared_ptr<ImmersiveBehaviorMap> immersiveBehaviors;
 	bool weaponReadyRunState = false;
-    struct ButtonCodes {
-        int64_t SprintKey = -1;
-        int64_t ToggleRunKey = -1;
-		int64_t UnsheathKey = -1;
-		int64_t ZoomIn = -1;
-		int64_t ZoomOut = -1;
-		int64_t TogglePOV = -1;
-    } buttonCodes;
+	std::unordered_map<std::string, int64_t> buttonCodes;
 
     /**
      * @brief Grabs the scan codes of the specified keys/buttons and stores them in our buttonStates struct.
