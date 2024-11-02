@@ -1,5 +1,4 @@
 #include "Config.hpp"
-#include <fstream>
 
 const std::string CONFIG_FILENAME = "./Data/SKSE/Plugins/ImmersiveBehaviors.json";
 

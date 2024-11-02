@@ -1,7 +1,6 @@
 #include "ImmersiveMovementSpeed.hpp"
 #include "Config.hpp"
 #include "helpers.hpp"
-#include <algorithm>
 
 void from_json(const nlohmann::json& nlohmann_json_j, IMSConfig& nlohmann_json_t) {
     IMSConfig nlohmann_json_default_obj;

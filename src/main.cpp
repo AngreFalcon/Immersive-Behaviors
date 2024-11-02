@@ -2,12 +2,6 @@
 #include "ButtonPressEvent.hpp"
 #include "CombatEvent.hpp"
 #include "PlayerCellChangeEvent.hpp"
-#include "RE/T/TESCondition.h"
-#include "REL/Version.h"
-#include "SKSE/Interfaces.h"
-#include "SKSE/Version.h"
-#include <span>
-#include <typeindex>
 
 /**
  * @brief 
