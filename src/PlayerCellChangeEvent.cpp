@@ -25,15 +25,15 @@ RE::BSEventNotifyControl PlayerCellChangeEvent::ProcessEvent(const RE::BGSActorC
 
 void PlayerCellChangeEvent::onPlayerCellTransition(void) {
     const RE::BGSLocation* loc = player::GetSingleton()->GetCurrentLocation();
-    std::stringstream keywordList = {};
+    std::stringstream cellKeywordList = {};
     logs::debug("");
     logs::debug("Player Cell Transition Event:");
     if (loc) {
         for (const RE::BGSKeyword* keyword : loc->GetKeywords()) {
-            keywordList << keyword->formEditorID.c_str() << "\n";
+            cellKeywordList << keyword->formEditorID.c_str() << "\n";
         }
         std::string locName = (loc->GetFullName() ? loc->GetFullName() : "Wilderness");
-        std::string debugMsg = std::format("Location: {}\nIs Interior: {}\nKeywords: {}", locName, helpers::isPlayerInInterior(), keywordList.str());
+        std::string debugMsg = std::format("Location: {}\nIs Interior: {}\nKeywords: {}", locName, helpers::isPlayerInInterior(), cellKeywordList.str());
         logs::debug("\t{}", debugMsg);
         // auto message = std::format("Player activated {}", itemName);
         // RE::DebugMessageBox(debugMsg.c_str());
@@ -57,8 +57,5 @@ void PlayerCellChangeEvent::onPlayerCellEntry(void) {
 }
 
 void PlayerCellChangeEvent::onPlayerCellExit(void) {
-    if (!helpers::isPlayerInThirdPerson()) {
-        return;
-    }
     return;
 }

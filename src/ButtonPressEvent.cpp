@@ -79,7 +79,6 @@ void ButtonPressEvent::readyWeaponKeyEvent(const RE::ButtonEvent* buttonEvent) {
 void ButtonPressEvent::zoomKeyEvent(const RE::ButtonEvent* buttonEvent) {
 	if (buttonEvent->IsPressed()) {
 		this->immersiveBehaviors->get<ImmersiveCameraView>()->config.recordZoomLevel();
-    	RE::DebugNotification(std::to_string(reinterpret_cast<RE::ThirdPersonState*>(RE::PlayerCamera::GetSingleton()->currentState.get())->targetZoomOffset).c_str());
 	}
 	return;
 }
