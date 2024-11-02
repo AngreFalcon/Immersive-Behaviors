@@ -1,8 +1,5 @@
 #include "helpers.hpp"
 
-
-using player = RE::PlayerCharacter;
-
 namespace helpers {
     bool doesPlayerExist(void) {
         return player::GetSingleton();
@@ -81,10 +78,10 @@ namespace helpers {
     }
 
     bool isPlayerWalking(void) {
-        return !RE::PlayerControls::GetSingleton()->data.running;
+        return !controls::GetSingleton()->data.running;
     }
 
     bool isPlayerInThirdPerson(void) {
-        return RE::PlayerCamera::GetSingleton()->IsInThirdPerson();
+        return camera::GetSingleton()->IsInThirdPerson();
     }
 }

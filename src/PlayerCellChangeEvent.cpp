@@ -2,8 +2,6 @@
 #include "ImmersiveCameraView.hpp"
 #include "helpers.hpp"
 
-using player = RE::PlayerCharacter;
-
 PlayerCellChangeEvent::PlayerCellChangeEvent(std::shared_ptr<ImmersiveBehaviorMap> immersiveBehaviors) {
     this->immersiveBehaviors = immersiveBehaviors;
     this->lastCellIsInterior = std::nullopt;

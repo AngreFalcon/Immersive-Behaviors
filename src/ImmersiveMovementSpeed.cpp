@@ -46,7 +46,7 @@ void ImmersiveMovementSpeed::sprintKeyPressed(void) {
 		return;
 	}
     if (helpers::isPlayerWalking()) {
-        RE::PlayerControls::GetSingleton()->data.running = true;
+        controls::GetSingleton()->data.running = true;
     }
     return;
 }
@@ -56,7 +56,7 @@ void ImmersiveMovementSpeed::sprintKeyReleased(void) {
 		return;
 	}
     if (immersiveWalkModeActive) {
-		RE::PlayerControls::GetSingleton()->data.running = false;
+		controls::GetSingleton()->data.running = false;
     }
     else {
         stopSprinting();
@@ -70,12 +70,12 @@ bool ImmersiveMovementSpeed::contextMapContains(const std::string& context) {
 
 void ImmersiveMovementSpeed::changeMoveSpeed(bool run) {
     this->immersiveWalkModeActive = (!run != (this->moveSpeedToggled && (!this->isActiveStateTemp() || this->config.alwaysRespectMoveSpeedToggle)));
-    RE::PlayerControls::GetSingleton()->data.running = !this->immersiveWalkModeActive;
+    controls::GetSingleton()->data.running = !this->immersiveWalkModeActive;
     return;
 }
 
 // this function currently doesn't work
 void ImmersiveMovementSpeed::stopSprinting(void) {
-    RE::PlayerCharacter::GetSingleton()->AsActorState()->actorState1.sprinting = !RE::PlayerCharacter::GetSingleton()->AsActorState()->IsSprinting();
+    player::GetSingleton()->AsActorState()->actorState1.sprinting = !player::GetSingleton()->AsActorState()->IsSprinting();
     return;
 }

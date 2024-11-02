@@ -5,6 +5,10 @@
 // and may be used to create wrappers or
 // aliases for otherwise unwieldy calls
 
+using player = RE::PlayerCharacter;
+using controls = RE::PlayerControls;
+using camera = RE::PlayerCamera;
+
 namespace helpers {
 	/**
 	 * @brief 

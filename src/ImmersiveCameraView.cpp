@@ -6,7 +6,7 @@ void ICVConfig::recordZoomLevel() {
     if (!isEnabled() || !helpers::isPlayerInThirdPerson()) {
         return;
     }
-    (helpers::isPlayerInInterior() ? this->interiorZoom : this->exteriorZoom) = reinterpret_cast<RE::ThirdPersonState*>(RE::PlayerCamera::GetSingleton()->currentState.get())->targetZoomOffset;
+    (helpers::isPlayerInInterior() ? this->interiorZoom : this->exteriorZoom) = reinterpret_cast<RE::ThirdPersonState*>(camera::GetSingleton()->currentState.get())->targetZoomOffset;
     return;
 }
 
@@ -14,7 +14,7 @@ void ICVConfig::restoreZoomLevel() {
     if (!isEnabled() || !helpers::isPlayerInThirdPerson()) {
         return;
     }
-    RE::ThirdPersonState* thirdPersonState = reinterpret_cast<RE::ThirdPersonState*>(RE::PlayerCamera::GetSingleton()->currentState.get());
+    RE::ThirdPersonState* thirdPersonState = reinterpret_cast<RE::ThirdPersonState*>(camera::GetSingleton()->currentState.get());
 	float zoomValue = (helpers::isPlayerInInterior() ? this->interiorZoom : this->exteriorZoom);
 	zoomValue = (zoomValue < -0.2f ? -0.2f : (zoomValue > 1.0f ? 1.0f : zoomValue));
     thirdPersonState->targetZoomOffset = thirdPersonState->savedZoomOffset = thirdPersonState->currentZoomOffset = zoomValue;
@@ -80,12 +80,12 @@ void ImmersiveCameraView::shiftCameraPerspective() {
 }
 
 void ImmersiveCameraView::shiftCameraPerspectiveToFirstPerson(void) {
-    RE::PlayerCamera::GetSingleton()->ForceFirstPerson();
+    camera::GetSingleton()->ForceFirstPerson();
     return;
 }
 
 void ImmersiveCameraView::shiftCameraPerspectiveToThirdPerson(void) {
-    RE::PlayerCamera::GetSingleton()->ForceThirdPerson();
+    camera::GetSingleton()->ForceThirdPerson();
     this->config.restoreZoomLevel();
     return;
 }
