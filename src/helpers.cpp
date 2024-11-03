@@ -39,6 +39,7 @@ namespace helpers {
     }
 
     bool isPlayerInCombat(void) {
+		logs::debug("Is player in combat: {}", player::GetSingleton()->IsInCombat());
         return player::GetSingleton()->IsInCombat();
     }
 
@@ -84,4 +85,20 @@ namespace helpers {
     bool isPlayerInThirdPerson(void) {
         return camera::GetSingleton()->IsInThirdPerson();
     }
+
+	void printPlayerLocKeywords(void) {
+    	const RE::BGSLocation* loc = player::GetSingleton()->GetCurrentLocation();
+    	std::stringstream cellKeywordList = {};
+    	if (loc) {
+        	for (const RE::BGSKeyword* keyword : loc->GetKeywords()) {
+            	cellKeywordList << keyword->formEditorID.c_str() << "\n";
+        	}
+        	std::string locName = (loc->GetFullName() ? loc->GetFullName() : "Wilderness");
+        	std::string debugMsg = std::format("Location: {}\nIs Interior: {}\nKeywords: {}", locName, helpers::isPlayerInInterior(), cellKeywordList.str());
+        	logs::debug("\t{}", debugMsg);
+        	//RE::DebugMessageBox(debugMsg.c_str());
+        	//RE::DebugNotification(locName.c_str());
+    	}
+		return;
+	}
 }

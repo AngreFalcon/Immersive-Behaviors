@@ -22,23 +22,9 @@ RE::BSEventNotifyControl PlayerCellChangeEvent::ProcessEvent(const RE::BGSActorC
 }
 
 void PlayerCellChangeEvent::onPlayerCellTransition(void) {
-    const RE::BGSLocation* loc = player::GetSingleton()->GetCurrentLocation();
-    std::stringstream cellKeywordList = {};
     logs::debug("");
     logs::debug("Player Cell Transition Event:");
-    if (loc) {
-        for (const RE::BGSKeyword* keyword : loc->GetKeywords()) {
-            cellKeywordList << keyword->formEditorID.c_str() << "\n";
-        }
-        std::string locName = (loc->GetFullName() ? loc->GetFullName() : "Wilderness");
-        std::string debugMsg = std::format("Location: {}\nIs Interior: {}\nKeywords: {}", locName, helpers::isPlayerInInterior(), cellKeywordList.str());
-        logs::debug("\t{}", debugMsg);
-        // auto message = std::format("Player activated {}", itemName);
-        // RE::DebugMessageBox(debugMsg.c_str());
-
-        // Show a "Debug Notification" (displays in the top-left corner of  game)
-        RE::DebugNotification(locName.c_str());
-    }
+	helpers::printPlayerLocKeywords();
     return;
 }
 

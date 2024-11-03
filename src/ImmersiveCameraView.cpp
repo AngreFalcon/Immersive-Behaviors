@@ -55,6 +55,8 @@ void ImmersiveCameraView::updateImmersiveBehavior() {
 
 void ImmersiveCameraView::togglePOV(void) {
 	this->povToggled = !this->povToggled;
+	std::string msg = this->povToggled ? "POV toggle on" : "POV toggle off";
+    RE::DebugNotification(msg.c_str());
 	return;
 }
 

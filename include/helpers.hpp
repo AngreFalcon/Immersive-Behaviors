@@ -125,17 +125,24 @@ namespace helpers {
      * @return false
      */
     bool isPlayerInThirdPerson(void);
+
+	/**
+	 * @brief Print the list of keywords belonging to the player's current location to the debug log.
+	 * 
+	 */
+	void printPlayerLocKeywords(void);
 	
-	static std::unordered_map<std::string, std::function<bool()>> conditionChecks = {
-		{ "swimming", &isPlayerSwimming },
-		{ "combat", &isPlayerInCombat },
-		{ "sitting", &isPlayerSitting },
-		{ "weaponDrawn", &isPlayerWeaponDrawn },
-		{ "hostileZone", &isPlayerInHostileZone },
-		{ "friendlyZone", &isPlayerInFriendlyZone },
-		{ "sneaking", &isPlayerSneaking },
-		{ "mounted", &isPlayerMounted },
-		{ "trespassing", &isPlayerTrespassing },
-		{ "inWater", &isPlayerInWater }
+	// this does not work
+	static const std::unordered_map<std::string, std::function<bool()>> conditionChecks = {
+		{ "swimming", isPlayerSwimming },
+		{ "combat", isPlayerInCombat },
+		{ "sitting", isPlayerSitting },
+		{ "weaponDrawn", isPlayerWeaponDrawn },
+		{ "hostileZone", isPlayerInHostileZone },
+		{ "friendlyZone", isPlayerInFriendlyZone },
+		{ "sneaking", isPlayerSneaking },
+		{ "mounted", isPlayerMounted },
+		{ "trespassing", isPlayerTrespassing },
+		{ "inWater", isPlayerInWater }
 	};
 }

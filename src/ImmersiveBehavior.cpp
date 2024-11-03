@@ -27,11 +27,29 @@ ImmersiveBehavior::ImmersiveBehavior(void) {
     this->config = Config::get<IBConfig>("immersiveBehavior");
 }
 
-// this makes me want to kill myself
-// but, until a better solution is decided upon, this is necessary
+// this is a bandaid solution due to our map of functions not executing when called
+bool getCondition(const std::string& keyword) {
+	if (keyword == "swimming") return helpers::isPlayerSwimming();
+	else if (keyword == "combat") return helpers::isPlayerInCombat();
+	else if (keyword == "sitting") return helpers::isPlayerSitting();
+	else if (keyword == "weaponDrawn") return helpers::isPlayerWeaponDrawn();
+	else if (keyword == "hostileZone") return helpers::isPlayerInHostileZone();
+	else if (keyword == "friendlyZone") return helpers::isPlayerInFriendlyZone();
+	else if (keyword == "sneaking") return helpers::isPlayerSneaking();
+	else if (keyword == "mounted") return helpers::isPlayerMounted();
+	else if (keyword == "trespassing") return helpers::isPlayerTrespassing();
+	else if (keyword == "inWater") return helpers::isPlayerInWater();
+	else return false;
+}
+
 void ImmersiveBehavior::updateTempState(void) {
 	for (const std::string keyword : this->config.keywordList) {
-		if (helpers::conditionChecks[keyword] && contextMapContains(keyword)) this->tempState = keyword;
+		logs::debug("checking keywork: {}", keyword);
+		if (getCondition(keyword) && contextMapContains(keyword)) {
+			this->tempState = keyword;
+			logs::debug("keyword {} set as tempState", keyword);
+			return;
+		}
 	}
 	this->tempState = "";
 	return;

@@ -38,6 +38,8 @@ void ImmersiveMovementSpeed::toggleMoveSpeed(void) {
 		return;
 	}
 	this->moveSpeedToggled = !this->moveSpeedToggled;
+	std::string msg = this->moveSpeedToggled ? "Move speed toggle on" : "Move speed toggle off";
+    RE::DebugNotification(msg.c_str());
 	return;
 }
 

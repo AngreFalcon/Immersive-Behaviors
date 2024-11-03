@@ -18,7 +18,7 @@ RE::BSEventNotifyControl ButtonPressEvent::ProcessEvent(RE::InputEvent* const* a
 }
 
 void ButtonPressEvent::initializeKeyCodes(const RE::ButtonEvent* buttonEvent) {
-	static constexpr std::array keyNames = {"Sprint", "Toggle Always Run", "Ready Weapon", "Zoom In", "Zoom Out", "Toggle POV" };
+	static constexpr std::array keyNames = {"Sprint", "Toggle Always Run", "Ready Weapon", "Zoom In", "Zoom Out", "Toggle POV", "Console" };
 	for (std::string keyName : keyNames) {
 		this->buttonCodes[keyName] = RE::ControlMap::GetSingleton()->GetMappedKey(keyName, buttonEvent->GetDevice());
 	}
@@ -41,10 +41,12 @@ void ButtonPressEvent::routeButtonEvents(const RE::ButtonEvent* buttonEvent) {
 	else if (buttonEvent->GetIDCode() == this->buttonCodes["Zoom In"] || buttonEvent->GetIDCode() == this->buttonCodes["Zoom Out"]) {
 		// unfortunately only executes if not receiving any other input
 		// unless a workaround is found, we instead record our zoom level with each and every input
-		//this->zoomKeyEvent(buttonEvent);
+		this->zoomKeyEvent(buttonEvent);
 	}
 	else if (buttonEvent->GetIDCode() == this->buttonCodes["Toggle POV"]) {
 		this->togglePOVKeyEvent(buttonEvent);
+	}
+	else if (buttonEvent->GetIDCode() == this->buttonCodes["Console"]) {
 	}
 	this->immersiveBehaviors->get<ImmersiveCameraView>()->config.recordZoomLevel();
     return;
@@ -61,7 +63,7 @@ void ButtonPressEvent::sprintKeyEvent(const RE::ButtonEvent* buttonEvent) {
 }
 
 void ButtonPressEvent::toggleRunKeyEvent(const RE::ButtonEvent* buttonEvent) {
-    if (buttonEvent->IsPressed()) {
+    if (buttonEvent->IsUp()) {
         this->immersiveBehaviors->get<ImmersiveMovementSpeed>()->toggleMoveSpeed();
 		this->immersiveBehaviors->get<ImmersiveMovementSpeed>()->updateImmersiveBehavior();
     }
@@ -69,7 +71,7 @@ void ButtonPressEvent::toggleRunKeyEvent(const RE::ButtonEvent* buttonEvent) {
 }
 
 void ButtonPressEvent::readyWeaponKeyEvent(const RE::ButtonEvent* buttonEvent) {
-    if (buttonEvent->IsPressed()) {
+    if (buttonEvent->IsUp()) {
         this->immersiveBehaviors->get<ImmersiveMovementSpeed>()->updateImmersiveBehavior();
         this->immersiveBehaviors->get<ImmersiveCameraView>()->updateImmersiveBehavior();
     }
@@ -80,6 +82,9 @@ void ButtonPressEvent::zoomKeyEvent(const RE::ButtonEvent* buttonEvent) {
 	if (buttonEvent->IsPressed()) {
 		this->immersiveBehaviors->get<ImmersiveCameraView>()->config.recordZoomLevel();
 	}
+	helpers::printPlayerLocKeywords();
+	logs::debug("ICV: Current state is: {}", this->immersiveBehaviors->get<ImmersiveCameraView>()->getActiveState());
+	logs::debug("IMS: Current state is: {}", this->immersiveBehaviors->get<ImmersiveMovementSpeed>()->getActiveState());
 	return;
 }
 
