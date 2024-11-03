@@ -16,6 +16,8 @@ RE::BSEventNotifyControl CombatEvent::ProcessEvent(const RE::TESCombatEvent* a_e
             this->beingPursued();
 			break;
 		default:
+    		this->immersiveBehaviors->get<ImmersiveMovementSpeed>()->updateImmersiveBehavior();
+    		this->immersiveBehaviors->get<ImmersiveCameraView>()->updateImmersiveBehavior();
 			break;
 		}
 	}
@@ -23,8 +25,6 @@ RE::BSEventNotifyControl CombatEvent::ProcessEvent(const RE::TESCombatEvent* a_e
 }
 
 void CombatEvent::combatEngaged(void) {
-    this->immersiveBehaviors->get<ImmersiveMovementSpeed>()->updateImmersiveBehavior();
-    this->immersiveBehaviors->get<ImmersiveCameraView>()->updateImmersiveBehavior();
     return;
 }
 

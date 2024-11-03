@@ -1,6 +1,9 @@
 {
 	"immersiveBehavior": {
-		"keywordList": [ "swimming", "combat", "sitting", "weaponDrawn", "hostileZone", "friendlyZone", "sneaking", "mounted", "trespassing", "inWater" ]
+		"keywordList": [ "swimming", "combat", "sitting", "weaponDrawn", "hostileZone", "sneaking", "mounted", "trespassing", "inWater", "friendlyZone" ],
+		"hostileZones": [ "LocSetCave", "LocSetCaveIce", "LocSetDwarvenRuin", "LocSetNordicRuin", "LocTypeAnimalDen", "LocTypeBanditCamp", "LocTypeDragonLair", "LocTypeDragonPriestLair", "LocTypeDraugrCrypt", "LocTypeDungeon", "LocTypeDwarvenAutomatons", "LocTypeFalmerHive", "LocTypeForswornCamp", "LocTypeGiantCamp", "LocTypeHagravenNest", "LocTypeShipwreck", "LocTypeSprigganGrove", "LocTypeVampireLair", "LocTypeWarlockLair", "LocTypeWerewolfLair" ],
+		"friendlyZones": [ "LocTypeBarracks", "LocTypeCastle", "LocTypeCemetery", "LocTypeCity", "LocTypeDwelling", "LocTypeFarm", "LocTypeGuild", "LocTypeHabitation", "LocTypeHabitationHasInn", "LocTypeHouse", "LocTypeInn", "LocTypeJail", "LocTypeLumberMill", "LocTypeMilitaryCamp", "LocTypeOrcStronghold", "LocTypePlayerHouse", "LocTypeSettlement", "LocTypeShip", "LocTypeStewardsDwelling", "LocTypeStore", "LocTypeTemple", "LocTypeTown" ],
+		"neutralZones": [ "LocSetMilitaryCamp", "LocSetMilitaryFort", "LocSetOutdoor", "LocTypeClearable", "LocTypeHold", "LocTypeHoldCapital", "LocTypeHoldMajor", "LocTypeHoldMinor", "LocTypeMilitaryFort", "LocTypeMine" ]
 	},
     "immersiveCameraView": {
         "enabled": true,

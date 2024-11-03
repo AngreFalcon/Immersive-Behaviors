@@ -2,7 +2,7 @@
 #include "Config.hpp"
 #include "helpers.hpp"
 
-std::set<std::string> IBConfig::keywordList{};
+std::vector<std::string> IBConfig::keywordList{};
 
 void IBConfig::setEnabled(const bool enableImmersiveBehavior) {
     this->enabled = enableImmersiveBehavior;
@@ -16,10 +16,11 @@ bool IBConfig::isEnabled(void) {
 void from_json(const nlohmann::json& nlohmann_json_j, IBConfig& nlohmann_json_t) {
     IBConfig nlohmann_json_default_obj;
     nlohmann_json_t.keywordList = nlohmann_json_default_obj.keywordList;
-    for (const std::string& keyword : nlohmann_json_j["keywordList"].get<std::vector<std::string>>()) {
-        nlohmann_json_t.keywordList.emplace(keyword);
-        logs::debug("\tSuccessfully parsed keyword: {}", keyword);
-    }
+	nlohmann_json_t.keywordList = nlohmann_json_j["keywordList"].get<std::vector<std::string>>();
+	logs::debug("Successfully parsed keywords:");
+	for (std::string keyword : nlohmann_json_t.keywordList) {
+		logs::debug("\t{}", keyword);
+	}
 	return;
 }
 
@@ -34,24 +35,22 @@ bool getCondition(const std::string& keyword) {
 	else if (keyword == "sitting") return helpers::isPlayerSitting();
 	else if (keyword == "weaponDrawn") return helpers::isPlayerWeaponDrawn();
 	else if (keyword == "hostileZone") return helpers::isPlayerInHostileZone();
-	else if (keyword == "friendlyZone") return helpers::isPlayerInFriendlyZone();
 	else if (keyword == "sneaking") return helpers::isPlayerSneaking();
 	else if (keyword == "mounted") return helpers::isPlayerMounted();
 	else if (keyword == "trespassing") return helpers::isPlayerTrespassing();
 	else if (keyword == "inWater") return helpers::isPlayerInWater();
+	else if (keyword == "friendlyZone") return helpers::isPlayerInFriendlyZone();
 	else return false;
 }
 
 void ImmersiveBehavior::updateTempState(void) {
+	this->tempState = "";
 	for (const std::string keyword : this->config.keywordList) {
-		logs::debug("checking keywork: {}", keyword);
 		if (getCondition(keyword) && contextMapContains(keyword)) {
 			this->tempState = keyword;
-			logs::debug("keyword {} set as tempState", keyword);
-			return;
+			break;
 		}
 	}
-	this->tempState = "";
 	return;
 }
 

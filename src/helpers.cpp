@@ -12,34 +12,32 @@ namespace helpers {
         return RE::TES::GetSingleton()->GetCell(player::GetSingleton()->GetPosition())->IsInteriorCell();
     }
 
+	bool checkCellKeywords(const std::vector<std::string>& zoneKeywords) {
+        for (const RE::BGSKeyword* cellKeyword : RE::TES::GetSingleton()->GetCell(player::GetSingleton()->GetPosition())->GetLocation()->GetKeywords()) {
+			for (const std::string keyword : zoneKeywords) {
+				if (cellKeyword->formEditorID.c_str() == keyword) return true;
+			}
+        }
+        return false;
+	}
+
     bool isPlayerInHostileZone(void) {
-        static const std::array hostileZoneKeywords = { "LocSetCave", "LocSetCaveIce", "LocSetDwarvenRuin", "LocSetNordicRuin", "LocSetOutdoor", "LocTypeAnimalDen", "LocTypeBanditCamp", "LocTypeDragonLair", "LocTypeDragonPriestLair", "LocTypeDraugrCrypt", "LocTypeDungeon", "LocTypeDwarvenAutomatons", "LocTypeFalmerHive", "LocTypeForswornCamp", "LocTypeGiantCamp", "LocTypeHagravenNest", "LocTypeShipwreck", "LocTypeSprigganGrove", "LocTypeVampireLair", "LocTypeWarlockLair", "LocTypeWerewolfLair" };
+        static const std::vector<std::string> hostileZoneKeywords = { "LocSetCave", "LocSetCaveIce", "LocSetDwarvenRuin", "LocSetNordicRuin", "LocTypeAnimalDen", "LocTypeBanditCamp", "LocTypeDragonLair", "LocTypeDragonPriestLair", "LocTypeDraugrCrypt", "LocTypeDungeon", "LocTypeDwarvenAutomatons", "LocTypeFalmerHive", "LocTypeForswornCamp", "LocTypeGiantCamp", "LocTypeHagravenNest", "LocTypeShipwreck", "LocTypeSprigganGrove", "LocTypeVampireLair", "LocTypeWarlockLair", "LocTypeWerewolfLair" };
         if (!player::GetSingleton() || !RE::TES::GetSingleton() || !RE::TES::GetSingleton()->GetCell(player::GetSingleton()->GetPosition()) || !RE::TES::GetSingleton()->GetCell(player::GetSingleton()->GetPosition())->GetLocation()) {
             return false;
         }
-        for (const RE::BGSKeyword* keyword : RE::TES::GetSingleton()->GetCell(player::GetSingleton()->GetPosition())->GetLocation()->GetKeywords()) {
-            if (std::ranges::contains(hostileZoneKeywords, keyword->formEditorID.c_str())) {
-                return true;
-            }
-        }
-        return false;
+        return checkCellKeywords(hostileZoneKeywords);
     }
 
 	bool isPlayerInFriendlyZone(void) {
-        static const std::array hostileZoneKeywords = { "LocTypeBarracks", "LocTypeCastle", "LocTypeCemetery", "LocTypeCity", "LocTypeDwelling", "LocTypeFarm", "LocTypeGuild", "LocTypeHabitation", "LocTypeHabitationHasInn", "LocTypeHouse", "LocTypeInn", "LocTypeJail", "LocTypeLumberMill", "LocTypeMilitaryCamp", "LocTypeOrcStronghold", "LocTypePlayerHouse", "LocTypeSettlement", "LocTypeShip", "LocTypeStewardsDwelling", "LocTypeStore", "LocTypeTemple", "LocTypeTown" };
+        static const std::vector<std::string> friendlyZoneKeywords = { "LocTypeBarracks", "LocTypeCastle", "LocTypeCemetery", "LocTypeCity", "LocTypeDwelling", "LocTypeFarm", "LocTypeGuild", "LocTypeHabitation", "LocTypeHabitationHasInn", "LocTypeHouse", "LocTypeInn", "LocTypeJail", "LocTypeLumberMill", "LocTypeMilitaryCamp", "LocTypeOrcStronghold", "LocTypePlayerHouse", "LocTypeSettlement", "LocTypeShip", "LocTypeStewardsDwelling", "LocTypeStore", "LocTypeTemple", "LocTypeTown" };
         if (!player::GetSingleton() || !RE::TES::GetSingleton() || !RE::TES::GetSingleton()->GetCell(player::GetSingleton()->GetPosition()) || !RE::TES::GetSingleton()->GetCell(player::GetSingleton()->GetPosition())->GetLocation()) {
             return false;
         }
-        for (const RE::BGSKeyword* keyword : RE::TES::GetSingleton()->GetCell(player::GetSingleton()->GetPosition())->GetLocation()->GetKeywords()) {
-            if (std::ranges::contains(hostileZoneKeywords, keyword->formEditorID.c_str())) {
-                return true;
-            }
-        }
-        return false;
+		return checkCellKeywords(friendlyZoneKeywords);
     }
 
     bool isPlayerInCombat(void) {
-		logs::debug("Is player in combat: {}", player::GetSingleton()->IsInCombat());
         return player::GetSingleton()->IsInCombat();
     }
 

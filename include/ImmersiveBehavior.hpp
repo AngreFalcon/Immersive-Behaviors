@@ -3,7 +3,7 @@
 
 struct IBConfig {
 public:
-	static std::set<std::string> keywordList;
+	static std::vector<std::string> keywordList;
 
     IBConfig()
         : enabled(false) { }
