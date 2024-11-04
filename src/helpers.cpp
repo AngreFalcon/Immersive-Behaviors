@@ -24,16 +24,6 @@ namespace helpers {
         return false;
 	}
 
-    bool isPlayerInHostileZone(void) {
-        static const std::vector<std::string> hostileZoneKeywords = { "LocSetCave", "LocSetCaveIce", "LocSetDwarvenRuin", "LocSetNordicRuin", "LocTypeAnimalDen", "LocTypeBanditCamp", "LocTypeDragonLair", "LocTypeDragonPriestLair", "LocTypeDraugrCrypt", "LocTypeDungeon", "LocTypeDwarvenAutomatons", "LocTypeFalmerHive", "LocTypeForswornCamp", "LocTypeGiantCamp", "LocTypeHagravenNest", "LocTypeShipwreck", "LocTypeSprigganGrove", "LocTypeVampireLair", "LocTypeWarlockLair", "LocTypeWerewolfLair" };
-        return checkCellKeywords(hostileZoneKeywords);
-    }
-
-	bool isPlayerInFriendlyZone(void) {
-        static const std::vector<std::string> friendlyZoneKeywords = { "LocTypeBarracks", "LocTypeCastle", "LocTypeCemetery", "LocTypeCity", "LocTypeDwelling", "LocTypeFarm", "LocTypeGuild", "LocTypeHabitation", "LocTypeHabitationHasInn", "LocTypeHouse", "LocTypeInn", "LocTypeJail", "LocTypeLumberMill", "LocTypeMilitaryCamp", "LocTypeOrcStronghold", "LocTypePlayerHouse", "LocTypeSettlement", "LocTypeShip", "LocTypeStewardsDwelling", "LocTypeStore", "LocTypeTemple", "LocTypeTown" };
-		return checkCellKeywords(friendlyZoneKeywords);
-    }
-
     bool isPlayerInCombat(void) {
         return player::GetSingleton()->IsInCombat();
     }

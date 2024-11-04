@@ -27,20 +27,13 @@ namespace helpers {
     bool isPlayerInInterior(void);
 
 	/**
-	 * @brief Get whether player is currently in a hostile location or not.
+	 * @brief Get whether the player's current cell contains any of the keywords provided by the zoneKeywords vector.
 	 * 
+	 * @param [in]	zoneKeywords Vector containing cell keywords.
 	 * @return true 
 	 * @return false 
 	 */
-	bool isPlayerInHostileZone(void);
-
-	/**
-	 * @brief Get whether player is currently in a friendly location or not.
-	 * 
-	 * @return true 
-	 * @return false 
-	 */
-	bool isPlayerInFriendlyZone(void);
+	bool checkCellKeywords(const std::vector<std::string>& zoneKeywords);
 
     // need to work on implementation
 	//bool isPlayerBeingPursued(void);
@@ -131,17 +124,4 @@ namespace helpers {
 	 * 
 	 */
 	void printPlayerLocKeywords(void);
-	
-	static const std::unordered_map<std::string, std::function<bool()>> conditionChecks = {
-		{ "swimming", &isPlayerSwimming },
-		{ "combat", &isPlayerInCombat },
-		{ "sitting", &isPlayerSitting },
-		{ "weaponDrawn", &isPlayerWeaponDrawn },
-		{ "hostileZone", &isPlayerInHostileZone },
-		{ "friendlyZone", &isPlayerInFriendlyZone },
-		{ "sneaking", &isPlayerSneaking },
-		{ "mounted", &isPlayerMounted },
-		{ "trespassing", &isPlayerTrespassing },
-		{ "inWater", &isPlayerInWater }
-	};
 }

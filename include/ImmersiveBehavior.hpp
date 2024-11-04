@@ -1,9 +1,15 @@
 #pragma once
 #include "nlohmann/json.hpp"
+#include "helpers.hpp"
 
 struct IBConfig {
+friend class ImmersiveBehavior;
 public:
 	static std::set<std::string> keywordList;
+	static struct LocKeywords {
+		static std::vector<std::string> hostileZone;
+		static std::vector<std::string> friendlyZone;
+	} locKeywords;
 
     IBConfig()
         : enabled(false) { }
@@ -23,6 +29,9 @@ public:
      */
     bool isEnabled(void);
     
+protected:
+	static const std::unordered_map<std::string, std::function<bool()>> conditionChecks;
+
 private:
     bool enabled;
 
@@ -61,19 +70,19 @@ public:
 	void updateTempState(void);
 
 	/**
-	 * @brief Get the tempState, or if tempState is not active, returns the cellState instead.
-	 * 
-	 * @return const std::string Either tempState or cellState.
-	 */
-	const std::string getActiveState(void);
-
-	/**
 	 * @brief Get whether the active state is the tempState or the cellState.
 	 * 
 	 * @return true 
 	 * @return false 
 	 */
 	bool isActiveStateTemp(void);
+
+	/**
+	 * @brief Get the tempState, or if tempState is not active, returns the cellState instead.
+	 * 
+	 * @return const std::string Either tempState or cellState.
+	 */
+	const std::string getActiveState(void);
 	
 	/**
 	 * @brief Calls updateTempState() and then performs an update to our behavior based on the getActiveState() value.
