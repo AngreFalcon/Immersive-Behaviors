@@ -132,17 +132,16 @@ namespace helpers {
 	 */
 	void printPlayerLocKeywords(void);
 	
-	// this does not work
 	static const std::unordered_map<std::string, std::function<bool()>> conditionChecks = {
-		{ "swimming", isPlayerSwimming },
-		{ "combat", isPlayerInCombat },
-		{ "sitting", isPlayerSitting },
-		{ "weaponDrawn", isPlayerWeaponDrawn },
-		{ "hostileZone", isPlayerInHostileZone },
-		{ "friendlyZone", isPlayerInFriendlyZone },
-		{ "sneaking", isPlayerSneaking },
-		{ "mounted", isPlayerMounted },
-		{ "trespassing", isPlayerTrespassing },
-		{ "inWater", isPlayerInWater }
+		{ "swimming", &isPlayerSwimming },
+		{ "combat", &isPlayerInCombat },
+		{ "sitting", &isPlayerSitting },
+		{ "weaponDrawn", &isPlayerWeaponDrawn },
+		{ "hostileZone", &isPlayerInHostileZone },
+		{ "friendlyZone", &isPlayerInFriendlyZone },
+		{ "sneaking", &isPlayerSneaking },
+		{ "mounted", &isPlayerMounted },
+		{ "trespassing", &isPlayerTrespassing },
+		{ "inWater", &isPlayerInWater }
 	};
 }

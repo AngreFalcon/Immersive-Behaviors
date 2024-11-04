@@ -13,6 +13,9 @@ namespace helpers {
     }
 
 	bool checkCellKeywords(const std::vector<std::string>& zoneKeywords) {
+        if (!player::GetSingleton() || !RE::TES::GetSingleton() || !RE::TES::GetSingleton()->GetCell(player::GetSingleton()->GetPosition()) || !RE::TES::GetSingleton()->GetCell(player::GetSingleton()->GetPosition())->GetLocation()) {
+            return false;
+        }
         for (const RE::BGSKeyword* cellKeyword : RE::TES::GetSingleton()->GetCell(player::GetSingleton()->GetPosition())->GetLocation()->GetKeywords()) {
 			for (const std::string keyword : zoneKeywords) {
 				if (cellKeyword->formEditorID.c_str() == keyword) return true;
@@ -23,17 +26,11 @@ namespace helpers {
 
     bool isPlayerInHostileZone(void) {
         static const std::vector<std::string> hostileZoneKeywords = { "LocSetCave", "LocSetCaveIce", "LocSetDwarvenRuin", "LocSetNordicRuin", "LocTypeAnimalDen", "LocTypeBanditCamp", "LocTypeDragonLair", "LocTypeDragonPriestLair", "LocTypeDraugrCrypt", "LocTypeDungeon", "LocTypeDwarvenAutomatons", "LocTypeFalmerHive", "LocTypeForswornCamp", "LocTypeGiantCamp", "LocTypeHagravenNest", "LocTypeShipwreck", "LocTypeSprigganGrove", "LocTypeVampireLair", "LocTypeWarlockLair", "LocTypeWerewolfLair" };
-        if (!player::GetSingleton() || !RE::TES::GetSingleton() || !RE::TES::GetSingleton()->GetCell(player::GetSingleton()->GetPosition()) || !RE::TES::GetSingleton()->GetCell(player::GetSingleton()->GetPosition())->GetLocation()) {
-            return false;
-        }
         return checkCellKeywords(hostileZoneKeywords);
     }
 
 	bool isPlayerInFriendlyZone(void) {
         static const std::vector<std::string> friendlyZoneKeywords = { "LocTypeBarracks", "LocTypeCastle", "LocTypeCemetery", "LocTypeCity", "LocTypeDwelling", "LocTypeFarm", "LocTypeGuild", "LocTypeHabitation", "LocTypeHabitationHasInn", "LocTypeHouse", "LocTypeInn", "LocTypeJail", "LocTypeLumberMill", "LocTypeMilitaryCamp", "LocTypeOrcStronghold", "LocTypePlayerHouse", "LocTypeSettlement", "LocTypeShip", "LocTypeStewardsDwelling", "LocTypeStore", "LocTypeTemple", "LocTypeTown" };
-        if (!player::GetSingleton() || !RE::TES::GetSingleton() || !RE::TES::GetSingleton()->GetCell(player::GetSingleton()->GetPosition()) || !RE::TES::GetSingleton()->GetCell(player::GetSingleton()->GetPosition())->GetLocation()) {
-            return false;
-        }
 		return checkCellKeywords(friendlyZoneKeywords);
     }
 
