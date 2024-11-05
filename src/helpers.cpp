@@ -12,7 +12,7 @@ namespace helpers {
         return RE::TES::GetSingleton()->GetCell(player::GetSingleton()->GetPosition())->IsInteriorCell();
     }
 
-	bool checkCellKeywords(const std::vector<std::string>& zoneKeywords) {
+	bool checkCellKeywords(const std::set<std::string>& zoneKeywords) {
         if (!player::GetSingleton() || !RE::TES::GetSingleton() || !RE::TES::GetSingleton()->GetCell(player::GetSingleton()->GetPosition()) || !RE::TES::GetSingleton()->GetCell(player::GetSingleton()->GetPosition())->GetLocation()) {
             return false;
         }

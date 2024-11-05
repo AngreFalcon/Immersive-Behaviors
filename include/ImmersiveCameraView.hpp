@@ -11,16 +11,11 @@ enum class VIEW_TYPE : int {
 struct ICVConfig : public IBConfig {
 friend class ImmersiveCameraView;
 public:
-    std::unordered_map<std::string, VIEW_TYPE> contextMap;
-    float interiorZoom;
-    float exteriorZoom;
-	bool alwaysRespectPOVToggle;
-
     ICVConfig(void)
         : interiorZoom(-2.0f)
         , exteriorZoom(-2.0f) 
 		, alwaysRespectPOVToggle(false) {
-		for (const std::string keyword : this->keywordList) {
+		for (const std::string keyword : this->getKeywordList()) {
 			this->contextMap[keyword] = VIEW_TYPE::DISABLED;
 		}
 	}
@@ -37,17 +32,21 @@ public:
      */
     void restoreZoomLevel(void);
 
+	/**
+	 * @brief Reads in data from our config JSON file and then stores the appropriate values to our config struct.
+	 * 
+	 * @param [in]	nlohmann_json_j 
+	 * @param [out]	nlohmann_json_t 
+	 */
+	friend void from_json(const nlohmann::json& nlohmann_json_j, ICVConfig& nlohmann_json_t);
+
 private:
+    std::unordered_map<std::string, VIEW_TYPE> contextMap;
+    float interiorZoom;
+    float exteriorZoom;
+	bool alwaysRespectPOVToggle;
 
 };
-
-/**
- * @brief Reads in data from our config JSON file and then stores the appropriate values to our config struct.
- * 
- * @param [in]	nlohmann_json_j 
- * @param [out]	nlohmann_json_t 
- */
-void from_json(const nlohmann::json& nlohmann_json_j, ICVConfig& nlohmann_json_t);
 
 class ImmersiveCameraView : public ImmersiveBehavior {
 public:

@@ -2,7 +2,6 @@
 #include "ImmersiveCameraView.hpp"
 #include "ImmersiveMovementSpeed.hpp"
 
-// was: class PlayerCellChangeEvent : public IBEvent
 class CombatEvent : public RE::BSTEventSink<RE::TESCombatEvent> {
 public:
     CombatEvent(void) = default;

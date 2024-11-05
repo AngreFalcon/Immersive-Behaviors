@@ -33,7 +33,7 @@ namespace helpers {
 	 * @return true 
 	 * @return false 
 	 */
-	bool checkCellKeywords(const std::vector<std::string>& zoneKeywords);
+	bool checkCellKeywords(const std::set<std::string>& zoneKeywords);
 
     // need to work on implementation
 	//bool isPlayerBeingPursued(void);

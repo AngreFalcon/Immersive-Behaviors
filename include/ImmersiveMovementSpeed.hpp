@@ -9,28 +9,28 @@ enum class MOVE_TYPE : int {
 };
 
 struct IMSConfig : public IBConfig {
+friend class ImmersiveMovementSpeed;
 public:
-    std::unordered_map<std::string, MOVE_TYPE> contextMap;
-	bool alwaysRespectMoveSpeedToggle;
-
     IMSConfig(void)
 		: alwaysRespectMoveSpeedToggle(false) {	
-		for (const std::string keyword : this->keywordList) {
+		for (const std::string keyword : this->getKeywordList()) {
 			this->contextMap[keyword] = MOVE_TYPE::DISABLED;
 		}
 	}
 
+	/**
+	 * @brief Reads in data from our config JSON file and then stores the appropriate values to our config struct.
+	 * 
+	 * @param nlohmann_json_j 
+	 * @param nlohmann_json_t 
+	 */
+	friend void from_json(const nlohmann::json& nlohmann_json_j, IMSConfig& nlohmann_json_t);
+
 private:
+    std::unordered_map<std::string, MOVE_TYPE> contextMap;
+	bool alwaysRespectMoveSpeedToggle;
 
 };
-
-/**
- * @brief Reads in data from our config JSON file and then stores the appropriate values to our config struct.
- * 
- * @param nlohmann_json_j 
- * @param nlohmann_json_t 
- */
-void from_json(const nlohmann::json& nlohmann_json_j, IMSConfig& nlohmann_json_t);
 
 class ImmersiveMovementSpeed : public ImmersiveBehavior {
 friend class ButtonPressEvent;

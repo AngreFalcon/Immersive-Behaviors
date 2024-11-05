@@ -5,12 +5,6 @@
 struct IBConfig {
 friend class ImmersiveBehavior;
 public:
-	static std::set<std::string> keywordList;
-	static struct LocKeywords {
-		static std::vector<std::string> hostileZone;
-		static std::vector<std::string> friendlyZone;
-	} locKeywords;
-
     IBConfig()
         : enabled(false) { }
     
@@ -21,29 +15,41 @@ public:
      */
     void setEnabled(const bool enableImmersiveBehavior);
 
+	/**
+	 * @brief Get the ImmersiveBehavior's list of condition keywords.
+	 * 
+	 * @return const std::set<std::string> 
+	 */
+	std::set<std::string> getKeywordList() const;
+
     /**
      * @brief Returns whether the ImmersiveBehavior is enabled or disabled.
      * 
      * @return true
      * @return false
      */
-    bool isEnabled(void);
+    bool isEnabled(void) const;
+
+	/**
+	 * @brief Reads in data from our config JSON file and then stores the appropriate values to our config struct.
+	 * 
+	 * @param [in]	nlohmann_json_j 
+	 * @param [out]	nlohmann_json_t 
+	 */
+	friend void from_json(const nlohmann::json& nlohmann_json_j, IBConfig& nlohmann_json_t);
     
 protected:
 	static const std::unordered_map<std::string, std::function<bool()>> conditionChecks;
 
 private:
+	static std::set<std::string> keywordList;
+	static struct LocKeywords {
+		static std::set<std::string> hostileZone;
+		static std::set<std::string> friendlyZone;
+	} locKeywords;
     bool enabled;
 
 };
-
-/**
- * @brief Reads in data from our config JSON file and then stores the appropriate values to our config struct.
- * 
- * @param [in]	nlohmann_json_j 
- * @param [out]	nlohmann_json_t 
- */
-void from_json(const nlohmann::json& nlohmann_json_j, IBConfig& nlohmann_json_t);
 
 class ImmersiveBehavior {
 friend class PlayerCellChangeEvent;
@@ -75,14 +81,14 @@ public:
 	 * @return true 
 	 * @return false 
 	 */
-	bool isActiveStateTemp(void);
+	bool isActiveStateTemp(void) const;
 
 	/**
 	 * @brief Get the tempState, or if tempState is not active, returns the cellState instead.
 	 * 
 	 * @return const std::string Either tempState or cellState.
 	 */
-	const std::string getActiveState(void);
+	std::string getActiveState(void) const;
 	
 	/**
 	 * @brief Calls updateTempState() and then performs an update to our behavior based on the getActiveState() value.
