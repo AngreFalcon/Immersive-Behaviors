@@ -30,7 +30,7 @@ void MessageHandler(SKSE::MessagingInterface::Message* a_msg) {
 
         RE::PlayerCharacter::GetSingleton()->AsBGSActorCellEventSource()->AddEventSink(new PlayerCellChangeEvent(immersiveBehaviors));
         RE::BSInputDeviceManager::GetSingleton()->AddEventSink(new ButtonPressEvent(immersiveBehaviors));
-        RE::ScriptEventSourceHolder::GetSingleton()->AddEventSink<RE::TESCombatEvent>(new CombatEvent(immersiveBehaviors));
+        RE::ScriptEventSourceHolder::GetSingleton()->AddEventSink(new CombatEvent(immersiveBehaviors));
         break;
     }
     default:
