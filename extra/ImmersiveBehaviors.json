@@ -12,7 +12,8 @@
         "thirdPerson": [ "exterior", "mounted", "sitting" ],
 		"disabled": [ "inWater", "trespassing", "sneaking", "hostileZone", "friendlyZone" ],
         "interiorZoom": -0.2,
-        "exteriorZoom": -0.2
+        "exteriorZoom": -0.2,
+		"firstPersonFOV": 110
     },
     "immersiveMovementSpeed": {
         "enabled": true,

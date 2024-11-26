@@ -14,6 +14,7 @@ public:
     ICVConfig(void)
         : interiorZoom(-2.0f)
         , exteriorZoom(-2.0f) 
+		, firstPersonFOV(0)
 		, alwaysRespectPOVToggle(false) {
 		for (const std::string keyword : this->getKeywordList()) {
 			this->contextMap[keyword] = VIEW_TYPE::DISABLED;
@@ -33,6 +34,12 @@ public:
     void restoreZoomLevel(void);
 
 	/**
+	 * @brief Sets the user's FOV to the specified value, if configured.
+	 * 
+	 */
+	void setFOV(void);
+
+	/**
 	 * @brief Reads in data from our config JSON file and then stores the appropriate values to our config struct.
 	 * 
 	 * @param [in]	nlohmann_json_j 
@@ -44,6 +51,7 @@ private:
     std::unordered_map<std::string, VIEW_TYPE> contextMap;
     float interiorZoom;
     float exteriorZoom;
+	float firstPersonFOV;
 	bool alwaysRespectPOVToggle;
 
 };

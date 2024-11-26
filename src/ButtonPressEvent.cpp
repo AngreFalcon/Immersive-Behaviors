@@ -53,10 +53,11 @@ void ButtonPressEvent::routeButtonEvents(const RE::ButtonEvent* buttonEvent) {
 }
 
 void ButtonPressEvent::sprintKeyEvent(const RE::ButtonEvent* buttonEvent) {
-    if (buttonEvent->IsPressed() || buttonEvent->IsHeld()) {
+    this->immersiveBehaviors->get<ImmersiveMovementSpeed>()->sprintKeyReleased();
+    if (buttonEvent->IsDown() || buttonEvent->IsPressed() || buttonEvent->IsHeld()) {
         this->immersiveBehaviors->get<ImmersiveMovementSpeed>()->sprintKeyPressed();
     }
-    else if (buttonEvent->IsUp()) {
+    else {
         this->immersiveBehaviors->get<ImmersiveMovementSpeed>()->sprintKeyReleased();
     }
     return;

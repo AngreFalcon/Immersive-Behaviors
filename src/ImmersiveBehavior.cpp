@@ -52,7 +52,9 @@ ImmersiveBehavior::ImmersiveBehavior(void) {
 
 void ImmersiveBehavior::updateTempState(void) {
 	this->tempState = "";
+	logs::debug("");
 	for (const std::string keyword : this->config.keywordList) {
+		logs::debug("\t\t\t{}", keyword);
 		if (this->config.conditionChecks.at(keyword)() && contextMapContains(keyword)) {
 			this->tempState = keyword;
 			break;

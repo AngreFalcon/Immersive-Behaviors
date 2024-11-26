@@ -3,7 +3,7 @@
 #include "helpers.hpp"
 
 void ICVConfig::recordZoomLevel() {
-    if (!isEnabled() || !helpers::isPlayerInThirdPerson()) {
+    if (!this->isEnabled() || !helpers::isPlayerInThirdPerson()) {
         return;
     }
     (helpers::isPlayerInInterior() ? this->interiorZoom : this->exteriorZoom) = reinterpret_cast<RE::ThirdPersonState*>(camera::GetSingleton()->currentState.get())->targetZoomOffset;
@@ -11,13 +11,21 @@ void ICVConfig::recordZoomLevel() {
 }
 
 void ICVConfig::restoreZoomLevel() {
-    if (!isEnabled() || !helpers::isPlayerInThirdPerson()) {
+    if (!this->isEnabled() || !helpers::isPlayerInThirdPerson()) {
         return;
     }
     RE::ThirdPersonState* thirdPersonState = reinterpret_cast<RE::ThirdPersonState*>(camera::GetSingleton()->currentState.get());
 	float zoomValue = (helpers::isPlayerInInterior() ? this->interiorZoom : this->exteriorZoom);
 	zoomValue = (zoomValue < -0.2f ? -0.2f : (zoomValue > 1.0f ? 1.0f : zoomValue));
     thirdPersonState->targetZoomOffset = thirdPersonState->savedZoomOffset = thirdPersonState->currentZoomOffset = zoomValue;
+    return;
+}
+
+void ICVConfig::setFOV(void) {
+    if (!this->isEnabled() || this->firstPersonFOV == 0) {
+        return;
+    }
+	camera::GetSingleton()->GetRuntimeData2().firstPersonFOV = this->firstPersonFOV;
     return;
 }
 
@@ -34,6 +42,7 @@ void from_json(const nlohmann::json& nlohmann_json_j, ICVConfig& nlohmann_json_t
     }
     nlohmann_json_t.interiorZoom = nlohmann_json_j.value("interiorZoom", nlohmann_json_default_obj.interiorZoom);
     nlohmann_json_t.exteriorZoom = nlohmann_json_j.value("exteriorZoom", nlohmann_json_default_obj.exteriorZoom);
+	nlohmann_json_t.firstPersonFOV = nlohmann_json_j.value("firstPersonFOV", nlohmann_json_default_obj.firstPersonFOV);
     nlohmann_json_t.setEnabled(nlohmann_json_j.value("enabled", nlohmann_json_default_obj.isEnabled()));
 	nlohmann_json_t.alwaysRespectPOVToggle = nlohmann_json_j.value("alwaysRespectPOVToggle", nlohmann_json_default_obj.alwaysRespectPOVToggle);
 	return;
@@ -83,6 +92,7 @@ void ImmersiveCameraView::shiftCameraPerspective() {
 
 void ImmersiveCameraView::shiftCameraPerspectiveToFirstPerson(void) {
     camera::GetSingleton()->ForceFirstPerson();
+	this->config.setFOV();
     return;
 }
 

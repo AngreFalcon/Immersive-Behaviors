@@ -47,9 +47,12 @@ void ImmersiveMovementSpeed::sprintKeyPressed(void) {
 	if (!this->config.isEnabled()) {
 		return;
 	}
-    if (helpers::isPlayerWalking()) {
+    if (immersiveWalkModeActive) {
         controls::GetSingleton()->data.running = true;
     }
+	else {
+		player::GetSingleton()->AsActorState()->actorState1.sprinting = true;
+	}
     return;
 }
 

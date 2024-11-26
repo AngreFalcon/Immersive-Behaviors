@@ -37,7 +37,6 @@ friend class ButtonPressEvent;
 public:
     ImmersiveMovementSpeed(void);
     ~ImmersiveMovementSpeed() = default;
-
     IMSConfig config;
 
 	/**
